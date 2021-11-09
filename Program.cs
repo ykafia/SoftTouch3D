@@ -1,21 +1,20 @@
 ﻿using System;
 using Silk.NET.DXGI;
 using Silk.NET.Direct3D11;
+using Silk.NET.Core.Native;
+using Silk.NET.Windowing;
+using Silk.NET.Maths;
+using Silk.NET.Input;
 
-// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
-IDXGIFactory factory = new();
-unsafe 
+namespace DXDebug
 {
-    IDXGIFactory* f = &factory;
-    DXGIOverloads.CreateDXGIFactory(DXGI.GetApi(),new Span<Guid>(new Guid[]{IDXGIFactory.Guid}),(void**)&f);
-    factory = *f;
+    public class Program
+    {
+        
+        public static void Main(string[] args)
+        {
+            Game g = new Game();
+            g.Run();
+        }
+   }
 }
-unsafe 
-{
-    IDXGIAdapter a = new();
-    IDXGIAdapter* p = &a;
-    int r = factory.EnumAdapters(0,&p);
-    Console.WriteLine("Result value : " + r.ToString("X"));
-}
-
