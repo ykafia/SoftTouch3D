@@ -2,8 +2,10 @@ using System;
 using Silk.NET.Direct3D11;
 using Silk.NET.DXGI;
 using Silk.NET.Core;
+using Silk.NET.Maths;
 using Silk.NET.Core.Native;
 using System.Drawing;
+using System.Linq;
 
 namespace DXDebug
 {
@@ -14,12 +16,14 @@ namespace DXDebug
         ComPtr<ID3D11DeviceContext> context;
         ComPtr<ID3D11RenderTargetView> target;
 
+        ComPtr<ID3D11VertexShader> vShader;
+
         ComPtr<IDXGIAdapter> adapter;
         public Graphics(IntPtr hwnd)
         {
             var sd = new SwapChainDesc
             {
-                BufferCount = 1,
+                BufferCount = 2,
                 BufferDesc =
                     {
                         Format = Format.FormatR8G8B8A8Unorm
@@ -56,6 +60,41 @@ namespace DXDebug
                 pRes->Release();
             }
         }
+
+
+        public void CompileLoadShaders()
+        {
+            
+        }
+
+        public void DrawTriangle()
+        {
+            unsafe
+            {
+                ID3D11Buffer*[] buffs = null;
+                BufferDesc triDesc = new BufferDesc{
+                    Usage = Usage.UsageDefault,
+                    BindFlags = (uint)BindFlag.BindVertexBuffer,
+                    ByteWidth = 8
+                };
+                
+                var tri = new Vector2D<float>[3]{ 
+                    new(0,0.5f), 
+                    new(0.5f,0.5f),
+                    new(0.5f,0)
+                };
+                SubresourceData d;
+                fixed(Vector2D<float>* t = tri)
+                    d = new SubresourceData{PSysMem = t};
+                
+                fixed(ID3D11Buffer** b = buffs)
+                {
+                    SilkMarshal.ThrowHResult(device.Get().CreateBuffer(&triDesc, &d,b));
+                    context.Get().IASetVertexBuffers(0, 1, b, null, null);
+                }
+                context.Get().Draw(3,0);
+            }
+        }
         
         
         public void ClearColor(Color col)
@@ -67,9 +106,18 @@ namespace DXDebug
                     context.Get().ClearRenderTargetView(target,c);
             }
         }
+        public void ClearColor(float r, float g, float b)
+        {
+            unsafe 
+            {
+                float[] color = new float[3]{r,g,b};
+                fixed(float* c = color)
+                    context.Get().ClearRenderTargetView(target,c);
+            }
+        }
         public void EndFrame()
         {
-            SilkMarshal.ThrowHResult(swap.Get().Present(1, 0));
+            unsafe {SilkMarshal.ThrowHResult(swap.Handle->Present(1, 0));}
         }
         
         

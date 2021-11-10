@@ -52,7 +52,8 @@ namespace DXDebug
         private void OnRender(double obj)
         {
             //Here all rendering should be done.
-            graphics.ClearColor(Color.CornflowerBlue);
+            // graphics.ClearColor(0,0,1);
+            graphics.DrawTriangle();
             graphics.EndFrame();
         }
 
