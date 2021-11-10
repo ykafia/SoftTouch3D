@@ -8,23 +8,21 @@ using Silk.NET.Input;
 
 namespace DXDebug
 {
-    public class Game
+    public class DXGame : IGame
     {
         private readonly IWindow window;
-        private ComPtr<ID3D11Device> device;
-        private ComPtr<IDXGISwapChain> swap;
-        private ComPtr<ID3D11DeviceContext> context;
-
-        private ComPtr<IDXGIAdapter> adapter;
+        
+        private Graphics graphics;
 
         public uint Width {get;set;} = 800;
         public uint Height {get;set;} = 600;
 
-        public Game()
+        public DXGame()
         {
             var options = WindowOptions.Default;
             options.Size = new Vector2D<int>((int)Width, (int)Height);
             options.Title = "D3D11 with Silk.NET";
+            options.API = GraphicsAPI.None;
 
             window = Window.Create(options);
 
@@ -33,41 +31,7 @@ namespace DXDebug
             window.Update += OnUpdate;
             window.Render += OnRender;
 
-            unsafe 
-            {
-                var sd = new SwapChainDesc
-                {
-                    BufferCount = 1,
-                    BufferDesc =
-                    {
-                        Format = Format.FormatR8G8B8A8Unorm
-                    },
-                    BufferUsage = DXGI.UsageRenderTargetOutput,
-                    OutputWindow = window.Handle,
-                    SampleDesc ={
-                        Count = 4
-                    },
-                    Windowed = 1
-                };
-
-                SilkMarshal.ThrowHResult(
-                    D3D11.GetApi()
-                    .CreateDeviceAndSwapChain(
-                        null,
-                        D3DDriverType.D3DDriverTypeHardware,
-                        0,
-                        0,
-                        null,
-                        0,
-                        D3D11.SdkVersion,
-                        &sd,
-                        ref swap.Handle,
-                        ref device.Handle,
-                        null,
-                        ref context.Handle
-                    )
-                );
-            }
+            
         }
 
         public void Run() => window.Run();
@@ -80,6 +44,8 @@ namespace DXDebug
             {
                 input.Keyboards[i].KeyDown += KeyDown;
             }
+
+            graphics = new Graphics(window.Native.Win32.Value.Hwnd);
         }
 
         private static void OnRender(double obj)
@@ -103,10 +69,7 @@ namespace DXDebug
         }
         private void Release()
         {
-            device.Get().Release();
-            swap.Get().Release();
-            context.Get().Release();
-            
+            graphics.Release();
         }
     }
 }

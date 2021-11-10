@@ -13,7 +13,7 @@ namespace DXDebug
         
         public static void Main(string[] args)
         {
-            Game g = new Game();
+            IGame g = new DXGame();
             g.Run();
         }
    }
