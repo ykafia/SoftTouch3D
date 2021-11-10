@@ -3,15 +3,18 @@ using Silk.NET.Direct3D11;
 using Silk.NET.DXGI;
 using Silk.NET.Core;
 using Silk.NET.Core.Native;
+using System.Drawing;
+
 namespace DXDebug
 {
     public class Graphics
     {
-        ComPtr<ID3D11Device> Device;
-        ComPtr<IDXGISwapChain> Swap;
-        ComPtr<ID3D11DeviceContext> Context;
+        ComPtr<ID3D11Device> device;
+        ComPtr<IDXGISwapChain> swap;
+        ComPtr<ID3D11DeviceContext> context;
+        ComPtr<ID3D11RenderTargetView> target;
 
-        ComPtr<IDXGIAdapter> Adapter;
+        ComPtr<IDXGIAdapter> adapter;
         public Graphics(IntPtr hwnd)
         {
             var sd = new SwapChainDesc
@@ -41,25 +44,41 @@ namespace DXDebug
                         0,
                         D3D11.SdkVersion,
                         &sd,
-                        ref Swap.Handle,
-                        ref Device.Handle,
+                        ref swap.Handle,
+                        ref device.Handle,
                         null,
-                        ref Context.Handle
+                        ref context.Handle
                     )
                 );
+                ID3D11Resource* pRes = null;
+                SilkMarshal.ThrowHResult(swap.Get().GetBuffer(0, SilkMarshal.GuidPtrOf<ID3D11Resource>(),(void**)&pRes));
+                SilkMarshal.ThrowHResult(device.Get().CreateRenderTargetView(pRes,null,ref target.Handle));
+                pRes->Release();
             }
         }
         
         
-        
-        
+        public void ClearColor(Color col)
+        {
+            unsafe 
+            {
+                float[] color = new float[4]{col.R,col.G,col.B,1};
+                fixed(float* c = color)
+                    context.Get().ClearRenderTargetView(target,c);
+            }
+        }
+        public void EndFrame()
+        {
+            SilkMarshal.ThrowHResult(swap.Get().Present(1, 0));
+        }
         
         
         public void Release()
         {
-            SilkMarshal.ThrowHResult((int)Device.Release());
-            SilkMarshal.ThrowHResult((int)Context.Release());
-            SilkMarshal.ThrowHResult((int)Swap.Release());
+            SilkMarshal.ThrowHResult((int)device.Release());
+            SilkMarshal.ThrowHResult((int)context.Release());
+            SilkMarshal.ThrowHResult((int)swap.Release());
+            SilkMarshal.ThrowHResult((int)target.Release());
         }
 
     }

@@ -5,6 +5,7 @@ using Silk.NET.Core.Native;
 using Silk.NET.Windowing;
 using Silk.NET.Maths;
 using Silk.NET.Input;
+using System.Drawing;
 
 namespace DXDebug
 {
@@ -48,12 +49,14 @@ namespace DXDebug
             graphics = new Graphics(window.Native.Win32.Value.Hwnd);
         }
 
-        private static void OnRender(double obj)
+        private void OnRender(double obj)
         {
             //Here all rendering should be done.
+            graphics.ClearColor(Color.CornflowerBlue);
+            graphics.EndFrame();
         }
 
-        private static void OnUpdate(double obj)
+        private void OnUpdate(double obj)
         {
             //Here all updates to the program should be done.
         }
