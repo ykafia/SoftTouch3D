@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using DXDebug.Engine.Components;
@@ -15,15 +16,33 @@ namespace DXDebug.Engine
     }
     public interface IEntity{}
 
-    public struct Entity : IEntity
+    public class Entity : IEntity
     {
         public long Index {get;set;}
-        public HashSet<Type> Archetype {get;set;} = new();
-        public HashSet<InstanceOfComponent> Instances {get;set;} = new();
-        public void Add(Type t)
+        public Type[] ComponentTypes => Components.Keys.ToArray();
+
+        public Dictionary<Type, object> Components = new();
+
+        public EntityManager? Manager;
+        
+        public List<IComponentArray> Arrays = new();
+
+        public Entity With<T>(T component) where T : struct
         {
-            if(!t.GetInterfaces().Contains(typeof(IEntity)))
-                Archetype.Add(t);
+            if(!typeof(T).GetInterfaces().Contains(typeof(IEntity)))
+            {
+                Components[typeof(T)] = component;
+            }
+            return this;
+        }
+
+        public void Build()
+        {
+            Manager[Index] = new ArchetypeRecord
+            {
+                Row = Manager.Archetypes[ComponentTypes].Length,
+                Archetype = Manager.Archetypes[]
+            };
         }
 
         public override string ToString() => "[" + Index.ToString() + " : <" + string.Join(",",Archetype.Select(x => x.Name)) +">]";
