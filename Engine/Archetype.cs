@@ -8,14 +8,20 @@ namespace DXDebug.Engine
 {
     public class Archetype
     {
-        
-
         public Dictionary<Type, IComponentArray> Storage = new();
 
         public List<Type> AType => Storage.Keys.ToList();
-        public List<IComponentArray> Components => Storage.Values.ToList();
+        public List<IComponentArray> ComponentArrays => Storage.Values.ToList();
 
-        public int Length;
+        public int Length => Storage.Count;
+
+        public Archetype(){}
+
+        public Archetype(IEnumerable<Type> types)
+        {
+            foreach(var t in types)
+                Storage[t] = new ComponentArray<int>();
+        }
 
         public ComponentArray<T> GetComponentArray<T>() where T : struct
         {
@@ -33,6 +39,20 @@ namespace DXDebug.Engine
             result.Append(string.Join(";",Components.Select(x => x.StringRepresentation())));
             result.Append(']');
             return result.ToString();
+        }
+
+        public override bool Equals(object? obj)
+        {
+            return obj is Archetype archetype &&
+                   EqualityComparer<Dictionary<Type, IComponentArray>>.Default.Equals(Storage, archetype.Storage);
+                //    EqualityComparer<List<Type>>.Default.Equals(AType, archetype.AType) &&
+                //    EqualityComparer<List<IComponentArray>>.Default.Equals(Components, archetype.Components) &&
+                //    Length == archetype.Length;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Storage, AType, Components, Length);
         }
     }
 }

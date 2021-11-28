@@ -20,14 +20,15 @@ namespace DXDebug
 
             var em = new EntityManager();
 
-            var ac = new Archetype();
+            // var ac = new Archetype();
 
             var e = new Entity{Index = 0};
             e.Add(typeof(NameComponent));
             e.Add(typeof(ParentComponent));
             e.Add(typeof(Entity));
 
-            ac.AType = e.Archetype;
+            var ac = new Archetype(e.Archetype);
+
             var nameStorage = new ComponentArray<NameComponent>();
             nameStorage.Add(new NameComponent{Name = "Hello World"});
             ac.Components.Add(nameStorage);
