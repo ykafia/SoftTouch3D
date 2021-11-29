@@ -13,19 +13,29 @@ namespace DXDebug.Engine
         public List<Type> AType => Storage.Keys.ToList();
         public List<IComponentArray> ComponentArrays => Storage.Values.ToList();
 
-        public int Length => Storage.Count;
+        public int Length => Storage.Select(x => x.Value.GetLength()).Max();
 
         public Archetype(){}
 
         public Archetype(IEnumerable<Type> types)
         {
             foreach(var t in types)
-                Storage[t] = new ComponentArray<int>();
+                Storage[t] = Activator.CreateInstance(typeof(ComponentArray<>).MakeGenericType(t)) as IComponentArray;
         }
 
         public ComponentArray<T> GetComponentArray<T>() where T : struct
         {
             return (ComponentArray<T>)Storage[typeof(T)];
+        }
+        public void AddComponent<T>(T component) where T : struct
+        {
+            if(Storage.ContainsKey(typeof(T)))
+                ((ComponentArray<T>)Storage[typeof(T)]).Add(component);
+        }
+        public void SetLastComponent<T>(T component) where T : struct
+        {
+            if(Storage.ContainsKey(typeof(T)))
+                ((ComponentArray<T>)Storage[typeof(T)])[Storage.Count-1] = component;
         }
 
         public override string ToString()
@@ -36,7 +46,7 @@ namespace DXDebug.Engine
             result.Append(']');
             result.AppendLine();
             result.Append("Storages : [");
-            result.Append(string.Join(";",Components.Select(x => x.StringRepresentation())));
+            result.Append(string.Join(";",ComponentArrays.Select(x => x.StringRepresentation())));
             result.Append(']');
             return result.ToString();
         }
@@ -52,7 +62,7 @@ namespace DXDebug.Engine
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Storage, AType, Components, Length);
+            return HashCode.Combine(Storage, AType, ComponentArrays, Length);
         }
     }
 }

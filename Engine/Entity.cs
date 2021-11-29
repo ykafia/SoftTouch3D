@@ -38,14 +38,23 @@ namespace DXDebug.Engine
 
         public void Build()
         {
+            if(!Manager.Archetypes.TryGetValue(ComponentTypes, out var archetype))
+            {
+                archetype = new Archetype(ComponentTypes);
+            }
+            foreach(var e in Components)
+            {
+                var ctx = typeof(Archetype).GetMethod("AddComponent")?.MakeGenericMethod(e.Key);
+                ctx.Invoke(archetype,new object[]{e.Value});
+            }
             Manager[Index] = new ArchetypeRecord
             {
-                Row = Manager.Archetypes[ComponentTypes].Length,
-                Archetype = Manager.Archetypes[]
+                Row = archetype.Length,
+                Archetype = archetype
             };
         }
 
-        public override string ToString() => "[" + Index.ToString() + " : <" + string.Join(",",Archetype.Select(x => x.Name)) +">]";
+        public override string ToString() => "[" + Index.ToString() + " : <" + string.Join(",",ComponentTypes.Select(x => x.Name)) +">]";
 
     }
 }

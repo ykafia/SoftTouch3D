@@ -19,25 +19,16 @@ namespace DXDebug
             // g.Run();
 
             var em = new EntityManager();
-
-            // var ac = new Archetype();
-
-            var e = new Entity{Index = 0};
-            e.Add(typeof(NameComponent));
-            e.Add(typeof(ParentComponent));
-            e.Add(typeof(Entity));
-
-            var ac = new Archetype(e.Archetype);
-
-            var nameStorage = new ComponentArray<NameComponent>();
-            nameStorage.Add(new NameComponent{Name = "Hello World"});
-            ac.Components.Add(nameStorage);
-            var parentStorage = new ComponentArray<ParentComponent>();
-            parentStorage.Add(new ParentComponent{Parent = 0});
-            ac.Components.Add(parentStorage);
-
-            em.Add(e);
-            Console.WriteLine(ac);
+            em
+                .CreateEntity()
+                .With(new NameComponent{Name = "John"})
+                .With(new HealthComponent{LifePoints = 100, Shield = 100})
+                .Build();
+            
+            foreach(var e in em.Entities)
+            {
+                Console.WriteLine(e.Key + " : [" + e.Value + "]");
+            }
             
         }
    }

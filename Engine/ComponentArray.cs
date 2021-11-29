@@ -6,6 +6,7 @@ namespace DXDebug.Engine
     public interface IComponentArray 
     {
         string StringRepresentation();
+        int GetLength();
     }
     public class ComponentArray<T> : IComponentArray where T : struct
     {
@@ -24,5 +25,7 @@ namespace DXDebug.Engine
         {
             return string.Join("; ",Elements.Select(x => x.ToString()).ToList());
         }
+
+        public int GetLength() => Elements.Count;
     }
 }
