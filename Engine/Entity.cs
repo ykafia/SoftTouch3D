@@ -19,7 +19,7 @@ namespace DXDebug.Engine
     public class Entity : IEntity
     {
         public long Index {get;set;}
-        public Type[] ComponentTypes => Components.Keys.ToArray();
+        public HashSet<Type> ComponentTypes => Components.Keys.ToHashSet();
 
         public Dictionary<Type, object> Components = new();
 
@@ -38,14 +38,11 @@ namespace DXDebug.Engine
 
         public void Build()
         {
-            if(!Manager.Archetypes.TryGetValue(ComponentTypes, out var archetype))
-            {
-                archetype = new Archetype(ComponentTypes);
-            }
+            Archetype archetype = Manager.GenerateArchetypes(ComponentTypes);
             foreach(var e in Components)
             {
                 var ctx = typeof(Archetype).GetMethod("AddComponent")?.MakeGenericMethod(e.Key);
-                ctx.Invoke(archetype,new object[]{e.Value});
+                ctx.Invoke(archetype,new object[]{e.Value, Index});
             }
             Manager[Index] = new ArchetypeRecord
             {

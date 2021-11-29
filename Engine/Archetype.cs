@@ -9,9 +9,14 @@ namespace DXDebug.Engine
     public class Archetype
     {
         public Dictionary<Type, IComponentArray> Storage = new();
+        public List<long> EntityID = new();
 
-        public List<Type> AType => Storage.Keys.ToList();
+        public HashSet<Type> AType => Storage.Keys.ToHashSet();
         public List<IComponentArray> ComponentArrays => Storage.Values.ToList();
+
+        public List<ArchetypeEdge> Edges = new();
+
+        public static readonly Archetype Empty = new();
 
         public int Length => Storage.Select(x => x.Value.GetLength()).Max();
 
@@ -27,15 +32,26 @@ namespace DXDebug.Engine
         {
             return (ComponentArray<T>)Storage[typeof(T)];
         }
-        public void AddComponent<T>(T component) where T : struct
+        public void AddComponent<T>(T component, long entity) where T : struct
         {
             if(Storage.ContainsKey(typeof(T)))
+            {
                 ((ComponentArray<T>)Storage[typeof(T)]).Add(component);
+                EntityID.Add(entity);
+            }
         }
-        public void SetLastComponent<T>(T component) where T : struct
+
+        public void RemoveEntity()
+        {
+            
+        }
+        public void SetLastComponent<T>(T component, long entity) where T : struct
         {
             if(Storage.ContainsKey(typeof(T)))
+            {
                 ((ComponentArray<T>)Storage[typeof(T)])[Storage.Count-1] = component;
+                EntityID[^1] = entity;
+            }
         }
 
         public override string ToString()
@@ -54,15 +70,15 @@ namespace DXDebug.Engine
         public override bool Equals(object? obj)
         {
             return obj is Archetype archetype &&
-                   EqualityComparer<Dictionary<Type, IComponentArray>>.Default.Equals(Storage, archetype.Storage);
-                //    EqualityComparer<List<Type>>.Default.Equals(AType, archetype.AType) &&
+                //    EqualityComparer<Dictionary<Type, IComponentArray>>.Default.Equals(Storage, archetype.Storage);
+                   EqualityComparer<HashSet<Type>>.Default.Equals(AType, archetype.AType);
                 //    EqualityComparer<List<IComponentArray>>.Default.Equals(Components, archetype.Components) &&
                 //    Length == archetype.Length;
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Storage, AType, ComponentArrays, Length);
+            return HashCode.Combine(AType);
         }
     }
 }
