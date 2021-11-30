@@ -1,12 +1,11 @@
 namespace DXDebug.Engine
 {
-    public partial class Processor
+    public partial class Processor<T> where T : IQueryEntity
     {
-        public IQueryEntity Query;
-
+        public T QueryEntity;
         public virtual void Update(EntityManager Manager)
         {
-
+            Manager.QueryArchetypes(QueryEntity.GetQueryType());
         }
     }
 }
