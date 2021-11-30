@@ -30,7 +30,7 @@ namespace DXDebug.Engine
 
         public bool IsSupersetOf(Archetype t) => this.AType.IsSupersetOf(t.AType);
         public bool IsSubsetOf(Archetype t) => this.AType.IsSubsetOf(t.AType);
-        
+        public IEnumerable<Type> TypeIntersect(Archetype t) => this.AType.Intersect(t.AType);
 
         public ComponentArray<T> GetComponentArray<T>() where T : struct
         {

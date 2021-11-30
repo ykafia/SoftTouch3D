@@ -64,8 +64,8 @@ namespace DXDebug.Engine
             var stor = Archetypes.Values.ToList();
             foreach(var arch in Archetypes.Values)
             {
-                arch.Edges.Add = stor.Where( x => x.IsSupersetOf(arch) && x.AType.Count == arch.AType.Count+1).ToList();
-                arch.Edges.Remove = stor.Where( x => x.IsSubsetOf(arch) && x.AType.Count == arch.AType.Count-1).ToList();
+                stor.Where( x => x.IsSupersetOf(arch) && x.AType.Count == arch.AType.Count+1).Select(other => (arch.TypeIntersect(other).First(),other)).ToList().ForEach(x => arch.Edges.Add.Add(x.Item1,x.other));
+                stor.Where( x => x.IsSubsetOf(arch) && x.AType.Count == arch.AType.Count-1).Select(other => (other.TypeIntersect(arch).First(),other)).ToList().ForEach(x => arch.Edges.Remove.Add(x.Item1,x.other));
             }
         }
 

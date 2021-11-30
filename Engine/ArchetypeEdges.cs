@@ -5,7 +5,7 @@ namespace DXDebug.Engine
 {
     public class ArchetypeEdges
     {
-        public List<Archetype> Add = new();
-        public List<Archetype> Remove = new();
+        public Dictionary<Type,Archetype> Add = new();
+        public Dictionary<Type,Archetype> Remove = new();
     }
 }
