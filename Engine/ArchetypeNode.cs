@@ -1,3 +1,0 @@
-namespace DXDebug.Engine
-{
-}

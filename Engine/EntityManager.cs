@@ -16,14 +16,14 @@ namespace DXDebug.Engine
             set {Entities[id] = value;}
         }
 
-        public Entity CreateEntity()
+        public EntityBuilder CreateEntity()
         {
-            var e = new Entity{Index = Entities.Count, Manager = this};
-            Entities[e.Index] = new();
+            var e = new EntityBuilder{Entity = new Entity{Index = Entities.Count, Manager = this}};
+            Entities[e.Entity.Index] = new();
             return e;
         }
 
-        public ArchetypeRecord GetOrCreateRecord(HashSet<Type> types, Entity e)
+        public ArchetypeRecord GetOrCreateRecord(HashSet<Type> types, EntityBuilder e)
         {
             if(Archetypes.TryGetValue(types,out Archetype a))
             {
@@ -51,33 +51,22 @@ namespace DXDebug.Engine
         {
             if(!Archetypes.ContainsKey(types))
             {
-                var ts = Combinations(types).ToList();
-                foreach(var t in ts)
-                {
-                    var th = t.ToHashSet();
-                    if(!Archetypes.ContainsKey(th))
-                        Archetypes.Add(th, new Archetype(t));
-                }
                 Archetypes.Add(types, new Archetype(types));
                 return Archetypes[types];
             }
             else
-            {
                 return Archetypes[types];
-            }
             
         }
-        public static IEnumerable<T[]> Combinations<T>(IEnumerable<T> source) {
-            if (null == source)
-                throw new ArgumentNullException(nameof(source));
 
-            T[] data = source.ToArray();
-
-            return Enumerable
-                .Range(0, 1 << (data.Length))
-                .Select(index => data
-                .Where((v, i) => (index & (1 << i)) != 0)
-                .ToArray());
+        public void BuildGraph()
+        {
+            var stor = Archetypes.Values.ToList();
+            foreach(var arch in Archetypes.Values)
+            {
+                arch.Edges.Add = stor.Where( x => x.IsSupersetOf(arch) && x.AType.Count == arch.AType.Count+1).ToList();
+                arch.Edges.Remove = stor.Where( x => x.IsSubsetOf(arch) && x.AType.Count == arch.AType.Count-1).ToList();
+            }
         }
 
 

@@ -11,10 +11,9 @@ namespace DXDebug.Engine
         public Dictionary<Type, IComponentArray> Storage = new();
         public List<long> EntityID = new();
 
-        public HashSet<Type> AType => Storage.Keys.ToHashSet();
-        public List<IComponentArray> ComponentArrays => Storage.Values.ToList();
+        public HashSet<Type> AType = new();
 
-        public List<ArchetypeEdge> Edges = new();
+        public ArchetypeEdges Edges = new();
 
         public static readonly Archetype Empty = new();
 
@@ -24,13 +23,22 @@ namespace DXDebug.Engine
 
         public Archetype(IEnumerable<Type> types)
         {
+            AType = types.ToHashSet();
             foreach(var t in types)
                 Storage[t] = Activator.CreateInstance(typeof(ComponentArray<>).MakeGenericType(t)) as IComponentArray;
         }
 
+        public bool IsSupersetOf(Archetype t) => this.AType.IsSupersetOf(t.AType);
+        public bool IsSubsetOf(Archetype t) => this.AType.IsSubsetOf(t.AType);
+        
+
         public ComponentArray<T> GetComponentArray<T>() where T : struct
         {
             return (ComponentArray<T>)Storage[typeof(T)];
+        }
+        public IComponentArray GetIComponentArray(Type t)
+        {
+            return Storage[t];
         }
         public void AddComponent<T>(T component, long entity) where T : struct
         {
@@ -62,7 +70,7 @@ namespace DXDebug.Engine
             result.Append(']');
             result.AppendLine();
             result.Append("Storages : [");
-            result.Append(string.Join(";",ComponentArrays.Select(x => x.StringRepresentation())));
+            result.Append(string.Join(";",Storage.Values.ToList().Select(x => x.StringRepresentation())));
             result.Append(']');
             return result.ToString();
         }
