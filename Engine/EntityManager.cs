@@ -10,6 +10,8 @@ namespace DXDebug.Engine
 
         public Dictionary<HashSet<Type>,Archetype> Archetypes = new();
 
+        
+
         public ArchetypeRecord this[long id]
         {
             get => Entities[id];
@@ -33,25 +35,13 @@ namespace DXDebug.Engine
             {
                 throw new NotImplementedException("Cannot generate record");
             }
-            // else 
-            // {
-            //     Archetype? newAt = new();
-            //     foreach(var t in types)
-            //     {
-            //         object? array = Activator.CreateInstance(typeof(ComponentArray<>).MakeGenericType(t));
-                    
-            //         newAt.Storage[t] =  array as IComponentArray;
-            //     }
-            //     Archetypes[types] = newAt;
-            //     return new ArchetypeRecord{Row = 0, Archetype = newAt};
-            // }
         }
 
-        internal Archetype GenerateArchetypes(HashSet<Type> types)
+        internal Archetype GenerateArchetypes(ref HashSet<Type> types)
         {
             if(!Archetypes.ContainsKey(types))
             {
-                Archetypes.Add(types, new Archetype(types));
+                Archetypes.Add(types, new Archetype(ref types));
                 return Archetypes[types];
             }
             else
@@ -67,6 +57,14 @@ namespace DXDebug.Engine
                 stor.Where( x => x.IsSupersetOf(arch) && x.AType.Count == arch.AType.Count+1).Select(other => (arch.TypeIntersect(other).First(),other)).ToList().ForEach(x => arch.Edges.Add.Add(x.Item1,x.other));
                 stor.Where( x => x.IsSubsetOf(arch) && x.AType.Count == arch.AType.Count-1).Select(other => (other.TypeIntersect(arch).First(),other)).ToList().ForEach(x => arch.Edges.Remove.Add(x.Item1,x.other));
             }
+        }
+
+        public List<Archetype> QueryArchetypes(HashSet<Type> types)
+        {
+            return Archetypes
+                .Where(arch => arch.Value.AType.IsSubsetOf(types))
+                .Select(arch => arch.Value)
+                .ToList();
         }
 
 

@@ -21,7 +21,7 @@ namespace DXDebug.Engine
 
         public Archetype(){}
 
-        public Archetype(IEnumerable<Type> types)
+        public Archetype(ref HashSet<Type> types)
         {
             AType = types.ToHashSet();
             foreach(var t in types)
@@ -32,15 +32,20 @@ namespace DXDebug.Engine
         public bool IsSubsetOf(Archetype t) => this.AType.IsSubsetOf(t.AType);
         public IEnumerable<Type> TypeIntersect(Archetype t) => this.AType.Intersect(t.AType);
 
+        public void GetComponentArrayRef<T>(out ComponentArray<T> array ) where T : struct
+        {
+            array = (ComponentArray<T>)Storage[typeof(T)];
+        }
         public ComponentArray<T> GetComponentArray<T>() where T : struct
         {
-            return (ComponentArray<T>)Storage[typeof(T)];
+            GetComponentArrayRef(out ComponentArray<T> output);
+            return output;
         }
         public IComponentArray GetIComponentArray(Type t)
         {
             return Storage[t];
         }
-        public void AddComponent<T>(T component, long entity) where T : struct
+        public void AddComponent<T>(ref T component, long entity) where T : struct
         {
             if(Storage.ContainsKey(typeof(T)))
             {

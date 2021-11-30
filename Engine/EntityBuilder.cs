@@ -22,11 +22,13 @@ namespace DXDebug.Engine
 
         public void Build()
         {
-            Archetype archetype = Entity.Manager.GenerateArchetypes(ComponentTypes);
+            var types = ComponentTypes;
+            Archetype archetype = Entity.Manager.GenerateArchetypes(ref types);
             foreach(var e in Components)
             {
-                var ctx = typeof(Archetype).GetMethod("AddComponent")?.MakeGenericMethod(e.Key);
-                ctx.Invoke(archetype,new object[]{e.Value, Entity.Index});
+                typeof(Archetype)
+                    .GetMethod("AddComponent")?.MakeGenericMethod(e.Key)
+                    .Invoke(archetype,new object[]{e.Value, Entity.Index});
             }
             Entity.Manager[Entity.Index] = new ArchetypeRecord
             {

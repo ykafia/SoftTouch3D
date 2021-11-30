@@ -22,19 +22,21 @@ namespace DXDebug
             em
                 .CreateEntity()
                 .With(new NameComponent{Name = "John"})
-                .With(new NameComponent{Name = "Johan"})
                 .With(new HealthComponent{LifePoints = 100, Shield = 100})
                 .Build();
             em
                 .CreateEntity()
                 .With(new NameComponent{Name = "Lola"})
                 .Build();
+            em
+                .CreateEntity()
+                .With(new NameComponent{Name = "Toto"})
+                .Build();
             
             foreach(var e in em.Entities)
             {
                 Console.WriteLine(e.Key + " : [" + e.Value + "]");
             }
-            
         }
    }
 }
