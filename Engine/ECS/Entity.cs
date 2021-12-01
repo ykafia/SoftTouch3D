@@ -2,9 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using DXDebug.Engine.Components;
+using WonkECS.Components;
 
-namespace DXDebug.Engine
+namespace WonkECS
 {
     public interface IEntity{}
 

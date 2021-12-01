@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace DXDebug.Engine
+namespace WonkECS
 {
     public class ArchetypeEdges
     {

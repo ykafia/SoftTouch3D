@@ -2,16 +2,15 @@ using System;
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
-using DXDebug.Engine.Components;
 
-namespace DXDebug.Engine
+namespace WonkECS
 {
     public class Archetype
     {
         public Dictionary<Type, IComponentArray> Storage = new();
         public List<long> EntityID = new();
 
-        public HashSet<Type> AType = new();
+        public ArchetypeID ID = new();
 
         public ArchetypeEdges Edges = new();
 
@@ -21,16 +20,18 @@ namespace DXDebug.Engine
 
         public Archetype(){}
 
-        public Archetype(ref HashSet<Type> types)
+        public Archetype(ref ArchetypeID types)
         {
-            AType = types.ToHashSet();
-            foreach(var t in types)
+            ID = types;
+            foreach(var t in types.Types)
                 Storage[t] = Activator.CreateInstance(typeof(ComponentArray<>).MakeGenericType(t)) as IComponentArray;
         }
 
-        public bool IsSupersetOf(Archetype t) => this.AType.IsSupersetOf(t.AType);
-        public bool IsSubsetOf(Archetype t) => this.AType.IsSubsetOf(t.AType);
-        public IEnumerable<Type> TypeIntersect(Archetype t) => this.AType.Intersect(t.AType);
+        public bool IsSupersetOf(Archetype t) => this.ID.IsSupersetOf(t.ID);
+        public bool IsSubsetOf(Archetype t) => this.ID.IsSubsetOf(t.ID);
+        public IEnumerable<Type> TypeIntersect(Archetype t) => this.ID.Intersect(t.ID);
+        public IEnumerable<Type> TypeExcept(Archetype t) => this.ID.Except(t.ID);
+
 
         public void GetComponentArrayRef<T>(out ComponentArray<T> array ) where T : struct
         {
@@ -41,6 +42,15 @@ namespace DXDebug.Engine
             GetComponentArrayRef(out ComponentArray<T> output);
             return output;
         }
+
+        public void Apply<T>(Action<T> apply)
+            where T : struct
+        {
+            for(int i = 0; i < Length; i++)
+                apply(((ComponentArray<T>)Storage[typeof(T)])[i]);
+        }
+
+
         public IComponentArray GetIComponentArray(Type t)
         {
             return Storage[t];
@@ -71,7 +81,7 @@ namespace DXDebug.Engine
         {
             var result = new StringBuilder();
             result.Append("Type : [");
-            result.Append(string.Join(";",AType.Select(x => x.Name).ToList()));
+            result.Append(string.Join(";",ID.Types?.Select(x => x.Name).ToList()??new List<string>()));
             result.Append(']');
             result.AppendLine();
             result.Append("Storages : [");
@@ -84,14 +94,14 @@ namespace DXDebug.Engine
         {
             return obj is Archetype archetype &&
                 //    EqualityComparer<Dictionary<Type, IComponentArray>>.Default.Equals(Storage, archetype.Storage);
-                   EqualityComparer<HashSet<Type>>.Default.Equals(AType, archetype.AType);
+                   EqualityComparer<ArchetypeID>.Default.Equals(ID, archetype.ID);
                 //    EqualityComparer<List<IComponentArray>>.Default.Equals(Components, archetype.Components) &&
                 //    Length == archetype.Length;
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(AType);
+            return ID.GetHashCode();
         }
     }
 }

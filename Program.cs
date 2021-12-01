@@ -5,8 +5,9 @@ using Silk.NET.Core.Native;
 using Silk.NET.Windowing;
 using Silk.NET.Maths;
 using Silk.NET.Input;
-using DXDebug.Engine;
-using DXDebug.Engine.Components;
+using WonkECS;
+using WonkECS.Components;
+using System.Collections.Generic;
 
 namespace DXDebug
 {
@@ -32,11 +33,10 @@ namespace DXDebug
                 .CreateEntity()
                 .With(new NameComponent{Name = "Toto"})
                 .Build();
-            
-            foreach(var e in em.Entities)
-            {
-                Console.WriteLine(e.Key + " : [" + e.Value + "]");
-            }
+
+            em.Processors.Add(new NameProcessor());
+            em.Update();
+            em.Archetypes[new ArchetypeID(new HashSet<Type>{typeof(NameComponent)})].GetComponentArray<NameComponent>().Elements.ForEach(x => Console.WriteLine(x.Name));
         }
    }
 }

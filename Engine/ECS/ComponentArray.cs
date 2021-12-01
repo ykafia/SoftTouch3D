@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DXDebug.Engine
+namespace WonkECS
 {
     public interface IComponentArray 
     {

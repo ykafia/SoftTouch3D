@@ -1,5 +1,5 @@
 
-namespace DXDebug.Engine.Components
+namespace WonkECS.Components
 {
     public struct InstanceOfComponent
     {

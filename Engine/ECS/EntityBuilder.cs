@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
-namespace DXDebug.Engine
+namespace WonkECS
 {
     public class EntityBuilder : IEntity
     {
@@ -22,8 +22,8 @@ namespace DXDebug.Engine
 
         public void Build()
         {
-            var types = ComponentTypes;
-            Archetype archetype = Entity.Manager.GenerateArchetypes(ref types);
+            var types = new ArchetypeID(ComponentTypes);
+            Archetype archetype = Entity.Manager.GenerateArchetypes(types);
             foreach(var e in Components)
             {
                 typeof(Archetype)

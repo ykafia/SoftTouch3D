@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace DXDebug.Engine
+namespace WonkECS
 {
     public struct ArchetypeRecord
     {
