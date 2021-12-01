@@ -9,7 +9,12 @@ namespace DXDebug
         {
             Manager.QueryArchetypes(QueryEntity.GetQueryType())
                 .ForEach(
-                    x => x.Apply( (NameComponent y) => {y.Name = "John2";} )
+                    x => 
+                    {
+                        var array = x.GetComponentArray<NameComponent>();
+                        for(int i = 0; i< x.Length; i++)
+                            array[i] = array[i] with {Name = "John2"}; 
+                    }
                 );
         }        
     }

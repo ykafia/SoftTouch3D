@@ -43,12 +43,13 @@ namespace WonkECS
             return output;
         }
 
-        public void Apply<T>(Action<T> apply)
-            where T : struct
-        {
-            for(int i = 0; i < Length; i++)
-                apply(((ComponentArray<T>)Storage[typeof(T)])[i]);
-        }
+        delegate void ActionRef<T>(ref T item);
+        // public void Apply<T>(ActionRef<T> apply)
+        //     where T : struct
+        // {
+        //     for(int i = 0; i < Length; i++)
+        //         apply(ref ((ComponentArray<T>)Storage[typeof(T)])[i]);
+        // }
 
 
         public IComponentArray GetIComponentArray(Type t)
