@@ -36,7 +36,7 @@ namespace DXDebug
 
             em.Processors.Add(new NameProcessor());
             em.Update();
-            em.Archetypes[new ArchetypeID(new HashSet<Type>{typeof(NameComponent)})].GetComponentArray<NameComponent>().Elements.ForEach(x => Console.WriteLine(x.Name));
+            em.Archetypes[new ArchetypeID(new HashSet<Type>{typeof(NameComponent), typeof(HealthComponent)})].GetComponentArray<NameComponent>().Elements.ForEach(x => Console.WriteLine(x.Name));
         }
    }
 }

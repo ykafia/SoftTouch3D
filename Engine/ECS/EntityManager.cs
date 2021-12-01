@@ -54,12 +54,16 @@ namespace WonkECS
             var stor = Archetypes.Values.ToList();
             foreach (var arch in Archetypes.Values)
             {
-                stor.Where(x => x.ID.IsAddedType(arch.ID)).Select(other => (arch.TypeExcept(other).First(), other)).ToList().ForEach(x => arch.Edges.Add.Add(x.Item1, x.other));
+                stor
+                    .Where(x => x.ID.IsAddedType(arch.ID))
+                    .Select(other => (arch.TypeExcept(other).First(), other))
+                    .ToList()
+                    .ForEach(x => arch.Edges.Add[x.Item1] = x.other);
                 stor
                     .Where(x => x.ID.IsRemovedType(arch.ID))
                     .Select(other => (other.TypeExcept(arch).First(), other))
                     .ToList()
-                    .ForEach(x => arch.Edges.Remove.Add(x.Item1, x.other));
+                    .ForEach(x => arch.Edges.Remove[x.Item1]= x.other);
             }
         }
 
