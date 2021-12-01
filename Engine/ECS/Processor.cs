@@ -2,8 +2,6 @@ namespace WonkECS
 {
     public partial class Processor
     {
-        public delegate void ComponentUpdate<T>(T cmp);
-        delegate void ActionRef<T>(ref T item);
         public virtual void Update(EntityManager Manager)
         {
             // Manager.QueryArchetypes(QueryEntity.GetQueryType());
