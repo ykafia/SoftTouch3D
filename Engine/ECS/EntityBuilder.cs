@@ -9,13 +9,13 @@ namespace WonkECS
         public Entity? Entity;
         public HashSet<Type> ComponentTypes => Components.Keys.ToHashSet();
 
-        public Dictionary<Type, object> Components = new();
+        public Dictionary<Type, ComponentArray> Components = new();
 
         public EntityBuilder With<T>(T component) where T : struct
         {
             if(!typeof(T).GetInterfaces().Contains(typeof(IEntity)))
             {
-                Components[typeof(T)] = component;
+                Components[typeof(T)] = new ComponentArray<T>(component);
             }
             return this;
         }
@@ -23,13 +23,9 @@ namespace WonkECS
         public void Build()
         {
             var types = new ArchetypeID(ComponentTypes);
-            Archetype archetype = Entity.Manager.GenerateArchetypes(types);
+            Archetype archetype = Entity.Manager.GenerateArchetype(types, Components.Values.ToList());
             foreach(var e in Components)
-            {
-                typeof(Archetype)
-                    .GetMethod("AddComponent")?.MakeGenericMethod(e.Key)
-                    .Invoke(archetype,new object[]{e.Value, Entity.Index});
-            }
+                archetype.Storage[e.Key].Merge(e.Value);
             Entity.Manager[Entity.Index] = new ArchetypeRecord
             {
                 Row = archetype.Length,

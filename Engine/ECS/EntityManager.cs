@@ -37,11 +37,11 @@ namespace WonkECS
             }
         }
 
-        internal Archetype GenerateArchetypes(ArchetypeID types)
+        internal Archetype GenerateArchetype(ArchetypeID types, List<ComponentArray> components)
         {
             if (!Archetypes.ContainsKey(types))
             {
-                Archetypes.Add(types, new Archetype(ref types));
+                Archetypes.Add(types, new Archetype(components));
                 return Archetypes[types];
             }
             else

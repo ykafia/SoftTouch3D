@@ -7,25 +7,24 @@ namespace WonkECS
 {
     public class Archetype
     {
-        public Dictionary<Type, IComponentArray> Storage = new();
+        public Dictionary<Type, ComponentArray> Storage = new();
         public List<long> EntityID = new();
 
         public ArchetypeID ID = new();
 
         public ArchetypeEdges Edges = new();
 
-        public static readonly Archetype Empty = new();
+        public int Length => EntityID.Count;
 
-        public int Length => Storage.Select(x => x.Value.GetLength()).Max();
-
-        public Archetype(){}
-
-        public Archetype(ref ArchetypeID types)
+        public Archetype(List<ComponentArray> components)
         {
-            ID = types;
-            foreach(var t in types.Types)
-                Storage[t] = Activator.CreateInstance(typeof(ComponentArray<>).MakeGenericType(t)) as IComponentArray;
+            foreach(var c in components)
+            {
+                Storage[c.GetElementType()] = c;
+            }
+            ID = new ArchetypeID(components.Select(x => x.GetElementType()).ToHashSet());
         }
+
 
         public bool IsSupersetOf(Archetype t) => this.ID.IsSupersetOf(t.ID);
         public bool IsSubsetOf(Archetype t) => this.ID.IsSubsetOf(t.ID);
@@ -52,7 +51,7 @@ namespace WonkECS
         // }
 
 
-        public IComponentArray GetIComponentArray(Type t)
+        public ComponentArray GetIComponentArray(Type t)
         {
             return Storage[t];
         }
