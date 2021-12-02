@@ -10,6 +10,8 @@ namespace WonkECS
         public virtual string StringRepresentation() => "";
         public virtual void AddComponents(List<object> components){}
         public virtual void Add(ComponentBox c){}
+        public virtual ComponentBox RemoveAt(int i) => null;
+        
         public virtual ComponentArray New(ComponentBox c) => null;
         
         public virtual Type GetElementType() => GetType();
@@ -45,6 +47,13 @@ namespace WonkECS
         public void Add(T e) => Elements.Add(e);
 
         public void Remove(T e) => Elements.Remove(e);
+
+        public override ComponentBox RemoveAt(int i)
+        {
+            ComponentBox<T> cmp = new(Elements[i]);
+            Elements.RemoveAt(i);
+            return cmp;
+        }
 
         public T this[int i]
         {

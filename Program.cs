@@ -20,7 +20,7 @@ namespace DXDebug
             // IGame g = new DXGame();
             // g.Run();
 
-            var em = new EntityManager();
+            var em = new World();
             em
                 .CreateEntity()
                 .With(new NameComponent{Name = "John"})
@@ -34,8 +34,8 @@ namespace DXDebug
                 .CreateEntity()
                 .With(new NameComponent{Name = "Toto"})
                 .Build();
-
-            em.Processors.Add(new NameProcessor());
+            em[0].Remove<HealthComponent>();
+            // em.Processors.Add(new NameProcessor());
             em.Update();
             var arrays = em.QueryArchetypes(new ArchetypeID(new List<Type> { typeof(NameComponent) }));
             em.Archetypes[new ArchetypeID(new HashSet<Type>{typeof(NameComponent)})].GetComponentArray<NameComponent>().Elements.ForEach(x => Console.WriteLine(x.Name));

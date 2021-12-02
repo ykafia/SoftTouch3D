@@ -7,6 +7,7 @@ namespace WonkECS
     public class EntityBuilder : IEntity
     {
         public Entity? Entity;
+        public World? World {get;set;}
         public HashSet<Type> ComponentTypes => Components.Keys.ToHashSet();
 
         public Dictionary<Type, ComponentBox> Components = new();
@@ -23,16 +24,17 @@ namespace WonkECS
         public void Build()
         {
             var types = new ArchetypeID(ComponentTypes);
-            Archetype archetype = Entity.Manager.GenerateArchetype(types, Components.Values.ToList());
+            Archetype archetype = World.GenerateArchetype(types, Components.Values.ToList());
             foreach(var e in Components)
                 archetype.Storage[e.Key].Add(e.Value);
-            Entity.Manager[Entity.Index] = new ArchetypeRecord
+            World[Entity.Index] = new ArchetypeRecord
             {
-                Row = archetype.Length,
+                Entity = Entity,
+                ArchetypeIndex = archetype.Length,
                 Archetype = archetype
             };
             archetype.EntityID.Add(Entity.Index);
-            Entity.Manager.BuildGraph();
+            World.BuildGraph();
         }
 
         public override string ToString() => "[" + Entity.Index.ToString() + " : <" + string.Join(",",ComponentTypes.Select(x => x.Name)) +">]";

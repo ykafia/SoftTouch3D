@@ -5,7 +5,7 @@ namespace DXDebug
 {
     public class NameProcessor : Processor<QueryEntity<NameComponent>>
     {
-        public override void Update(EntityManager Manager)
+        public override void Update(World Manager)
         {
             Manager.QueryArchetypes(QueryEntity.GetQueryType())
                 .ForEach(

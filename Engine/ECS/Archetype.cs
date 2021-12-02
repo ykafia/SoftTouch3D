@@ -59,10 +59,8 @@ namespace WonkECS
             }
         }
 
-        public void RemoveEntity()
-        {
-            
-        }
+        public void RemoveEntityIndex(int i) => EntityID.RemoveAt(i);
+        
         public void SetLastComponent<T>(T component, long entity) where T : struct
         {
             if(Storage.ContainsKey(typeof(T)))

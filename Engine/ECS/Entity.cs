@@ -11,7 +11,7 @@ namespace WonkECS
     public class Entity
     {
         public long Index{get;set;}
-        public EntityManager? Manager {get;set;}
+        public World? World{get;set;}
     }
     
 }

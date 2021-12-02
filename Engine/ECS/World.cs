@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace WonkECS
 {
-    public class EntityManager
+    public class World
     {
         public Dictionary<long, ArchetypeRecord> Entities = new();
 
@@ -20,7 +20,7 @@ namespace WonkECS
 
         public EntityBuilder CreateEntity()
         {
-            var e = new EntityBuilder { Entity = new Entity { Index = Entities.Count, Manager = this } };
+            var e = new EntityBuilder { Entity = new Entity { Index = Entities.Count }, World = this };
             Entities[e.Entity.Index] = new();
             return e;
         }
@@ -29,7 +29,7 @@ namespace WonkECS
         {
             if (Archetypes.TryGetValue(types, out Archetype a))
             {
-                return new ArchetypeRecord { Row = a.Length, Archetype = a };
+                return new ArchetypeRecord { Entity = e.Entity, ArchetypeIndex = a.Length, Archetype = a };
             }
             else
             {

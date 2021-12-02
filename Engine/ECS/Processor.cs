@@ -2,7 +2,7 @@ namespace WonkECS
 {
     public partial class Processor
     {
-        public virtual void Update(EntityManager Manager)
+        public virtual void Update(World Manager)
         {
             // Manager.QueryArchetypes(QueryEntity.GetQueryType());
         }
