@@ -11,9 +11,9 @@ namespace DXDebug
                 .ForEach(
                     x => 
                     {
-                        var array = x.GetComponentArray<NameComponent>();
+                        x.GetComponentArrayRef(out ComponentArray<NameComponent> array);
                         for(int i = 0; i< x.Length; i++)
-                            array[i] = array[i] with {Name = "John2"}; 
+                            x.SetComponent(i,new NameComponent{Name = "John2"});
                     }
                 );
         }        

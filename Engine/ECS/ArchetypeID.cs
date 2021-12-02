@@ -15,6 +15,10 @@ namespace WonkECS
         {
             Types= types.ToList();
         }
+        public ArchetypeID(IEnumerable<Type> types)
+        {
+            Types= types.ToHashSet().ToList();
+        }
 
         public bool IsSupersetOf(ArchetypeID other)
         {

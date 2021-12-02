@@ -16,13 +16,13 @@ namespace WonkECS
 
         public int Length => EntityID.Count;
 
-        public Archetype(List<ComponentArray> components)
+        public Archetype(List<ComponentBox> components)
         {
             foreach(var c in components)
             {
-                Storage[c.GetElementType()] = c;
+                Storage[c.GetComponentType()] = c.EmptyArray();
             }
-            ID = new ArchetypeID(components.Select(x => x.GetElementType()).ToHashSet());
+            ID = new ArchetypeID(components.Select(x => x.GetComponentType()));
         }
 
 
@@ -32,6 +32,10 @@ namespace WonkECS
         public IEnumerable<Type> TypeExcept(Archetype t) => this.ID.Except(t.ID);
 
 
+        public void SetValue<T>(int index, in T component ) where T : struct
+        {
+            ((ComponentArray<T>)Storage[typeof(T)])[index] = component;
+        }
         public void GetComponentArrayRef<T>(out ComponentArray<T> array ) where T : struct
         {
             array = (ComponentArray<T>)Storage[typeof(T)];
@@ -42,16 +46,7 @@ namespace WonkECS
             return output;
         }
 
-        delegate void ActionRef<T>(ref T item);
-        // public void Apply<T>(ActionRef<T> apply)
-        //     where T : struct
-        // {
-        //     for(int i = 0; i < Length; i++)
-        //         apply(ref ((ComponentArray<T>)Storage[typeof(T)])[i]);
-        // }
-
-
-        public ComponentArray GetIComponentArray(Type t)
+        public ComponentArray GetComponentArray(Type t)
         {
             return Storage[t];
         }
@@ -74,6 +69,13 @@ namespace WonkECS
             {
                 ((ComponentArray<T>)Storage[typeof(T)])[Storage.Count-1] = component;
                 EntityID[^1] = entity;
+            }
+        }
+        public void SetComponent<T>(int index, in T component) where T : struct
+        {
+            if(Storage.ContainsKey(typeof(T)))
+            {
+                ((ComponentArray<T>)Storage[typeof(T)])[index] = component;
             }
         }
 

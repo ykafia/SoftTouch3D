@@ -37,7 +37,7 @@ namespace WonkECS
             }
         }
 
-        internal Archetype GenerateArchetype(ArchetypeID types, List<ComponentArray> components)
+        internal Archetype GenerateArchetype(ArchetypeID types, List<ComponentBox> components)
         {
             if (!Archetypes.ContainsKey(types))
             {

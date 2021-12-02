@@ -9,11 +9,14 @@ namespace WonkECS
     {
         public virtual string StringRepresentation() => "";
         public virtual void AddComponents(List<object> components){}
+        public virtual void Add(ComponentBox c){}
+        public virtual ComponentArray New(ComponentBox c) => null;
+        
         public virtual Type GetElementType() => GetType();
         public virtual void Merge(ComponentArray other){}
         public virtual ComponentArray EmptyFrom(ComponentArray array) => new();
         public virtual int GetLength() => 0;
-        public virtual List<object> GetList() => new();
+        public virtual List<object> GetArray() => new();
     }
 
     public class ComponentArray<T> : ComponentArray where T : struct
@@ -23,6 +26,10 @@ namespace WonkECS
 
         public Type ElementType => typeof(T);
 
+        public ComponentArray()
+        {
+            this.Elements = new List<T>();
+        }
 
         public ComponentArray(T element)
         {
@@ -32,6 +39,8 @@ namespace WonkECS
         {
             this.Elements = elements;
         }
+
+        public override ComponentArray New(ComponentBox c) => new ComponentArray<T>((T)c.Get());
 
         public void Add(T e) => Elements.Add(e);
 
@@ -48,13 +57,22 @@ namespace WonkECS
             return ElementType;
         }
 
+        public override void Add(ComponentBox c)
+        {
+            Add((T)c.Get());
+        }
+
         public override string StringRepresentation()
         {
             return string.Join("; ",Elements.Select(x => x.ToString()).ToList());
         }
         public override void Merge(ComponentArray other)
         {
-            if(other.GetElementType() == ElementType) Elements.AddRange(other.GetList().Cast<T>());
+            if(other.GetElementType() == ElementType) Elements.AddRange(other.GetArray().Cast<T>());
+        }
+        public override List<object> GetArray()
+        {
+            return Elements.Cast<object>().ToList();
         }
 
         public override ComponentArray EmptyFrom(ComponentArray array) => new ComponentArray<T>(new List<T>());

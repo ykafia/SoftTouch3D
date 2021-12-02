@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Silk.NET.DXGI;
 using Silk.NET.Direct3D11;
 using Silk.NET.Core.Native;
@@ -36,6 +37,7 @@ namespace DXDebug
 
             em.Processors.Add(new NameProcessor());
             em.Update();
+            var arrays = em.QueryArchetypes(new ArchetypeID(new List<Type> { typeof(NameComponent) }));
             em.Archetypes[new ArchetypeID(new HashSet<Type>{typeof(NameComponent)})].GetComponentArray<NameComponent>().Elements.ForEach(x => Console.WriteLine(x.Name));
         }
    }
