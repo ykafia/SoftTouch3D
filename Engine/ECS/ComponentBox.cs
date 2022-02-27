@@ -4,10 +4,10 @@ namespace WonkECS
 {
     public partial class ComponentBox
     {
-        public virtual object Get() => null;
-        public virtual Type GetComponentType() => null;
-        public virtual ComponentArray ToArray() => null;
-        public virtual ComponentArray EmptyArray() => null;
+        public virtual object? Get() => null;
+        public virtual Type? GetComponentType() => null;
+        public virtual ComponentArray? ToArray() => null;
+        public virtual ComponentArray? EmptyArray() => null;
 
     }
 

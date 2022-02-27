@@ -27,7 +27,7 @@ namespace WonkECS
 
         public ArchetypeRecord GetOrCreateRecord(ArchetypeID types, EntityBuilder e)
         {
-            if (Archetypes.TryGetValue(types, out Archetype a))
+            if (Archetypes.TryGetValue(types, out Archetype? a) && e.Entity != null)
             {
                 return new ArchetypeRecord { Entity = e.Entity, ArchetypeIndex = a.Length, Archetype = a };
             }

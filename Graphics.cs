@@ -61,17 +61,11 @@ namespace DXDebug
             }
         }
 
-
-        public void CompileLoadShaders()
-        {
-            
-        }
-
         public void DrawTriangle()
         {
             unsafe
             {
-                ID3D11Buffer*[] buffs = null;
+                ID3D11Buffer*[]? buffs = null;
                 BufferDesc triDesc = new BufferDesc{
                     Usage = Usage.UsageDefault,
                     BindFlags = (uint)BindFlag.BindVertexBuffer,

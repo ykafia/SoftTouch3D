@@ -13,7 +13,7 @@ namespace DXDebug
     {
         private readonly IWindow window;
         
-        private Graphics graphics;
+        private Graphics? graphics;
 
         public uint Width {get;set;} = 800;
         public uint Height {get;set;} = 600;
