@@ -33,9 +33,9 @@ namespace DXDebug
                 //Initializing a vertex buffer that holds the vertex data.
                 Vbo = Gl.GenBuffer(); //Creating the buffer.
                 Gl.BindBuffer(BufferTargetARB.ArrayBuffer, Vbo); //Binding the buffer.
-                fixed (void* v = &obj.VertexBuffer;[0])
+                fixed (void* v = &obj.VertexBuffer[0])
                 {
-                    Gl.BufferData(BufferTargetARB.ArrayBuffer, (nuint)(obj.VertexBuffer;.Length * sizeof(uint)), v, BufferUsageARB.StaticDraw); //Setting buffer data.
+                    Gl.BufferData(BufferTargetARB.ArrayBuffer, (nuint)(obj.VertexBuffer.Length * sizeof(uint)), v, BufferUsageARB.StaticDraw); //Setting buffer data.
                 }
 
                 //Initializing a element buffer that holds the index data.
