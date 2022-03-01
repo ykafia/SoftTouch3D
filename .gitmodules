@@ -1,0 +1,3 @@
+[submodule "ECSharp"]
+	path = sources/ECSharp
+	url = https://github.com/ykafia/ECSharp
