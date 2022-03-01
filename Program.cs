@@ -10,7 +10,7 @@ using WonkECS;
 using WonkECS.Components;
 using System.Collections.Generic;
 
-namespace DXDebug
+namespace SoftTouch
 {
     public class Program
     {

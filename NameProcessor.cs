@@ -1,7 +1,7 @@
 using WonkECS;
 using WonkECS.Components;
 
-namespace DXDebug
+namespace SoftTouch
 {
     public class NameProcessor : Processor<QueryEntity<NameComponent>>
     {

@@ -7,7 +7,7 @@ using Silk.NET.Core.Native;
 using System.Drawing;
 using System.Linq;
 
-namespace DXDebug
+namespace SoftTouch
 {
     public class Graphics
     {

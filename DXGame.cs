@@ -7,7 +7,7 @@ using Silk.NET.Maths;
 using Silk.NET.Input;
 using System.Drawing;
 
-namespace DXDebug
+namespace SoftTouch
 {
     public class DXGame : IGame
     {

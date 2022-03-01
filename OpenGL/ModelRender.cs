@@ -2,7 +2,7 @@ using System;
 using System.Numerics;
 using Silk.NET.OpenGL;
 
-namespace DXDebug
+namespace SoftTouch
 {
     public class ModelRender
     {

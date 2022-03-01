@@ -1,6 +1,6 @@
 using System;
 using System.Numerics;
-namespace DXDebug
+namespace SoftTouch
 {
     public class Model
     {

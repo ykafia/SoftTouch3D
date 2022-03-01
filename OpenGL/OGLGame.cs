@@ -7,7 +7,7 @@ using Silk.NET.Core.Native;
 using System;
 using System.Collections.Generic;
 
-namespace DXDebug
+namespace SoftTouch
 {
     public class OGLGame : IGame
     {
