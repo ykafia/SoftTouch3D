@@ -9,6 +9,10 @@ namespace SoftTouch
     {
         public string Name;
     }
+    public struct AgeComponent
+    {
+        public int Age;
+    }
     public class NameProcessor : Processor<QueryEntity<NameComponent>>
     {
         public override void Update()

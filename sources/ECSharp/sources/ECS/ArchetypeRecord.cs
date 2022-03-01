@@ -6,8 +6,8 @@ namespace ECSharp
 {
     public class ArchetypeRecord
     {
-        public Entity Entity;
-        public Archetype Archetype;
+        public Entity? Entity;
+        public Archetype? Archetype;
 
         public int ArchetypeIndex => Archetype.EntityID.IndexOf(Entity.Index);
         public int Index => (int)Entity.Index;
@@ -99,10 +99,39 @@ namespace ECSharp
 
         public void Remove<T>()
         {
-            if(typeof(T).IsValueType)
-                RemoveStruct<T>();
-            else
-            {
+            // if(typeof(T).IsValueType)
+            // {
+            //     List<Component> comps = Archetype.Storage.Values.Select(x => x.RemoveAt(ArchetypeIndex)).Cast<Component>().Where(x => x.GetComponentType() != typeof(T)).ToList();
+            //     if(Archetype.Edges.Remove.TryGetValue(typeof(T), out var newArch))
+            //     {
+            //         // Add all components to new archetype
+            //         foreach(var cmp in comps)
+            //             newArch.Storage[cmp.GetComponentType()].Add(cmp);
+            //         // Add entity to new archetypy
+            //         newArch.AddEntity(Entity);
+            //         // Remove Entity on old archetype
+            //         Archetype.RemoveEntity(Entity);
+            //         // Change Archetype
+            //         Archetype = newArch;
+            //     }
+            //     else
+            //     {
+            //         var aid = new ArchetypeID(Archetype.Storage.Keys.Where(x => x != typeof(T)));
+
+            //         var world = Entity.World;
+        
+            //         var genArch = world.GenerateArchetype(aid, comps.Cast<ComponentBase>().ToList());
+            //         genArch.AddEntity(Entity);
+            //         foreach(var cmp in comps)
+            //             genArch.Storage[cmp.GetComponentType()].Add(cmp);
+            //         Archetype.RemoveEntity(Entity);
+            //         Archetype = genArch;
+            //         world.BuildGraph();
+            //     }
+            // }
+                
+            // else
+            // {
                 List<Component> comps = Archetype.Storage.Values.Select(x => x.RemoveAt(ArchetypeIndex)).Cast<Component>().Where(x => x.GetComponentType() != typeof(T)).ToList();
                 if(Archetype.Edges.Remove.TryGetValue(typeof(T), out var newArch))
                 {
@@ -130,13 +159,13 @@ namespace ECSharp
                     Archetype = genArch;
                     world.BuildGraph();
                 }
-            }
+            // }
             
             
         }
-        public void RemoveStruct<T>()
-        {
-        }
+        // public void RemoveStruct<T>()
+        // {
+        // }
         
     }
 }
