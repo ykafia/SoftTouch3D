@@ -1,17 +1,23 @@
-using WonkECS;
-using WonkECS.Components;
+using ECSharp;
+using ECSharp.Arrays;
+using System.Linq;
+
 
 namespace SoftTouch
 {
+    public struct NameComponent
+    {
+        public string Name;
+    }
     public class NameProcessor : Processor<QueryEntity<NameComponent>>
     {
-        public override void Update(World Manager)
+        public override void Update()
         {
-            Manager.QueryArchetypes(QueryEntity.GetQueryType())
-                .ForEach(
+            GetQuery1()
+                .AsParallel()
+                .ForAll(
                     x => 
                     {
-                        x.GetComponentArrayRef(out ComponentArray<NameComponent> array);
                         for(int i = 0; i< x.Length; i++)
                             x.SetComponent(i,new NameComponent{Name = "John2"});
                     }
