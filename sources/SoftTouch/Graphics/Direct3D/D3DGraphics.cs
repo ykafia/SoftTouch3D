@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace SoftTouch
 {
-    public class Graphics
+    public class D3DGraphics
     {
         ComPtr<ID3D11Device> device;
         ComPtr<IDXGISwapChain> swap;
@@ -19,7 +19,7 @@ namespace SoftTouch
         ComPtr<ID3D11VertexShader> vShader;
 
         ComPtr<IDXGIAdapter> adapter;
-        public Graphics(IntPtr hwnd)
+        public D3DGraphics(IntPtr hwnd)
         {
             var sd = new SwapChainDesc
             {

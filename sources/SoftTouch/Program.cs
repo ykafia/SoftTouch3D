@@ -15,14 +15,16 @@ namespace SoftTouch
     {        
         public static void Main(string[] args)
         {
-            IGame g = new OGLGame();
+            IGame g = new VKGame();
+
+            g.Run();
             var w = new World();
             var e = w.CreateEntity()
                 .With(new NameComponent{Name = "John"})
                 .With(new AgeComponent())
                 .Build();
             w[e.Index].Remove<NameComponent>();
-            g.Run();            
+            g.Run();          
         }
    }
 }

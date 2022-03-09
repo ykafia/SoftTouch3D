@@ -13,7 +13,7 @@ namespace SoftTouch
     {
         private readonly IWindow window;
         
-        private Graphics? graphics;
+        private D3DGraphics? graphics;
 
         public uint Width {get;set;} = 800;
         public uint Height {get;set;} = 600;
@@ -46,7 +46,7 @@ namespace SoftTouch
                 input.Keyboards[i].KeyDown += KeyDown;
             }
 
-            graphics = new Graphics(window.Native.Win32.Value.Hwnd);
+            graphics = new D3DGraphics(window.Native.Win32.Value.Hwnd);
         }
 
         private void OnRender(double obj)

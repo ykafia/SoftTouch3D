@@ -12,6 +12,8 @@
     <PackageReference Include="Silk.NET.Direct3D11" Version="2.13.0" />
     <PackageReference Include="Silk.NET.OpenGL" Version="2.13.0" />
     <PackageReference Include="Silk.NET.Vulkan" Version="2.13.0" />
+    <PackageReference Include="Silk.NET.Vulkan.Extensions.EXT" Version="2.13.0" />
+    <PackageReference Include="Silk.NET.Vulkan.Extensions.KHR" Version="2.13.0" />
   </ItemGroup>
 
   <ItemGroup>

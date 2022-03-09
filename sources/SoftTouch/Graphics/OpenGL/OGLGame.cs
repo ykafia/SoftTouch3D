@@ -34,7 +34,6 @@ namespace SoftTouch
             window.Update += OnUpdate;
             window.Render += OnRender;
 
-
         }
         public void Run() => window.Run();
 
