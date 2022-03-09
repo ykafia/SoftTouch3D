@@ -140,10 +140,9 @@ namespace SoftTouch.Graphics.Vulkan
 
         public unsafe void GetPhysicalDevice()
         {
-            uint deviceCount = 0;
-            PhysicalDevice[] devices = { };
-            api.EnumeratePhysicalDevices(nativeInstance, &deviceCount, devices);
-            if (deviceCount <= 0) throw new Exception("No graphics card");
+            var devices = api.GetPhysicalDevices(nativeInstance);
+            
+            if (devices.Count() <= 0) throw new Exception("No graphics card");
             physicalDevice = 
                 devices.First( x => {
                     var indices = FindQueueFamilies(x);
@@ -200,6 +199,36 @@ namespace SoftTouch.Graphics.Vulkan
             }
 
             return null;
+        }
+
+        public unsafe void CreateLogicalDevice()
+        {
+            var familyIndices = FindQueueFamilies(physicalDevice);
+            float priority = 1;
+            DeviceQueueCreateInfo queueCreateInfo = new DeviceQueueCreateInfo
+            {
+                SType = StructureType.DeviceQueueCreateInfo,
+                QueueFamilyIndex = familyIndices.GraphicsFamily.Value,
+                QueueCount = 1,
+                PQueuePriorities = &priority
+            };
+
+            PhysicalDeviceFeatures deviceFeatures = new();
+
+            DeviceCreateInfo createDevice = new DeviceCreateInfo
+            {
+                SType = StructureType.DeviceCreateInfo,
+                PQueueCreateInfos = &queueCreateInfo,
+                PEnabledFeatures = &deviceFeatures,
+                EnabledExtensionCount = 0,
+                EnabledLayerCount = 0
+            };
+            fixed(Device* device = &nativeDevice)
+            {
+                if(api.CreateDevice(physicalDevice, &createDevice, null, device) != Result.Success)
+                    throw new("Could not create Logical Device");
+            }
+
         }
 
     }
