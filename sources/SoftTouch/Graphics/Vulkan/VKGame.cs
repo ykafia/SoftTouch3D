@@ -51,7 +51,6 @@ namespace SoftTouch
         public void Run()
         {
             InitVulkan();
-
             window.Run();
         }
     }

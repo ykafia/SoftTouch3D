@@ -8,6 +8,7 @@ using Silk.NET.Core.Native;
 using Silk.NET.Vulkan;
 using Silk.NET.Vulkan.Extensions.EXT;
 using Silk.NET.Vulkan.Extensions.KHR;
+using System.Runtime.CompilerServices;
 
 namespace SoftTouch.Graphics.Vulkan
 {
@@ -24,6 +25,9 @@ namespace SoftTouch.Graphics.Vulkan
         Device NativeDevice { get => nativeDevice; set { nativeDevice = value; } }
 
         GraphicsQueue queue;
+
+        KhrSurface vkSurface;
+        SurfaceKHR surface;
 
         GraphicsQueue Queue { get => queue; set { queue = value; } }
 
@@ -111,10 +115,11 @@ namespace SoftTouch.Graphics.Vulkan
 
             api.CurrentInstance = nativeInstance;
 
-            if (!api.TryGetInstanceExtension(nativeInstance, out KhrSurface vkSurface))
+            if (!api.TryGetInstanceExtension(nativeInstance, out vkSurface))
             {
                 throw new NotSupportedException("KHR_surface extension not found.");
             }
+            surface = window.VkSurface!.Create<AllocationCallbacks>(nativeInstance.ToHandle(), null).ToSurface();
 
             Marshal.FreeHGlobal((nint)appInfo.PApplicationName);
             Marshal.FreeHGlobal((nint)appInfo.PEngineName);
@@ -125,6 +130,7 @@ namespace SoftTouch.Graphics.Vulkan
             }
 
         }
+
 
         public struct QueueFamilyIndices
         {
@@ -151,18 +157,33 @@ namespace SoftTouch.Graphics.Vulkan
         }
         public unsafe QueueFamilyIndices FindQueueFamilies(PhysicalDevice device)
         {
-            QueueFamilyIndices indices = new();
             uint count;
-            QueueFamilyProperties[] properties = {};
-            api.GetPhysicalDeviceQueueFamilyProperties(device,&count, properties);
+            api.GetPhysicalDeviceQueueFamilyProperties(device, &count, null);
+
+            
+            var queueFamilies = 
+                sizeof(QueueFamilyProperties) * count > 512?
+                    new QueueFamilyProperties[count] :
+                    stackalloc QueueFamilyProperties[(int)count];
+
+            api.GetPhysicalDeviceQueueFamilyProperties(device, &count, queueFamilies);
             if(count<=0) throw new("No family queue");
             uint i = 0;
-            foreach(var p in properties)
+            QueueFamilyIndices indices = new();
+            foreach (var p in queueFamilies)
             {
-                if((p.QueueFlags & QueueFlags.QueueGraphicsBit) != 0)
+                if ((p.QueueFlags & QueueFlags.QueueGraphicsBit) != 0)
                 {
                     indices.GraphicsFamily = i;
                 }
+
+                vkSurface.GetPhysicalDeviceSurfaceSupport(device, i, surface, out var presentSupport);
+
+                if (presentSupport == Vk.True)
+                {
+                    indices.PresentFamily = i;
+                }
+                if(indices.IsComplete()) break;
                 i++;
             }
             return indices;

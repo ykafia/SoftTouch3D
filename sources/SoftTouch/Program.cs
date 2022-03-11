@@ -23,8 +23,7 @@ namespace SoftTouch
                 .With(new NameComponent{Name = "John"})
                 .With(new AgeComponent())
                 .Build();
-            w[e.Index].Remove<NameComponent>();
-            g.Run();          
+            w[e.Index].Remove<NameComponent>();     
         }
    }
 }
