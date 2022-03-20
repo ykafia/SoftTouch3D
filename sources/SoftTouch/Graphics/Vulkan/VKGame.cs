@@ -40,6 +40,8 @@ namespace SoftTouch
             Device.CreateInstance(window);
             Device.GetPhysicalDevice();
             Device.CreateLogicalDevice();
+            Device.CreateSwapChain(window);
+            
 
         }
         private void OnFramebufferResize(Vector2D<int> size)

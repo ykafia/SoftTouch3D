@@ -9,6 +9,7 @@ using Silk.NET.Vulkan;
 using Silk.NET.Vulkan.Extensions.EXT;
 using Silk.NET.Vulkan.Extensions.KHR;
 using System.Runtime.CompilerServices;
+using System.Collections.Generic;
 
 namespace SoftTouch.Graphics.Vulkan
 {
@@ -22,15 +23,11 @@ namespace SoftTouch.Graphics.Vulkan
         PhysicalDevice NativePhysicalDevice { get => physicalDevice; set { physicalDevice = value; } }
 
         Device nativeDevice;
-        Device NativeDevice { get => nativeDevice; set { nativeDevice = value; } }
+        Device NativeDevice { get => nativeDevice; set { nativeDevice = value; } }        
 
-        GraphicsQueue queue;
+        GraphicsSwapChain SwapChain = new();
 
-        KhrSurface vkSurface;
-        SurfaceKHR surface;
-
-        GraphicsQueue Queue { get => queue; set { queue = value; } }
-
+        GraphicsQueue GraphicsQueue {get;set;}
 
 
         private string[][] _validationLayerNamesPriorityList =
@@ -115,11 +112,14 @@ namespace SoftTouch.Graphics.Vulkan
 
             api.CurrentInstance = nativeInstance;
 
-            if (!api.TryGetInstanceExtension(nativeInstance, out vkSurface))
+            if (!api.TryGetInstanceExtension(nativeInstance, out KhrSurface vkSurface))
             {
                 throw new NotSupportedException("KHR_surface extension not found.");
             }
-            surface = window.VkSurface!.Create<AllocationCallbacks>(nativeInstance.ToHandle(), null).ToSurface();
+            SwapChain.VkSurface = vkSurface;
+
+            // Creating surface
+            SwapChain.Surface = window.VkSurface!.Create<AllocationCallbacks>(nativeInstance.ToHandle(), null).ToSurface();
 
             Marshal.FreeHGlobal((nint)appInfo.PApplicationName);
             Marshal.FreeHGlobal((nint)appInfo.PEngineName);
@@ -129,26 +129,13 @@ namespace SoftTouch.Graphics.Vulkan
                 SilkMarshal.Free((nint)createInfo.PpEnabledLayerNames);
             }
 
-        }
-
-
-        public struct QueueFamilyIndices
-        {
-            public uint? GraphicsFamily { get; set; }
-            public uint? PresentFamily { get; set; }
-
-            public bool IsComplete()
-            {
-                return this.GraphicsFamily.HasValue && PresentFamily.HasValue;
-            }
-        }
-        
+        }    
 
         public unsafe void GetPhysicalDevice()
         {
             var devices = api.GetPhysicalDevices(nativeInstance);
             
-            if (devices.Count() <= 0) throw new Exception("No graphics card");
+            if (devices.Count <= 0) throw new Exception("No graphics card");
             physicalDevice = 
                 devices.First( x => {
                     var indices = FindQueueFamilies(x);
@@ -177,7 +164,7 @@ namespace SoftTouch.Graphics.Vulkan
                     indices.GraphicsFamily = i;
                 }
 
-                vkSurface.GetPhysicalDeviceSurfaceSupport(device, i, surface, out var presentSupport);
+                SwapChain.VkSurface.GetPhysicalDeviceSurfaceSupport(device, i, SwapChain.Surface, out var presentSupport);
 
                 if (presentSupport == Vk.True)
                 {
@@ -191,14 +178,27 @@ namespace SoftTouch.Graphics.Vulkan
         unsafe bool IsDeviceSuitable(PhysicalDevice device)
         {
             QueueFamilyIndices indices = FindQueueFamilies(device);
-            return indices.IsComplete();
-            // PhysicalDeviceProperties properties;
-            // api.GetPhysicalDeviceProperties(device, &properties);
-            // return
-            //     properties.DeviceType == PhysicalDeviceType.DiscreteGpu ||
-            //     properties.DeviceType == PhysicalDeviceType.IntegratedGpu;
+            PhysicalDeviceProperties properties;
+            api.GetPhysicalDeviceProperties(device, &properties);
+
+            bool extensionSupported = CheckDeviceExtensionSupport(device);
+
+            bool adequateSurface = false;
+            if(extensionSupported)
+            {
+                SwapChainSupportDetails details = SwapChain.QuerySwapChainSupport(device);
+                adequateSurface = !(details.formats.Length == 0) && !(details.presentModes.Length == 0); 
+            }
+
+            return indices.IsComplete() && extensionSupported && adequateSurface;
 
         }
+
+        private unsafe bool CheckDeviceExtensionSupport(PhysicalDevice device)
+        {
+            return deviceExtensions.All(ext => api.IsDeviceExtensionPresent(device, ext));
+        }
+
         private unsafe string[]? GetOptimalValidationLayers()
         {
             var layerCount = 0u;
@@ -224,33 +224,67 @@ namespace SoftTouch.Graphics.Vulkan
 
         public unsafe void CreateLogicalDevice()
         {
-            var familyIndices = FindQueueFamilies(physicalDevice);
-            float priority = 1;
-            DeviceQueueCreateInfo queueCreateInfo = new DeviceQueueCreateInfo
-            {
-                SType = StructureType.DeviceQueueCreateInfo,
-                QueueFamilyIndex = familyIndices.GraphicsFamily.Value,
-                QueueCount = 1,
-                PQueuePriorities = &priority
-            };
+            var indices = FindQueueFamilies(physicalDevice);
+            var uniqueQueueFamilies = indices.GraphicsFamily.Value == indices.PresentFamily.Value
+                ? new[] { indices.GraphicsFamily.Value }
+                : new[] { indices.GraphicsFamily.Value, indices.PresentFamily.Value };
 
-            PhysicalDeviceFeatures deviceFeatures = new();
+            // using var mem = GlobalMemory.Allocate((int) uniqueQueueFamilies.Length * sizeof(DeviceQueueCreateInfo));
+            var queueCreateInfos = stackalloc DeviceQueueCreateInfo[uniqueQueueFamilies.Length];  // (DeviceQueueCreateInfo*) Unsafe.AsPointer(ref mem.GetPinnableReference());
 
-            DeviceCreateInfo createDevice = new DeviceCreateInfo
+            var queuePriority = 1f;
+            for (var i = 0; i < uniqueQueueFamilies.Length; i++)
             {
-                SType = StructureType.DeviceCreateInfo,
-                PQueueCreateInfos = &queueCreateInfo,
-                PEnabledFeatures = &deviceFeatures,
-                EnabledExtensionCount = 0,
-                EnabledLayerCount = 0
-            };
-            fixed(Device* device = &nativeDevice)
-            {
-                if(api.CreateDevice(physicalDevice, &createDevice, null, device) != Result.Success)
-                    throw new("Could not create Logical Device");
+                var queueCreateInfo = new DeviceQueueCreateInfo
+                {
+                    SType = StructureType.DeviceQueueCreateInfo,
+                    QueueFamilyIndex = uniqueQueueFamilies[i],
+                    QueueCount = 1,
+                    PQueuePriorities = &queuePriority
+                };
+                queueCreateInfos[i] = queueCreateInfo;
             }
 
+            var deviceFeatures = new PhysicalDeviceFeatures();
+
+            var createInfo = new DeviceCreateInfo();
+            createInfo.SType = StructureType.DeviceCreateInfo;
+            createInfo.QueueCreateInfoCount = (uint) uniqueQueueFamilies.Length;
+            createInfo.PQueueCreateInfos = queueCreateInfos;
+            createInfo.PEnabledFeatures = &deviceFeatures;
+            createInfo.EnabledExtensionCount = (uint) deviceExtensions.Length;
+
+            var enabledExtensionNames = SilkMarshal.StringArrayToPtr(deviceExtensions);
+            createInfo.PpEnabledExtensionNames = (byte**) enabledExtensionNames;
+
+            
+            createInfo.EnabledLayerCount = 0;
+            
+
+            fixed (Device* device = &nativeDevice)
+            {
+                if (api.CreateDevice(physicalDevice, &createInfo, null, device) != Result.Success)
+                {
+                    throw new Exception("Failed to create logical device.");
+                }
+            }
+
+            GraphicsQueue = new(api,indices,nativeDevice);
+
+            api.CurrentDevice = nativeDevice;
+            if (!api.TryGetDeviceExtension(nativeInstance, nativeDevice, out KhrSwapchain swapchain))
+            {
+                throw new NotSupportedException("KHR_swapchain extension not found.");
+            }
+            SwapChain.Swap = swapchain;
+        }
+
+        public void CreateSwapChain(IWindow window)
+        {
+            SwapChain.Initialize(api,window,physicalDevice,nativeDevice, FindQueueFamilies(physicalDevice));
         }
 
     }
+
+    
 }

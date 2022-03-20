@@ -93,7 +93,6 @@ namespace SoftTouch
 
             // Uncomment the line below to use SDL
             // Window.PrioritizeSdl();
-
             _window = Window.Create(opts);
             _window.Initialize(); // For safety the window should be initialized before querying the VkSurface
 
