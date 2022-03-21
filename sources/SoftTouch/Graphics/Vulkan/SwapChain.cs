@@ -95,6 +95,23 @@ namespace SoftTouch.Graphics.Vulkan
             }
 
         }
+
+
+        public unsafe void InitializeTextures(Device device)
+        {
+            uint imageCount = 0;
+            swapchain.GetSwapchainImages(device, nativeSwap,&imageCount,null);
+            images = new Image[imageCount];
+            swapchain.GetSwapchainImages(device, nativeSwap,&imageCount,images);
+            
+            imageViews = new ImageView[imageCount];
+
+            
+
+        }
+
+
+
         public unsafe SwapChainSupportDetails QuerySwapChainSupport(PhysicalDevice device)
         {
             var details = new SwapChainSupportDetails();
