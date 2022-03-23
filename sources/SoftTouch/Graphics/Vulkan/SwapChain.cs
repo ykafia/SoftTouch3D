@@ -97,7 +97,7 @@ namespace SoftTouch.Graphics.Vulkan
         }
 
 
-        public unsafe void InitializeTextures(Device device)
+        public unsafe void InitializeTextures(Vk api, Device device)
         {
             uint imageCount = 0;
             swapchain.GetSwapchainImages(device, nativeSwap,&imageCount,null);
@@ -106,6 +106,33 @@ namespace SoftTouch.Graphics.Vulkan
             
             imageViews = new ImageView[imageCount];
 
+            for(int i = 0; i < images.Length; i++)
+            {
+                var createInfo = new ImageViewCreateInfo
+                {
+                    SType = StructureType.ImageViewCreateInfo,
+                    Image = images[i],
+                    Components = 
+                    {
+                        R = ComponentSwizzle.Identity,
+                        G = ComponentSwizzle.Identity,
+                        B = ComponentSwizzle.Identity,
+                        A = ComponentSwizzle.Identity
+                    },
+                    SubresourceRange = 
+                    {
+                        AspectMask = ImageAspectFlags.ImageAspectColorBit,
+                        BaseMipLevel = 0,
+                        LevelCount = 1,
+                        BaseArrayLayer = 0,
+                        LayerCount = 1
+                    }
+                };
+                if(api.CreateImageView(device,&createInfo,null, out imageViews[i]) != Result.Success)
+                    throw new System.Exception("Error creating image view");
+
+            }
+            
             
 
         }
