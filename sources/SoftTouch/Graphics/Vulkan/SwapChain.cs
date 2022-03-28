@@ -200,5 +200,11 @@ namespace SoftTouch.Graphics.Vulkan
 
             return actualExtent;
         }
+
+        public unsafe void CleanUp(Vk api, Device device)
+        {
+            foreach(var iv in imageViews)
+                api.DestroyImageView(device, iv,null);
+        }
     }
 }
