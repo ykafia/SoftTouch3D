@@ -17,13 +17,36 @@ namespace SoftTouch.Graphics.WGPU
         public nint HDC;
         public nint HInstance;
 
-        public static implicit operator NativeWindow((nint,nint,nint) data) => new NativeWindow{Hwnd = data.Item1, HDC = data.Item2, HInstance = data.Item3}
+        public static implicit operator NativeWindow((nint,nint,nint) data) => new NativeWindow{Hwnd = data.Item1, HDC = data.Item2, HInstance = data.Item3};
     }
 	public unsafe class WGPUGraphics
 	{
 		Glfw glfw;
         WindowHandle* window;
-		public static void ErrorCallback(Wgpu.ErrorType type, string message)
+        private Wgpu.SwapChainDescriptor swapChainDescriptor;
+        SwapChain? swapChain;
+        private Wgpu.TextureDescriptor depthTextureDescriptor;
+        private Texture depthTexture;
+        private TextureView depthTextureView;
+        int prevWidth;
+		int prevHeight;
+        private UniformBuffer uniformBufferData;
+        private global::WGPU.NET.Buffer uniformBuffer;
+        Device device;
+		Adapter adapter;
+		Surface surface;
+        private RenderPipeline renderPipeline;
+        private BindGroupLayout bindGroupLayout;
+        private BindGroup bindGroup;
+        private ShaderModule shader;
+        private PipelineLayout pipelineLayout;
+        private VertexState vertexState;
+        private Wgpu.TextureFormat swapChainFormat;
+        private ColorTargetState[] colorTargets;
+        private Vertex[] vertices;
+        private global::WGPU.NET.Buffer vertexBuffer;
+
+        public static void ErrorCallback(Wgpu.ErrorType type, string message)
 		{
 			var _message = message.Replace("\\r\\n", "\n");
 
@@ -55,7 +78,7 @@ namespace SoftTouch.Graphics.WGPU
 
 			var instance = new Instance();
 
-			Surface surface;
+			
 			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
 			{
 				NativeWindow nativeWindow = new GlfwNativeWindow(glfw, window).Win32.Value;
@@ -75,14 +98,14 @@ namespace SoftTouch.Graphics.WGPU
 			}
 
 
-			Adapter adapter = default;
+			adapter = default;
 
 			instance.RequestAdapter(surface, default, default, (s, a, m) => adapter = a, Wgpu.BackendType.D3D12);
 
 			adapter.GetProperties(out Wgpu.AdapterProperties properties);
 
 
-			Device device = default;
+			device = default;
 
 			adapter.RequestDevice((s, d, m) => device = d,
 				limits: new RequiredLimits()
@@ -102,7 +125,7 @@ namespace SoftTouch.Graphics.WGPU
 			device.SetUncapturedErrorCallback(ErrorCallback);
 
 
-			Span<Vertex> vertices = new Vertex[]
+			vertices = new Vertex[]
 			{
 				new Vertex(new ( -1,-1,0), new (1,1,0,1), new (-.2f,1.0f)),
 				new Vertex(new (  1,-1,0), new (0,1,1,1), new (1.2f,1.0f)),
@@ -110,7 +133,7 @@ namespace SoftTouch.Graphics.WGPU
 			};
 
 
-			var vertexBuffer = device.CreateBuffer("VertexBuffer", true, (ulong)(vertices.Length * sizeof(Vertex)), Wgpu.BufferUsage.Vertex);
+			vertexBuffer = device.CreateBuffer("VertexBuffer", true, (ulong)(vertices.Length * sizeof(Vertex)), Wgpu.BufferUsage.Vertex);
 
 			{
 				Span<Vertex> mapped = vertexBuffer.GetMappedRange<Vertex>(0, vertices.Length);
@@ -121,12 +144,12 @@ namespace SoftTouch.Graphics.WGPU
 			}
 
 
-			UniformBuffer uniformBufferData = new UniformBuffer
+			uniformBufferData = new UniformBuffer
 			{
 				Transform = Matrix4x4.Identity
 			};
 
-			var uniformBuffer = device.CreateBuffer("UniformBuffer", false, (ulong)sizeof(UniformBuffer), Wgpu.BufferUsage.Uniform | Wgpu.BufferUsage.CopyDst);
+			uniformBuffer = device.CreateBuffer("UniformBuffer", false, (ulong)sizeof(UniformBuffer), Wgpu.BufferUsage.Uniform | Wgpu.BufferUsage.CopyDst);
 
 
 
@@ -190,7 +213,7 @@ namespace SoftTouch.Graphics.WGPU
 
 
 
-			var bindGroupLayout = device.CreateBindgroupLayout(null, new Wgpu.BindGroupLayoutEntry[] {
+			bindGroupLayout = device.CreateBindgroupLayout(null, new Wgpu.BindGroupLayoutEntry[] {
 				new Wgpu.BindGroupLayoutEntry
 				{
 					binding = 0,
@@ -221,7 +244,7 @@ namespace SoftTouch.Graphics.WGPU
 				}
 			});
 
-			var bindGroup = device.CreateBindGroup(null, bindGroupLayout, new BindGroupEntry[]
+			bindGroup = device.CreateBindGroup(null, bindGroupLayout, new BindGroupEntry[]
 			{
 				new BindGroupEntry
 				{
@@ -242,12 +265,12 @@ namespace SoftTouch.Graphics.WGPU
 
 
 
-			var shader = device.CreateWgslShaderModule(
+			shader = device.CreateWgslShaderModule(
 				label: "shader.wgsl",
 				wgslCode: File.ReadAllText("shader.wgsl")
 			);
 
-			var pipelineLayout = device.CreatePipelineLayout(
+			pipelineLayout = device.CreatePipelineLayout(
 				label: null,
 				new BindGroupLayout[]
 				{
@@ -257,7 +280,7 @@ namespace SoftTouch.Graphics.WGPU
 
 
 
-			var vertexState = new VertexState()
+			vertexState = new VertexState()
 			{
 				Module = shader,
 				EntryPoint = "vs_main",
@@ -294,9 +317,9 @@ namespace SoftTouch.Graphics.WGPU
 				}
 			};
 
-			var swapChainFormat = surface.GetPreferredFormat(adapter);
+			swapChainFormat = surface.GetPreferredFormat(adapter);
 
-			var colorTargets = new ColorTargetState[]
+			colorTargets = new ColorTargetState[]
 			{
 				new ColorTargetState()
 				{
@@ -327,7 +350,7 @@ namespace SoftTouch.Graphics.WGPU
 				colorTargets = colorTargets
 			};
 
-			var renderPipeline = device.CreateRenderPipeline(
+			renderPipeline = device.CreateRenderPipeline(
 				label: "Render pipeline",
 				layout: pipelineLayout,
 				vertexState: vertexState,
@@ -371,9 +394,9 @@ namespace SoftTouch.Graphics.WGPU
 
 
 
-			glfw.GetWindowSize(window, out int prevWidth, out int prevHeight);
+			glfw.GetWindowSize(window, out prevWidth, out prevHeight);
 
-			var swapChainDescriptor = new Wgpu.SwapChainDescriptor
+			swapChainDescriptor = new Wgpu.SwapChainDescriptor
 			{
 				usage = (uint)Wgpu.TextureUsage.RenderAttachment,
 				format = swapChainFormat,
@@ -382,9 +405,9 @@ namespace SoftTouch.Graphics.WGPU
 				presentMode = Wgpu.PresentMode.Fifo
 			};
 
-			var swapChain = device.CreateSwapChain(surface, swapChainDescriptor);
+			swapChain = device.CreateSwapChain(surface, swapChainDescriptor);
 
-			var depthTextureDescriptor = new Wgpu.TextureDescriptor
+			depthTextureDescriptor = new Wgpu.TextureDescriptor
 			{
 				label = "Depth Buffer",
 				usage = (uint)Wgpu.TextureUsage.RenderAttachment,
@@ -400,23 +423,16 @@ namespace SoftTouch.Graphics.WGPU
 				sampleCount = 1
             };
 
-			var depthTexture = device.CreateTexture(in depthTextureDescriptor);
-			var depthTextureView = depthTexture.CreateTextureView();
-
-
-			Span<UniformBuffer> uniformBufferSpan = stackalloc UniformBuffer[1];
-
-			var startTime = DateTime.Now;
-
-			var lastFrameTime = startTime;
-
-			
-
-			
+			depthTexture = device.CreateTexture(in depthTextureDescriptor);
+			depthTextureView = depthTexture.CreateTextureView();			
 		}
 
         public void Render()
         {
+			Span<UniformBuffer> uniformBufferSpan = stackalloc UniformBuffer[1];
+			var startTime = DateTime.Now;
+
+			var lastFrameTime = startTime;
             while (!glfw.WindowShouldClose(window))
 			{
 				glfw.GetCursorPos(window, out double mouseX, out double mouseY);

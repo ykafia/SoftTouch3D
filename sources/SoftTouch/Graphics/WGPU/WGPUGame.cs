@@ -13,7 +13,7 @@ namespace SoftTouch.Graphics.WGPU
     public class WGPUGame : IGame
     {
         Glfw window;
-        WGPUGraphics Graphics = new();;
+        WGPUGraphics Graphics = new();
 
         public WGPUGame()
         {
@@ -21,11 +21,12 @@ namespace SoftTouch.Graphics.WGPU
         }
         public void Run()
         {
-
+            Graphics.Render();
         }
 
         public void OnLoad()
         {
+            Graphics.LoadWindow();
         }
     }
 }
