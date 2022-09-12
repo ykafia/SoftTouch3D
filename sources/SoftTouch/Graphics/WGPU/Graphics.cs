@@ -269,6 +269,7 @@ namespace SoftTouch.Graphics.WGPU
 				label: "shader.wgsl",
 				wgslCode: File.ReadAllText("shader.wgsl")
 			);
+			
 
 			pipelineLayout = device.CreatePipelineLayout(
 				label: null,
