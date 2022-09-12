@@ -13,19 +13,11 @@ namespace SoftTouch
     {
         public int Age;
     }
-    public class NameProcessor : Processor<QueryEntity<NameComponent>>
+    public class NameProcessor : Processor<Query<NameComponent>>
     {
         public override void Update()
         {
-            GetQuery1()
-                .AsParallel()
-                .ForAll(
-                    x => 
-                    {
-                        for(int i = 0; i< x.Length; i++)
-                            x.SetComponent(i,new NameComponent{Name = "John2"});
-                    }
-                );
+            
         }        
     }
 }

@@ -1,3 +1,6 @@
-[submodule ".\\sources\\ECSharp"]
-	path = .\\sources\\ECSharp
+[submodule "sources/ECSharp"]
+	path = sources/ECSharp
 	url = https://github.com/ykafia/ECSharp
+[submodule "sources/WGPU"]
+	path = sources/WGPU
+	url = https://github.com/ykafia/WGPU.NET
