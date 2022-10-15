@@ -7,16 +7,20 @@ using System.Runtime.InteropServices;
 using System.IO;
 using Image = SixLabors.ImageSharp.Image;
 using SixLabors.ImageSharp.PixelFormats;
+using ECSharp;
 
 namespace SoftTouch.Graphics.WGPU
 {
-    public class WGPUGame : IGame
+    public class Game : IGame
     {
         Glfw window;
         WGPUGraphics Graphics = new();
+        World world;
 
-        public WGPUGame()
+        public Game()
         {
+            world = new();
+            world.Add<Processors.Startup>();
             OnLoad();
         }
         public void Run()

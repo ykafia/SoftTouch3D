@@ -1,14 +1,17 @@
+using SharpGLTF.Schema2;
 using Silk.NET.GLFW;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Threading;
 using WGPU.NET;
 using Image = SixLabors.ImageSharp.Image;
+using WTexture = WGPU.NET.Texture;
 
 namespace SoftTouch.Graphics.WGPU
 {
@@ -27,7 +30,7 @@ namespace SoftTouch.Graphics.WGPU
         private Wgpu.SwapChainDescriptor swapChainDescriptor;
         SwapChain? swapChain;
         private Wgpu.TextureDescriptor depthTextureDescriptor;
-        private Texture depthTexture;
+        private WTexture depthTexture;
         private TextureView depthTextureView;
         int prevWidth;
         int prevHeight;
@@ -129,20 +132,24 @@ namespace SoftTouch.Graphics.WGPU
 
 
             // Create vertices
-
-            vertices = new Vertex[]
+            var model = SharpGLTF.Schema2.ModelRoot.Load("../../assets/models/Fox.glb");
+            var prim = model.LogicalMeshes[0].Primitives[0];
+            var cols = prim.GetVertexColumns();
+            vertices = new Vertex[cols.Positions.Count];
+            for(int i =0; i< cols.Positions.Count; i++)
             {
-                new Vertex(new ( -1,-1,0), new (1,1,0,1), new (0,1)),
-                new Vertex(new ( -1, 1,0), new (0,1,1,1), new (0,0)),
-                new Vertex(new (  1, 1,0), new (1,0,1,1), new (1,0)),
-                new Vertex(new (  1,-1,0), new (0,0,1,1), new (1,1)),
+                vertices[i] = new(cols.Positions[i],new(1), cols.TexCoords0[i]);
+            }
+            // var vertices = prim.VertexAccessors["POSITION"].get
+            // vertices = new Vertex[]
+            // {
+            //     new Vertex(new ( -1,-1,0), new (1,1,0,1), new (0,1)),
+            //     new Vertex(new ( -1, 1,0), new (0,1,1,1), new (0,0)),
+            //     new Vertex(new (  1, 1,0), new (1,0,1,1), new (1,0)),
+            //     new Vertex(new (  1,-1,0), new (0,0,1,1), new (1,1)),
 
-            };
-            indices = new uint[]
-            {
-                0,1,2,
-                3,0,2
-            };
+            // };
+            indices = prim.GetTriangleIndices().SelectMany(x => new uint[]{(uint)x.A,(uint)x.B,(uint)x.C}).ToArray();
 
             //Create vert buffer
 
@@ -175,7 +182,7 @@ namespace SoftTouch.Graphics.WGPU
             // Prepare the texture
             var image = Image.Load<Rgba32>(Path.Combine("Resources", "WGPU-Logo.png"));
 
-            // Define texture size
+            // Define WTexture size
             var imageSize = new Wgpu.Extent3D
             {
                 width = (uint)image.Width,

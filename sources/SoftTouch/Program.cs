@@ -1,27 +1,22 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using ECSharp;
 using System.Collections.Generic;
 using SPIRVCross;
 using static SPIRVCross.SPIRV;
 using SoftTouch.Graphics.WGPU;
+using SharpGLTF.Schema2;
 
 namespace SoftTouch
 {
 
     public class Program
     {
-        public static void Main(string[] args)
+        public static void Main(string[] _)
         {
-
-            IGame g = new WGPUGame();
-
+            IGame g = new Game();
             g.Run();
-            // var w = new World();
-            // var e = w.CreateEntity()
-            //     .With(new NameComponent { Name = "John" })
-            //     .With(new AgeComponent());
-            // w[e.Entity.Index].Remove<NameComponent>();
         }
     }
 }
