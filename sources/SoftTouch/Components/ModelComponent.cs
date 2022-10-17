@@ -10,6 +10,8 @@ public struct MeshPrimitive
     public uint[]? Indices;
     public byte[] Vertices;
     public Wgpu.PrimitiveTopology Topology;
+    public List<string> LayoutOrder;
+
     public bool IsNonIndexed => Indices is null;
 }
 

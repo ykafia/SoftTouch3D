@@ -20,7 +20,7 @@ namespace SoftTouch.Graphics.WGPU
         public Game()
         {
             world = new();
-            world.Add<Processors.Startup>();
+            world.AddStartup<Processors.Startup>();
             OnLoad();
         }
         public void Run()

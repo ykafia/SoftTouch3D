@@ -18,13 +18,12 @@ public class Startup : Processor
             .With(default(Camera));
 
         World.Add(
-            new SimpleProcessor<GlobalTransform,ModelComponent>()
-            {
-                Updater = (World w, ref GlobalTransform t, ref ModelComponent m) => 
+            new SimpleProcessor<GlobalTransform,ModelComponent>(
+                (World w, ref GlobalTransform t, ref ModelComponent m) => 
                 {
                     t.Position.Y = (float)Math.Sin(w.GetResource<WorldTimer>().Elapsed.TotalSeconds);
                 }
-            }
+            )
         );
         
     }

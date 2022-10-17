@@ -136,9 +136,10 @@ namespace SoftTouch.Graphics.WGPU
             var prim = model.LogicalMeshes[0].Primitives[0];
             var cols = prim.GetVertexColumns();
             vertices = new Vertex[cols.Positions.Count];
+            var rand = new Random();
             for(int i =0; i< cols.Positions.Count; i++)
             {
-                vertices[i] = new(cols.Positions[i],new(1), cols.TexCoords0[i]);
+                vertices[i] = new(cols.Positions[i],new(rand.NextSingle(),rand.NextSingle(),rand.NextSingle(),1), cols.TexCoords0[i]);
             }
             // var vertices = prim.VertexAccessors["POSITION"].get
             // vertices = new Vertex[]

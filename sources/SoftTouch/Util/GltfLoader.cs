@@ -41,6 +41,7 @@ public static class GltfLoader
             };
             var count = prim.GetVertices("POSITION").AsVector3Array().Count;
             var buffer = new List<byte>(count * (int)stride);
+            p.LayoutOrder = prim.VertexAccessors.Keys.ToList();
             for(int i = 0; i < count; i++)
             {
                 foreach(var accessor in prim.VertexAccessors)
