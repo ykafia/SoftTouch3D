@@ -72,7 +72,7 @@ namespace SoftTouch.Graphics.WGPU
             }
 
             glfw.WindowHint(WindowHintClientApi.ClientApi, ClientApi.NoApi);
-            window = glfw.CreateWindow(800, 600, "Hello WGPU.NET", null, null);
+            window = glfw.CreateWindow(1920, 1080, "SDSL Testbed", null, null);
 
             if (window == null)
             {
