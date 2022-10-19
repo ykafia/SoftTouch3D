@@ -1,5 +1,6 @@
 using SharpGLTF.Schema2;
 using Silk.NET.GLFW;
+using Silk.NET.Windowing;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using System;
@@ -26,7 +27,7 @@ namespace SoftTouch.Graphics.WGPU
     public unsafe class WGPUGraphics
     {
         Glfw glfw;
-        WindowHandle* window;
+        WindowHandle* windowHandle;
         private Wgpu.SwapChainDescriptor swapChainDescriptor;
         SwapChain? swapChain;
         private Wgpu.TextureDescriptor depthTextureDescriptor;
@@ -61,9 +62,9 @@ namespace SoftTouch.Graphics.WGPU
             Debugger.Break();
         }
 
-        public void LoadWindow()
+        public void LoadWindow(IWindow swindow)
         {
-            glfw = GlfwProvider.GLFW.Value;
+            glfw = swindow.Native?.Glfw;
             if (!glfw.Init())
             {
                 Console.WriteLine("GLFW failed to initialize");
@@ -72,9 +73,9 @@ namespace SoftTouch.Graphics.WGPU
             }
 
             glfw.WindowHint(WindowHintClientApi.ClientApi, ClientApi.NoApi);
-            window = glfw.CreateWindow(1920, 1080, "SDSL Testbed", null, null);
+            windowHandle = glfw.CreateWindow(1920, 1080, "SDSL Testbed", null, null);
 
-            if (window == null)
+            if (windowHandle == null)
             {
                 Console.WriteLine("Failed to open window");
                 glfw.Terminate();
@@ -87,19 +88,19 @@ namespace SoftTouch.Graphics.WGPU
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                NativeWindow nativeWindow = new GlfwNativeWindow(glfw, window).Win32.Value;
+                NativeWindow nativeWindow = new GlfwNativeWindow(glfw, windowHandle).Win32.Value;
                 surface = instance.CreateSurfaceFromWindowsHWND(nativeWindow.HInstance, nativeWindow.Hwnd);
 
 
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
-                var (Display, Window) = new GlfwNativeWindow(glfw, window).X11.Value;
+                var (Display, Window) = new GlfwNativeWindow(glfw, windowHandle).X11.Value;
                 surface = instance.CreateSurfaceFromXlibWindow(Display, (uint)Window);
             }
             else
             {
-                var nativeWindow = new GlfwNativeWindow(glfw, window).Cocoa.Value;
+                var nativeWindow = new GlfwNativeWindow(glfw, windowHandle).Cocoa.Value;
                 surface = instance.CreateSurfaceFromMetalLayer(nativeWindow);
             }
 
@@ -427,7 +428,7 @@ namespace SoftTouch.Graphics.WGPU
 
 
 
-            glfw.GetWindowSize(window, out prevWidth, out prevHeight);
+            glfw.GetWindowSize(windowHandle, out prevWidth, out prevHeight);
 
             swapChainDescriptor = new Wgpu.SwapChainDescriptor
             {
@@ -466,10 +467,10 @@ namespace SoftTouch.Graphics.WGPU
             var startTime = DateTime.Now;
 
             var lastFrameTime = startTime;
-            while (!glfw.WindowShouldClose(window))
+            while (!glfw.WindowShouldClose(windowHandle))
             {
-                glfw.GetCursorPos(window, out double mouseX, out double mouseY);
-                glfw.GetWindowSize(window, out int width, out int height);
+                glfw.GetCursorPos(windowHandle, out double mouseX, out double mouseY);
+                glfw.GetWindowSize(windowHandle, out int width, out int height);
 
                 if ((width != prevWidth || height != prevHeight) && width != 0 && height != 0)
                 {
@@ -588,7 +589,7 @@ namespace SoftTouch.Graphics.WGPU
 
         public void Clean()
         {
-            glfw.DestroyWindow(window);
+            glfw.DestroyWindow(windowHandle);
             glfw.Terminate();
         }
         private static Matrix4x4 CreatePerspective(float fov, float aspectRatio, float near, float far)

@@ -8,17 +8,20 @@ using System.IO;
 using Image = SixLabors.ImageSharp.Image;
 using SixLabors.ImageSharp.PixelFormats;
 using ECSharp;
+using Silk.NET.Windowing;
 
 namespace SoftTouch.Graphics.WGPU
 {
     public class Game : IGame
     {
-        Glfw window;
+        IWindow window;
         WGPUGraphics Graphics = new();
         World world;
+        World renderWorld;
 
         public Game()
         {
+            window = Window.Create(WindowOptions.Default);
             world = new();
             world.AddStartup<Processors.Startup>();
             OnLoad();
@@ -30,7 +33,7 @@ namespace SoftTouch.Graphics.WGPU
 
         public void OnLoad()
         {
-            Graphics.LoadWindow();
+            Graphics.LoadWindow(window);
         }
     }
 }

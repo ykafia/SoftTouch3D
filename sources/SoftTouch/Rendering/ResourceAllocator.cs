@@ -8,17 +8,17 @@ namespace SoftTouch.Rendering;
 public class ResourceAllocator
 {
     Device device;
-    ConcurrentDictionary<string,Texture> resources;
+    ConcurrentDictionary<string,Texture> textures;
 
 
     public ResourceAllocator(Device d)
     {
         device = d;
-        resources = new();
+        textures = new();
     }
 
     public void AllocateTexture(in Wgpu.TextureDescriptor descriptor)
     {
-        var texture = device.CreateTexture(descriptor);
+        textures.GetOrAdd(descriptor.label, device.CreateTexture(descriptor));
     }
 }
