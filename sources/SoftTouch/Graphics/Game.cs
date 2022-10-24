@@ -22,13 +22,14 @@ namespace SoftTouch.Graphics.WGPU
         public Game()
         {
             window = Window.Create(WindowOptions.Default);
+            window.Initialize();
             world = new();
             world.AddStartup<Processors.Startup>();
             OnLoad();
         }
         public void Run()
         {
-            Graphics.Render();
+            // Graphics.Render();
         }
 
         public void OnLoad()

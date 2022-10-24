@@ -26,7 +26,8 @@ namespace SoftTouch.Graphics.WGPU
     }
     public unsafe class WGPUGraphics
     {
-        Glfw glfw;
+        // Glfw glfw;
+        IWindow window;
         WindowHandle* windowHandle;
         private Wgpu.SwapChainDescriptor swapChainDescriptor;
         SwapChain? swapChain;
@@ -64,44 +65,56 @@ namespace SoftTouch.Graphics.WGPU
 
         public void LoadWindow(IWindow swindow)
         {
-            glfw = swindow.Native?.Glfw;
-            if (!glfw.Init())
-            {
-                Console.WriteLine("GLFW failed to initialize");
-                Console.ReadKey();
-                return;
-            }
+            window = swindow;
+            // glfw = GlfwProvider.GLFW.Value;
+            // if (!glfw.Init())
+            // {
+            //     Console.WriteLine("GLFW failed to initialize");
+            //     Console.ReadKey();
+            //     return;
+            // }
 
-            glfw.WindowHint(WindowHintClientApi.ClientApi, ClientApi.NoApi);
-            windowHandle = glfw.CreateWindow(1920, 1080, "SDSL Testbed", null, null);
+            // glfw.WindowHint(WindowHintClientApi.ClientApi, ClientApi.NoApi);
+            // windowHandle = glfw.CreateWindow(1920, 1080, "SDSL Testbed", null, null);
 
-            if (windowHandle == null)
-            {
-                Console.WriteLine("Failed to open window");
-                glfw.Terminate();
-                Console.ReadKey();
-                return;
-            }
+            // if (windowHandle == null)
+            // {
+            //     Console.WriteLine("Failed to open window");
+            //     glfw.Terminate();
+            //     Console.ReadKey();
+            //     return;
+            // }
 
             var instance = new Instance();
 
 
+            // if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            // {
+            //     NativeWindow nativeWindow = new GlfwNativeWindow(glfw, windowHandle).Win32.Value;
+            //     surface = instance.CreateSurfaceFromWindowsHWND(nativeWindow.HInstance, nativeWindow.Hwnd);
+            // }
+            // else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            // {
+            //     var (Display, Window) = new GlfwNativeWindow(glfw, windowHandle).X11.Value;
+            //     surface = instance.CreateSurfaceFromXlibWindow(Display, (uint)Window);
+            // }
+            // else
+            // {
+            //     var nativeWindow = new GlfwNativeWindow(glfw, windowHandle).Cocoa.Value;
+            //     surface = instance.CreateSurfaceFromMetalLayer(nativeWindow);
+            // }
+
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                NativeWindow nativeWindow = new GlfwNativeWindow(glfw, windowHandle).Win32.Value;
-                surface = instance.CreateSurfaceFromWindowsHWND(nativeWindow.HInstance, nativeWindow.Hwnd);
-
-
+                surface = instance.CreateSurfaceFromWindowsHWND((IntPtr)window.Native?.Win32?.HInstance,(IntPtr)window.Native?.Win32?.Hwnd);
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
-                var (Display, Window) = new GlfwNativeWindow(glfw, windowHandle).X11.Value;
-                surface = instance.CreateSurfaceFromXlibWindow(Display, (uint)Window);
+                surface = instance.CreateSurfaceFromXlibWindow(window.Native?.X11?.Display ?? 0,(uint)(window.Native?.X11?.Window ?? 0));
             }
             else
             {
-                var nativeWindow = new GlfwNativeWindow(glfw, windowHandle).Cocoa.Value;
-                surface = instance.CreateSurfaceFromMetalLayer(nativeWindow);
+                surface = instance.CreateSurfaceFromMetalLayer((IntPtr)(window.Native?.Cocoa ?? 0));
             }
 
 
@@ -428,7 +441,7 @@ namespace SoftTouch.Graphics.WGPU
 
 
 
-            glfw.GetWindowSize(windowHandle, out prevWidth, out prevHeight);
+            (int prevWidth, int prevHeight) = (window.Size.X,window.Size.Y);
 
             swapChainDescriptor = new Wgpu.SwapChainDescriptor
             {
@@ -463,134 +476,133 @@ namespace SoftTouch.Graphics.WGPU
 
         public void Render()
         {
-            Span<UniformBuffer> uniformBufferSpan = stackalloc UniformBuffer[1];
-            var startTime = DateTime.Now;
+            // Span<UniformBuffer> uniformBufferSpan = stackalloc UniformBuffer[1];
+            // var startTime = DateTime.Now;
 
-            var lastFrameTime = startTime;
-            while (!glfw.WindowShouldClose(windowHandle))
-            {
-                glfw.GetCursorPos(windowHandle, out double mouseX, out double mouseY);
-                glfw.GetWindowSize(windowHandle, out int width, out int height);
+            // var lastFrameTime = startTime;
+            // while (!window.IsClosing)
+            // {
+            //     window.GetCursorPos(windowHandle, out double mouseX, out double mouseY);
+            //     glfw.GetWindowSize(windowHandle, out int width, out int height);
 
-                if ((width != prevWidth || height != prevHeight) && width != 0 && height != 0)
-                {
-                    prevWidth = width;
-                    prevHeight = height;
-                    swapChainDescriptor.width = (uint)width;
-                    swapChainDescriptor.height = (uint)height;
+            //     if ((width != prevWidth || height != prevHeight) && width != 0 && height != 0)
+            //     {
+            //         prevWidth = width;
+            //         prevHeight = height;
+            //         swapChainDescriptor.width = (uint)width;
+            //         swapChainDescriptor.height = (uint)height;
 
-                    depthTextureDescriptor.size.width = (uint)width;
-                    depthTextureDescriptor.size.height = (uint)height;
+            //         depthTextureDescriptor.size.width = (uint)width;
+            //         depthTextureDescriptor.size.height = (uint)height;
 
-                    swapChain = device.CreateSwapChain(surface, swapChainDescriptor);
+            //         swapChain = device.CreateSwapChain(surface, swapChainDescriptor);
 
-                    depthTexture.DestroyResource();
-                    depthTexture = device.CreateTexture(depthTextureDescriptor);
-                    depthTextureView = depthTexture.CreateTextureView();
-                }
-
-
-
-                var currentTime = DateTime.Now;
-
-                TimeSpan duration = currentTime - startTime;
+            //         depthTexture.DestroyResource();
+            //         depthTexture = device.CreateTexture(depthTextureDescriptor);
+            //         depthTextureView = depthTexture.CreateTextureView();
+            //     }
 
 
 
+            //     var currentTime = DateTime.Now;
 
-
-                Vector2 nrmMouseCoords = new Vector2(
-                    (float)(mouseX * 1 - prevWidth * 0.5f) / prevWidth,
-                    (float)(mouseY * 1 - prevHeight * 0.5f) / prevHeight
-                );
-
-
-                uniformBufferData.Transform =
-                Matrix4x4.CreateRotationY(
-                    MathF.Sign(nrmMouseCoords.X) * (MathF.Log(Math.Abs(nrmMouseCoords.X) + 1)) * 0.9f
-                ) *
-                Matrix4x4.CreateRotationX(
-                    MathF.Sign(nrmMouseCoords.Y) * (MathF.Log(Math.Abs(nrmMouseCoords.Y) + 1)) * 0.9f
-                ) *
-                Matrix4x4.CreateScale(
-                    (float)(1 + 0.1 * Math.Sin(duration.TotalSeconds * 2.0))
-                ) *
-                Matrix4x4.CreateTranslation(0, 0, -3)
-                ;
-
-                uniformBufferData.Transform *= CreatePerspective(MathF.PI / 4f, (float)prevWidth / prevHeight, 0.01f, 1000);
+            //     TimeSpan duration = currentTime - startTime;
 
 
 
 
-                var nextTexture = swapChain.GetCurrentTextureView();
 
-                if (nextTexture == null)
-                {
-                    Console.WriteLine("Could not acquire next swap chain texture");
-                    return;
-                }
+            //     Vector2 nrmMouseCoords = new Vector2(
+            //         (float)(mouseX * 1 - prevWidth * 0.5f) / prevWidth,
+            //         (float)(mouseY * 1 - prevHeight * 0.5f) / prevHeight
+            //     );
 
-                var encoder = device.CreateCommandEncoder("Command Encoder");
 
-                var renderPass = encoder.BeginRenderPass(
-                    label: null,
-                    colorAttachments: new RenderPassColorAttachment[]
-                    {
-                    new RenderPassColorAttachment()
-                    {
-                        view = nextTexture,
-                        resolveTarget = default,
-                        loadOp = Wgpu.LoadOp.Clear,
-                        storeOp = Wgpu.StoreOp.Store,
-                        clearValue = new Wgpu.Color() { r = 0, g = 0.02f, b = 0.1f, a = 1 }
-                    }
-                    },
-                    depthStencilAttachment: new RenderPassDepthStencilAttachment
-                    {
-                        View = depthTextureView,
-                        DepthLoadOp = Wgpu.LoadOp.Clear,
-                        DepthStoreOp = Wgpu.StoreOp.Store,
-                        DepthClearValue = 0f,
-                        StencilLoadOp = Wgpu.LoadOp.Clear,
-                        StencilStoreOp = Wgpu.StoreOp.Discard
-                    }
-                );
+            //     uniformBufferData.Transform =
+            //     Matrix4x4.CreateRotationY(
+            //         MathF.Sign(nrmMouseCoords.X) * (MathF.Log(Math.Abs(nrmMouseCoords.X) + 1)) * 0.9f
+            //     ) *
+            //     Matrix4x4.CreateRotationX(
+            //         MathF.Sign(nrmMouseCoords.Y) * (MathF.Log(Math.Abs(nrmMouseCoords.Y) + 1)) * 0.9f
+            //     ) *
+            //     Matrix4x4.CreateScale(
+            //         (float)(1 + 0.1 * Math.Sin(duration.TotalSeconds * 2.0))
+            //     ) *
+            //     Matrix4x4.CreateTranslation(0, 0, -3)
+            //     ;
 
-                renderPass.SetPipeline(renderPipeline);
-
-                renderPass.SetBindGroup(0, bindGroup, Array.Empty<uint>());
-                renderPass.SetIndexBuffer(indexBuffer,Wgpu.IndexFormat.Uint32,0,(ulong)(indices.Length * sizeof(uint)));
-                renderPass.SetVertexBuffer(0, vertexBuffer, 0, (ulong)(vertices.Length * sizeof(Vertex)));
-                renderPass.DrawIndexed((uint)indices.Length,1,0,0,0);
-                renderPass.End();
+            //     uniformBufferData.Transform *= CreatePerspective(MathF.PI / 4f, (float)prevWidth / prevHeight, 0.01f, 1000);
 
 
 
-                var queue = device.GetQueue();
 
-                uniformBufferSpan[0] = uniformBufferData;
+            //     var nextTexture = swapChain.GetCurrentTextureView();
 
-                queue.WriteBuffer<UniformBuffer>(uniformBuffer, 0, uniformBufferSpan);
+            //     if (nextTexture == null)
+            //     {
+            //         Console.WriteLine("Could not acquire next swap chain texture");
+            //         return;
+            //     }
 
-                var commandBuffer = encoder.Finish(null);
+            //     var encoder = device.CreateCommandEncoder("Command Encoder");
 
-                queue.Submit(new CommandBuffer[]
-                {
-                    commandBuffer
-                });
+            //     var renderPass = encoder.BeginRenderPass(
+            //         label: null,
+            //         colorAttachments: new RenderPassColorAttachment[]
+            //         {
+            //         new RenderPassColorAttachment()
+            //         {
+            //             view = nextTexture,
+            //             resolveTarget = default,
+            //             loadOp = Wgpu.LoadOp.Clear,
+            //             storeOp = Wgpu.StoreOp.Store,
+            //             clearValue = new Wgpu.Color() { r = 0, g = 0.02f, b = 0.1f, a = 1 }
+            //         }
+            //         },
+            //         depthStencilAttachment: new RenderPassDepthStencilAttachment
+            //         {
+            //             View = depthTextureView,
+            //             DepthLoadOp = Wgpu.LoadOp.Clear,
+            //             DepthStoreOp = Wgpu.StoreOp.Store,
+            //             DepthClearValue = 0f,
+            //             StencilLoadOp = Wgpu.LoadOp.Clear,
+            //             StencilStoreOp = Wgpu.StoreOp.Discard
+            //         }
+            //     );
 
-                swapChain.Present();
+            //     renderPass.SetPipeline(renderPipeline);
+
+            //     renderPass.SetBindGroup(0, bindGroup, Array.Empty<uint>());
+            //     renderPass.SetIndexBuffer(indexBuffer,Wgpu.IndexFormat.Uint32,0,(ulong)(indices.Length * sizeof(uint)));
+            //     renderPass.SetVertexBuffer(0, vertexBuffer, 0, (ulong)(vertices.Length * sizeof(Vertex)));
+            //     renderPass.DrawIndexed((uint)indices.Length,1,0,0,0);
+            //     renderPass.End();
 
 
-                glfw.PollEvents();
-            }
+
+            //     var queue = device.GetQueue();
+
+            //     uniformBufferSpan[0] = uniformBufferData;
+
+            //     queue.WriteBuffer<UniformBuffer>(uniformBuffer, 0, uniformBufferSpan);
+
+            //     var commandBuffer = encoder.Finish(null);
+
+            //     queue.Submit(new CommandBuffer[]
+            //     {
+            //         commandBuffer
+            //     });
+
+            //     swapChain.Present();
+
+
+            //     glfw.PollEvents();
+            // }
         }
 
         public void Clean()
         {
-            glfw.DestroyWindow(windowHandle);
-            glfw.Terminate();
+            window.Dispose();
         }
         private static Matrix4x4 CreatePerspective(float fov, float aspectRatio, float near, float far)
         {
