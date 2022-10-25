@@ -29,9 +29,13 @@ public class RenderGraph
 
 public abstract class RenderNode 
 {
-    public List<IGraphicResource> Inputs {get;set;}
+    public string Name {get;set;}
+    public List<RenderNode> AttachedInputs {get;set;}
+    public List<ITransientResource> Outputs {get;set;}
+    public List<IExternalResource> ExternalResources {get;set;}
+    
+
     public ShaderModule Module {get;set;}
-    public List<IGraphicResource> Outputs {get;set;}
 
     public abstract void Execute();
     public abstract void Reset();
@@ -47,18 +51,6 @@ public class GraphicsNode : RenderNode
     public override void Execute()
     {
         throw new System.NotImplementedException();
-    }
-
-    public override void Reset()
-    {
-        throw new NotImplementedException();
-    }
-}
-public class ComputeNode : RenderNode
-{
-    public override void Execute()
-    {
-        throw new NotImplementedException();
     }
 
     public override void Reset()
