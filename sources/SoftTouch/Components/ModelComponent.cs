@@ -1,28 +1,19 @@
 using WGPU.NET;
 using System.Linq;
 using System.Collections.Generic;
+using SoftTouch.Assets;
 
 namespace SoftTouch.Components;
 
-
-public struct MeshPrimitive
-{
-    public uint[]? Indices;
-    public byte[] Vertices;
-    public Wgpu.PrimitiveTopology Topology;
-    public List<string> LayoutOrder;
-
-    public bool IsNonIndexed => Indices is null;
-}
-
-
 public readonly struct ModelComponent
 {
-    public readonly List<MeshPrimitive> Primitives = new();
-    public readonly List<VertexBufferLayout> Layouts = new();
+    readonly Model model;
+    public readonly List<MeshPrimitive> Primitives => model.Primitives;
+    public readonly List<VertexBufferLayout> Layouts => model.Layouts;
 
-    public ModelComponent()
+    public ModelComponent(Model model)
     {
+        this.model = model;
     }
 
     

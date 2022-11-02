@@ -12,7 +12,7 @@ public class Startup : Processor
     {
         GltfLoader.LoadGltf("../../assets/models/Fox.glb", out var model);
         World.CreateEntity()
-            .With(model)
+            .With(new ModelComponent(model))
             .WithBundle(new TransformBundle(default, default));
         World.CreateEntity()
             .With(default(Camera));

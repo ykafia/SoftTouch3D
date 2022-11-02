@@ -10,6 +10,13 @@ public struct Transform
     public Vector3 Scale = Vector3.One;
 
     public Transform(){}
+    
+    public void ToMatrix(out Matrix4x4 result)
+    {
+        result = Matrix4x4.CreateScale(Scale);
+        result.Translation = Position;
+        result *= Matrix4x4.CreateFromQuaternion(Rotation);
+    }
 }
 
 public struct GlobalTransform
@@ -17,6 +24,13 @@ public struct GlobalTransform
     public Vector3 Position;
     public Quaternion Rotation;
     public Vector3 Scale;
+
+    public void ToMatrix(out Matrix4x4 result)
+    {
+        result = Matrix4x4.CreateScale(Scale);
+        result.Translation = Position;
+        result *= Matrix4x4.CreateFromQuaternion(Rotation);
+    }
 }
 
 public readonly struct TransformBundle : IBundle

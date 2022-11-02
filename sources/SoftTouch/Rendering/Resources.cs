@@ -37,14 +37,14 @@ public enum SizeClass
 };
 public struct TextureInfo
 {
-    public SizeClass SizeClass = SizeClass.SwapchainRelative;
-	public Vector2 Size = Vector2.One;
-	public Wgpu.TextureFormat format = Wgpu.TextureFormat.Undefined;
-	public string? SizeRelativeName = null;
-	public uint Samples = 1;
-	public uint Levels = 1;
-	public uint Layers = 1;
-	public bool Persistent = true;
+    public SizeClass SizeClass {get;set;} = SizeClass.SwapchainRelative;
+	public Vector2 Size {get;set;} = Vector2.One;
+	public Wgpu.TextureFormat Format {get;set;} = Wgpu.TextureFormat.Undefined;
+	public string? SizeRelativeName {get;set;} = null;
+	public uint Samples {get;set;} = 1;
+	public uint Levels {get;set;} = 1;
+	public uint Layers {get;set;} = 1;
+	public bool Persistent {get;set;} = true;
 
-    public TextureInfo() {}
+    public TextureInfo(){}
 }

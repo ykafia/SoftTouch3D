@@ -7,6 +7,7 @@ using SPIRVCross;
 using static SPIRVCross.SPIRV;
 using SoftTouch.Graphics.WGPU;
 using SharpGLTF.Schema2;
+using SoftTouch.Rendering;
 
 namespace SoftTouch
 {

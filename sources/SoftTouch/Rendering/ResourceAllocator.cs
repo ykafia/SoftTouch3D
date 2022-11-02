@@ -19,18 +19,18 @@ public class ResourceAllocator
 
     public void AllocateTexture(in Wgpu.TextureDescriptor descriptor)
     {
-        Textures[descriptor.label] = device.CreateTexture(descriptor);
+        // Textures[descriptor.label] = device.CreateTexture(descriptor);
     }
     public void CreateTextureView(string textureName, in Wgpu.TextureViewDescriptor descriptor)
     {
-        Resources[descriptor.label] = new TrasientTextureView(device, Textures[textureName].CreateTextureView(descriptor));
+        // Resources[descriptor.label] = new TrasientTextureView(device, Textures[textureName].CreateTextureView(descriptor));
     }
     public void CreateBuffer(string textureName, in Wgpu.BufferDescriptor descriptor)
     {
-        Resources[descriptor.label] = new TrasientBuffer(device, device.CreateBuffer(descriptor));
+        // Resources[descriptor.label] = new TrasientBuffer(device, device.CreateBuffer(descriptor));
     }
     public void CreateSwapView(SwapChain swap)
     {
-        Resources["currentSwapView"] = new SwapChainView(device, swap);
+        // Resources["currentSwapView"] = new SwapChainView(device, swap);
     }
 }

@@ -3,16 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using SharpGLTF.Memory;
 using SharpGLTF.Schema2;
-using SoftTouch.Components;
+using SoftTouch.Assets;
 using WGPU.NET;
 
 namespace SoftTouch.Util;
 
 public static class GltfLoader
 {
-    public static void LoadGltf(string path, out ModelComponent model){
-        
-        model = new ModelComponent();
+    public static void LoadGltf(string path, out Model model){
+        model = new Model();
         var gltf = ModelRoot.Load(path);
 
         foreach(var prim in gltf.LogicalMeshes[0].Primitives)
@@ -34,12 +33,13 @@ public static class GltfLoader
                 ).ToArray()
             });
 
-            var p = new Components.MeshPrimitive
+            var p = new Assets.MeshPrimitive
             {
                 Topology = prim.DrawPrimitiveType.Into(),
-                Indices = prim.GetIndices()?.ToArray()
+                Indices = prim.GetIndices()?.ToArray(),
+                VertexCount = (ulong)prim.GetVertices("POSITION").AsVector3Array().Count
             };
-            var count = prim.GetVertices("POSITION").AsVector3Array().Count;
+            var count = (int)p.VertexCount;
             var buffer = new List<byte>(count * (int)stride);
             p.LayoutOrder = prim.VertexAccessors.Keys.ToList();
             for(int i = 0; i < count; i++)

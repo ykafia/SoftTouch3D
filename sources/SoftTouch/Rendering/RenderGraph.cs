@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using SoftTouch.Graphics.WGPU;
 using WGPU.NET;
 
 namespace SoftTouch.Rendering;
@@ -7,54 +8,57 @@ namespace SoftTouch.Rendering;
 
 public class RenderGraph
 {
-    readonly Dictionary<RenderNode, List<RenderNode>> nodes;
+    SortedList<string, RenderPass> passes;
+    SortedList<string, Source> globalSources;
+    WGPUGraphics Graphics {get;}
 
-    public RenderGraph()
+    public RenderGraph(WGPUGraphics graphics)
     {
-        nodes = new();
+        passes = new();
+        Graphics = graphics;
     }
 
-    public void AddEdge(RenderNode origin, RenderNode destination)
+    public void AddPass(RenderPass pass)
     {
-        if (nodes.TryGetValue(origin, out var destinations))
+        foreach (var sink in pass.Sinks.Values)
         {
-            if (destinations is null)
-                destinations = new();
-            destinations.Add(destination);
+            if (globalSources.TryGetValue(sink.Name, out var gsource))
+            {
+                sink.Bind(gsource);
+            }
+            else
+            {
+                foreach (var p in passes.Values)
+                {
+                    if (p.Sources.TryGetValue(sink.Name, out var source))
+                    {
+                        sink.Bind(source);
+                    }
+                }
+            }
         }
-        else
-            nodes.Add(origin,new(){destination});
     }
 }
 
-public abstract class RenderNode 
+public abstract class RenderPass
 {
-    public string Name {get;set;}
-    public List<RenderNode> AttachedInputs {get;set;}
-    public List<ITransientResource> Outputs {get;set;}
-    public List<IExternalResource> ExternalResources {get;set;}
-    
+    public string Name { get; set; }
+    public SortedList<string, Sink> Sinks { get; set; } = new(4);
+    public SortedList<string, Source> Sources { get; set; } = new(4);
 
-    public ShaderModule Module {get;set;}
+    public ShaderModule Module { get; set; }
+
+    public RenderPass(string name)
+    {
+        Name = name;
+    }
+
+    public RenderPass(string name, ShaderModule module)
+    {
+        Name = name;
+        Module = module;
+    }
 
     public abstract void Execute();
     public abstract void Reset();
-    
-
-}
-
-public class GraphicsNode : RenderNode
-{
-    public VertexState VertexState {get;set;}
-    public FragmentState FragmentState {get;set;}
-
-    public override void Execute()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public override void Reset()
-    {
-        throw new NotImplementedException();
-    }
 }
