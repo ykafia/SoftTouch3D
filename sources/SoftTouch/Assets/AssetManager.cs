@@ -11,7 +11,7 @@ public class AssetManager
 {
     IFileSystem fileSystem;
 
-    Dictionary<string, IAsset> LoadedAssets = new();
+    Dictionary<UPath, IAsset> LoadedAssets = new();
 
     public AssetManager(IFileSystem fs)
     {
@@ -19,14 +19,13 @@ public class AssetManager
     }
 
     public void Load<T>(string path) 
-        where T : IAsset
+        where T : IAsset<T>
     {
-        T.Load(path,fileSystem.OpenFile(path, FileMode.Open, FileAccess.Read));
-    }
-
-    struct AssetID
+        var upath = fileSystem.ConvertPathFromInternal(path);
+        LoadedAssets[path] = T.Load(upath,fileSystem);
+    } 
+    public IAsset Get(string name)
     {
-        public readonly string Path;
-        public readonly string Name;
-    }
+        return LoadedAssets[name];
+    } 
 }

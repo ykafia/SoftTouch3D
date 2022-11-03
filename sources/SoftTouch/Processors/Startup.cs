@@ -10,10 +10,10 @@ public class Startup : Processor
 {
     public override void Update()
     {
-        GltfLoader.LoadGltf("../../assets/models/Fox.glb", out var model);
-        World.CreateEntity()
-            .With(new ModelComponent(model))
-            .WithBundle(new TransformBundle(default, default));
+        // GltfLoader.LoadGltf("../../assets/models/Fox.glb", out var model);
+        // World.CreateEntity()
+        //     .With(new ModelComponent(model))
+        //     .WithBundle(new TransformBundle(default, default));
         World.CreateEntity()
             .With(default(Camera));
 

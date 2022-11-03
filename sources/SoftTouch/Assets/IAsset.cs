@@ -4,7 +4,10 @@ using Zio;
 
 namespace SoftTouch.Assets;
 
-public interface IAsset
+
+public interface IAsset{}
+
+public interface IAsset<T> : IAsset
 {
-    static abstract IAsset Load(in UPath path, Stream s);
+    static abstract T Load(in UPath path, IFileSystem fs);
 }

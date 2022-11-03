@@ -5,14 +5,15 @@ using SharpGLTF.Memory;
 using SharpGLTF.Schema2;
 using SoftTouch.Assets;
 using WGPU.NET;
+using Zio;
 
 namespace SoftTouch.Util;
 
 public static class GltfLoader
 {
-    public static void LoadGltf(string path, out Model model){
+    public static void LoadGltf(UPath path, IFileSystem fs, out Model model){
         model = new Model();
-        var gltf = ModelRoot.Load(path);
+        var gltf = ModelRoot.Load(fs.ConvertPathToInternal(path));
 
         foreach(var prim in gltf.LogicalMeshes[0].Primitives)
         {

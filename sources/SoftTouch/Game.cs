@@ -10,6 +10,8 @@ using SixLabors.ImageSharp.PixelFormats;
 using ECSharp;
 using Silk.NET.Windowing;
 using SoftTouch.Graphics.WGPU;
+using SoftTouch.Assets;
+using Zio.FileSystems;
 
 namespace SoftTouch;
 
@@ -18,13 +20,19 @@ public class Game : IGame
     IWindow window;
     WGPUGraphics Graphics = new();
     World world;
-    World renderWorld;
+    World? renderWorld;
+    AssetManager assetManager;
 
     public Game()
     {
         window = Window.Create(WindowOptions.Default);
         window.Initialize();
+
         world = new();
+        var fs = new PhysicalFileSystem();
+        var ss = new SubFileSystem(fs,fs.ConvertPathFromInternal("../../assets"));
+        assetManager = new(ss);
+
         world.AddStartup<Processors.Startup>();
         OnLoad();
     }
