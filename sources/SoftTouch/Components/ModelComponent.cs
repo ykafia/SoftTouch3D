@@ -7,11 +7,11 @@ namespace SoftTouch.Components;
 
 public readonly struct ModelComponent
 {
-    readonly Model model;
+    readonly ModelAsset model;
     public readonly List<MeshPrimitive> Primitives => model.Primitives;
     public readonly List<VertexBufferLayout> Layouts => model.Layouts;
 
-    public ModelComponent(Model model)
+    public ModelComponent(ModelAsset model)
     {
         this.model = model;
     }

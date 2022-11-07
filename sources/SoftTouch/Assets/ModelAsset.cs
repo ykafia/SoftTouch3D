@@ -5,12 +5,12 @@ using Zio;
 
 namespace SoftTouch.Assets;
 
-public class Model : IAsset<Model>
+public class ModelAsset : IAsset<ModelAsset>
 {
     public readonly List<MeshPrimitive> Primitives = new();
     public readonly List<VertexBufferLayout> Layouts = new();
 
-    public static Model Load(in UPath path, IFileSystem fs)
+    public static ModelAsset Load(in UPath path, IFileSystem fs)
     {
         Util.GltfLoader.LoadGltf(path, fs, out var model);
         return model;

@@ -11,8 +11,8 @@ namespace SoftTouch.Util;
 
 public static class GltfLoader
 {
-    public static void LoadGltf(UPath path, IFileSystem fs, out Model model){
-        model = new Model();
+    public static void LoadGltf(UPath path, IFileSystem fs, out ModelAsset model){
+        model = new ModelAsset();
         var gltf = ModelRoot.Load(fs.ConvertPathToInternal(path));
 
         foreach(var prim in gltf.LogicalMeshes[0].Primitives)
