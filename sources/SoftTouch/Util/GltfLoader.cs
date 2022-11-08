@@ -4,6 +4,7 @@ using System.Linq;
 using SharpGLTF.Memory;
 using SharpGLTF.Schema2;
 using SoftTouch.Assets;
+using SoftTouch.Graphics.WGPU;
 using WGPU.NET;
 using Zio;
 
@@ -11,7 +12,7 @@ namespace SoftTouch.Util;
 
 public static class GltfLoader
 {
-    public static void LoadGltf(UPath path, IFileSystem fs, out ModelAsset model){
+    public static void LoadGltf(UPath path, IFileSystem fs, WGPUGraphics graphics, out ModelAsset model){
         model = new ModelAsset();
         var gltf = ModelRoot.Load(fs.ConvertPathToInternal(path));
 
@@ -50,7 +51,7 @@ public static class GltfLoader
                     buffer.AddRange(accessor.Value.TryGetVertexBytes(i));
                 }
             }
-            model.Primitives.Add(p);
+            model.Meshes.Add(new MeshDraw(p, graphics));
         }
     }
 

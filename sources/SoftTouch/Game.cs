@@ -27,14 +27,15 @@ public class Game : IGame
     {
         window = Window.Create(WindowOptions.Default);
         window.Initialize();
+        OnLoad();
 
         world = new();
         var fs = new PhysicalFileSystem();
         var ss = new SubFileSystem(fs,fs.ConvertPathFromInternal("../../assets"));
         assetManager = new(ss);
-
+        world.SetResource(assetManager);
+        world.SetResource(Graphics);
         world.AddStartup<Processors.Startup>();
-        OnLoad();
     }
     public void Run()
     {

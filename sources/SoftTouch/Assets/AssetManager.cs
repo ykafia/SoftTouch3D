@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
+using SoftTouch.Graphics.WGPU;
 using Zio;
 
 namespace SoftTouch.Assets;
@@ -18,14 +19,32 @@ public class AssetManager
         fileSystem = fs;
     }
 
-    public void Load<T>(string path) 
+    public IAsset<T> Load<T>(string path) 
         where T : IAsset<T>
     {
-        var upath = fileSystem.ConvertPathFromInternal(path);
-        LoadedAssets[path] = T.Load(upath,fileSystem);
-    } 
-    public IAsset Get(string name)
+        if(LoadedAssets.TryGetValue(path, out var res))
+            return (IAsset<T>)res;
+        else
+        {
+            LoadedAssets.Add(path, T.Load(path,fileSystem));
+            return (IAsset<T>)LoadedAssets[path];
+        }
+    }
+    public IGraphicsAsset<T> Load<T>(string path, WGPUGraphics graphics) 
+        where T : IGraphicsAsset<T>
     {
-        return LoadedAssets[name];
-    } 
+        if(LoadedAssets.TryGetValue(path, out var res))
+            return (IGraphicsAsset<T>)res;
+        else
+        {
+            LoadedAssets.Add(path, T.Load(path,fileSystem,graphics));
+            return (IGraphicsAsset<T>)LoadedAssets[path];
+        }
+    }
+
+    public void Unload(string path)
+    {
+        LoadedAssets[path].Unload();
+        LoadedAssets.Remove(path);
+    }
 }
