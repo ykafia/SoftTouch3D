@@ -12,6 +12,8 @@ using Silk.NET.Windowing;
 using SoftTouch.Graphics.WGPU;
 using SoftTouch.Assets;
 using Zio.FileSystems;
+using SoftTouch.Rendering;
+using System.Threading.Tasks;
 
 namespace SoftTouch;
 
@@ -20,7 +22,7 @@ public class Game : IGame
     IWindow window;
     WGPUGraphics Graphics = new();
     World world;
-    World? renderWorld;
+    RenderWorld renderWorld;
     AssetManager assetManager;
 
     public Game()
@@ -31,7 +33,7 @@ public class Game : IGame
 
         world = new();
         var fs = new PhysicalFileSystem();
-        var ss = new SubFileSystem(fs,fs.ConvertPathFromInternal("../../assets"));
+        var ss = new SubFileSystem(fs, fs.ConvertPathFromInternal("../../assets"));
         assetManager = new(ss);
         world.SetResource(assetManager);
         world.SetResource(Graphics);
@@ -39,7 +41,14 @@ public class Game : IGame
     }
     public void Run()
     {
-        // Graphics.Render();
+        while (!window.IsClosing)
+        {
+            Task.WaitAll(
+                Task.Run(() => world.Update()),
+                Task.Run(() => renderWorld.Update())
+            );
+            renderWorld.CopyFrom(world);
+        }
     }
 
     public void OnLoad()

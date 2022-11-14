@@ -19,6 +19,7 @@ public class Startup : Processor
             .With(new ModelComponent((ModelAsset)model))
             .WithBundle(new TransformBundle(default, default));
         World.CreateEntity()
-            .With(default(Camera)); 
+            .With(default(Camera));
+        World.Add<FoxMeshProcessor>();
     }
 }

@@ -5,9 +5,6 @@ using Zio;
 
 namespace SoftTouch.Assets;
 
-
-
-
 public class AssetManager
 {
     IFileSystem fileSystem;

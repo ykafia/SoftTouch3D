@@ -4,7 +4,7 @@ namespace SoftTouch.Assets;
 
 public class ShaderAsset : IAsset<ShaderAsset>
 {
-    public string Code {get; init;}
+    public required string Code {get; init;}
     public static ShaderAsset Load(in UPath path, IFileSystem fs)
     {
         if(fs.FileExists(path) && path.GetExtensionWithDot() == "wgsl")

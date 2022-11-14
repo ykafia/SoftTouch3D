@@ -17,8 +17,5 @@ public class FoxMeshProcessor : Processor<Query<Transform, GlobalTransform, Mode
         (var pos, var worldPos, var model) = query1.QueriedArchetypes.First()[0].Get<Transform, GlobalTransform, ModelComponent>();
         cameraPos.ToMatrix(out var cameraWMat);
         worldPos.ToMatrix(out var meshWMat);
-
-        
-        
     }
 }
