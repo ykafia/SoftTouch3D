@@ -31,8 +31,8 @@ namespace SoftTouch.Graphics.WGPU
         private UniformBuffer uniformBufferData;
         private global::WGPU.NET.Buffer uniformBuffer;
         public Device Device {get; private set;}
-        Adapter adapter;
-        Surface surface;
+        public Adapter Adapter {get; private set;}
+        public Surface Surface {get;private set;}
         private RenderPipeline renderPipeline;
         private BindGroupLayout bindGroupLayout;
         private BindGroup bindGroup;
@@ -63,28 +63,28 @@ namespace SoftTouch.Graphics.WGPU
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                surface = instance.CreateSurfaceFromWindowsHWND((IntPtr)window.Native?.Win32?.HInstance,(IntPtr)window.Native?.Win32?.Hwnd);
+                Surface = instance.CreateSurfaceFromWindowsHWND((IntPtr)window.Native?.Win32?.HInstance,(IntPtr)window.Native?.Win32?.Hwnd);
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
-                surface = instance.CreateSurfaceFromXlibWindow(window.Native?.X11?.Display ?? 0,(uint)(window.Native?.X11?.Window ?? 0));
+                Surface = instance.CreateSurfaceFromXlibWindow(window.Native?.X11?.Display ?? 0,(uint)(window.Native?.X11?.Window ?? 0));
             }
             else
             {
-                surface = instance.CreateSurfaceFromMetalLayer((IntPtr)(window.Native?.Cocoa ?? 0));
+                Surface = instance.CreateSurfaceFromMetalLayer((IntPtr)(window.Native?.Cocoa ?? 0));
             }
 
 
-            adapter = default;
+            Adapter = default;
 
-            instance.RequestAdapter(surface, default, default, (s, a, m) => adapter = a, Wgpu.BackendType.Vulkan);
+            instance.RequestAdapter(Surface, default, default, (s, a, m) => Adapter = a, Wgpu.BackendType.Vulkan);
 
-            adapter.GetProperties(out Wgpu.AdapterProperties properties);
+            Adapter.GetProperties(out Wgpu.AdapterProperties properties);
 
 
             Device = default;
 
-            adapter.RequestDevice((s, d, m) => Device = d,
+            Adapter.RequestDevice((s, d, m) => Device = d,
                 limits: new RequiredLimits()
                 {
                     Limits = new Wgpu.Limits()
@@ -322,7 +322,7 @@ namespace SoftTouch.Graphics.WGPU
                 }
             };
 
-            swapChainFormat = surface.GetPreferredFormat(adapter);
+            swapChainFormat = Surface.GetPreferredFormat(Adapter);
 
             colorTargets = new ColorTargetState[]
             {
@@ -409,7 +409,7 @@ namespace SoftTouch.Graphics.WGPU
                 presentMode = Wgpu.PresentMode.Fifo
             };
 
-            SwapChain = Device.CreateSwapChain(surface, swapChainDescriptor);
+            SwapChain = Device.CreateSwapChain(Surface, swapChainDescriptor);
 
             depthTextureDescriptor = new Wgpu.TextureDescriptor
             {

@@ -10,7 +10,8 @@ namespace SoftTouch.Assets;
 public class ModelAsset : IGraphicsAsset<ModelAsset>
 {
     public readonly List<MeshDraw> Meshes = new();
-    // public Texture Diffuse {get;set;}
+    public Texture Diffuse {get;set;}
+    public Sampler Sampler {get;set;}
     public readonly List<VertexBufferLayout> Layouts = new();
 
     public static ModelAsset Load(in UPath path, IFileSystem fs, WGPUGraphics graphics)

@@ -1,14 +1,16 @@
+using SoftTouch.Graphics.WGPU;
+using WGPU.NET;
 using Zio;
 
 namespace SoftTouch.Assets;
 
-public class ShaderAsset : IAsset<ShaderAsset>
+public class ShaderAsset : IGraphicsAsset<ShaderAsset>
 {
-    public required string Code {get; init;}
-    public static ShaderAsset Load(in UPath path, IFileSystem fs)
+    public required ShaderModule Module {get; init;}
+    public static ShaderAsset Load(in UPath path, IFileSystem fs, WGPUGraphics graphics)
     {
         if(fs.FileExists(path) && path.GetExtensionWithDot() == "wgsl")
-            return new ShaderAsset{ Code = fs.ReadAllText(path)};
+            return new ShaderAsset{ Module = graphics.Device.CreateWgslShaderModule("shader",fs.ReadAllText(path))};
         else
             throw new System.Exception("Not a wgsl file");
     }

@@ -20,65 +20,68 @@ public static class GltfLoader
 
 
         var gltf = ModelRoot.Load(fs.ConvertPathToInternal(path));
-        // var image = SixLabors.ImageSharp.Image.Load<Rgba32>(gltf.LogicalTextures.First().PrimaryImage.Content.Content.ToArray());
-        // var imageSize = new Wgpu.Extent3D
-        // {
-        //     width = (uint)image.Width,
-        //     height = (uint)image.Height,
-        //     depthOrArrayLayers = 1
-        // };
+        var image = SixLabors.ImageSharp.Image.Load<Rgba32>(gltf.LogicalTextures.First().PrimaryImage.Content.Content.ToArray());
+        var imageSize = new Wgpu.Extent3D
+        {
+            width = (uint)image.Width,
+            height = (uint)image.Height,
+            depthOrArrayLayers = 1
+        };
 
-        // // Instantiate in gpu
-        // var imageTexture = graphics.Device.CreateTexture("Image",
-        //     usage: Wgpu.TextureUsage.TextureBinding | Wgpu.TextureUsage.CopyDst,
-        //     dimension: Wgpu.TextureDimension.TwoDimensions,
-        //     size: imageSize,
-        //     format: Wgpu.TextureFormat.RGBA8Unorm,
-        //     mipLevelCount: 1,
-        //     sampleCount: 1
-        // );
+        // Instantiate in gpu
+        var imageTexture = graphics.Device.CreateTexture("Image",
+            usage: Wgpu.TextureUsage.TextureBinding | Wgpu.TextureUsage.CopyDst,
+            dimension: Wgpu.TextureDimension.TwoDimensions,
+            size: imageSize,
+            format: Wgpu.TextureFormat.RGBA8Unorm,
+            mipLevelCount: 1,
+            sampleCount: 1
+        );
 
-        // {
-        //     // Send data to gpu
-        //     Span<Rgba32> pixels = new Rgba32[image.Width * image.Height];
+        {
+            // Send data to gpu
+            Span<Rgba32> pixels = new Rgba32[image.Width * image.Height];
 
-        //     image.CopyPixelDataTo(pixels);
+            image.CopyPixelDataTo(pixels);
 
-        //     graphics.Device.GetQueue().WriteTexture<Rgba32>(
-        //         destination: new ImageCopyTexture
-        //         {
-        //             Aspect = Wgpu.TextureAspect.All,
-        //             MipLevel = 0,
-        //             Origin = default,
-        //             Texture = imageTexture
-        //         },
-        //         data: pixels,
-        //         dataLayout: new Wgpu.TextureDataLayout
-        //         {
-        //             bytesPerRow = (uint)(sizeof(byte) * 4 * image.Width),
-        //             offset = 0,
-        //             rowsPerImage = (uint)image.Height
-        //         },
-        //         writeSize: imageSize
-        //     );
-        // }
+            graphics.Device.GetQueue().WriteTexture<Rgba32>(
+                destination: new ImageCopyTexture
+                {
+                    Aspect = Wgpu.TextureAspect.All,
+                    MipLevel = 0,
+                    Origin = default,
+                    Texture = imageTexture
+                },
+                data: pixels,
+                dataLayout: new Wgpu.TextureDataLayout
+                {
+                    bytesPerRow = (uint)(sizeof(byte) * 4 * image.Width),
+                    offset = 0,
+                    rowsPerImage = (uint)image.Height
+                },
+                writeSize: imageSize
+            );
+        }
 
-        // // Instantiate sampler
-        // var imageSampler = graphics.Device.CreateSampler("ImageSampler",
-        //     addressModeU: Wgpu.AddressMode.ClampToEdge,
-        //     addressModeV: Wgpu.AddressMode.ClampToEdge,
-        //     addressModeW: default,
+        // Instantiate sampler
+        var imageSampler = graphics.Device.CreateSampler("ImageSampler",
+            addressModeU: Wgpu.AddressMode.ClampToEdge,
+            addressModeV: Wgpu.AddressMode.ClampToEdge,
+            addressModeW: default,
 
-        //     magFilter: Wgpu.FilterMode.Linear,
-        //     minFilter: Wgpu.FilterMode.Linear,
-        //     mipmapFilter: Wgpu.MipmapFilterMode.Linear,
+            magFilter: Wgpu.FilterMode.Linear,
+            minFilter: Wgpu.FilterMode.Linear,
+            mipmapFilter: Wgpu.MipmapFilterMode.Linear,
 
-        //     lodMinClamp: 0,
-        //     lodMaxClamp: 1,
-        //     compare: default,
+            lodMinClamp: 0,
+            lodMaxClamp: 1,
+            compare: default,
 
-        //     maxAnisotropy: 1
-        // );
+            maxAnisotropy: 1
+        );
+
+        model.Diffuse = imageTexture;
+        model.Sampler = imageSampler;
 
         foreach (var prim in gltf.LogicalMeshes[0].Primitives)
         {
