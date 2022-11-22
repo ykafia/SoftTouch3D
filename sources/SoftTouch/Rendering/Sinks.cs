@@ -5,9 +5,9 @@ namespace SoftTouch.Rendering;
 
 public abstract class Sink
 {
-    public string Name {get;set;}
-    public string PassName {get;set;}
-    public string OutputName {get;set;}
+    public required string Name {get;set;}
+    public required string PassName {get;set;}
+    public string? OutputName {get;set;}
 
     public abstract void PostLinkValidate();
     public abstract void Bind(Source s);
@@ -32,11 +32,17 @@ public sealed class DirectBufferSink : Sink
 }
 public sealed class DirectTextureSink : Sink
 {
-    public Texture Texture {get;set;}
+    public Texture? Texture {get;set;}
+    public Sampler? TextureSampler {get;set;}
 
     public override void Bind(Source s)
     {
-        throw new System.NotImplementedException();
+        if(s is DirectTextureSource dts)
+        {
+            Texture = dts.Texture;
+            TextureSampler = dts.TextureSampler;
+        }
+        else throw new System.Exception("Source doesn't contain a texture");
     }
 
     public override void PostLinkValidate()

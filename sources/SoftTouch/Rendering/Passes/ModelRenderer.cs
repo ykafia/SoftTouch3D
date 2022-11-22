@@ -11,8 +11,9 @@ public class FoxRenderer : RenderPass
 
     public FoxRenderer() : base("fox_renderpass")
     {
-        Sinks.Add("fox_swapchain", new DirectTextureSink{Name = "fox_swapchain", PassName = Name, OutputName = "swapchain"});
-        Sources.Add("fox_swapchain_out", new DirectTextureSource{Name = "fox_swapchain_out"});
+        Sinks.Add("swapchain", new DirectTextureSink{Name = "swapchain", PassName = Name});
+        Sinks.Add("fox_diffuse", new DirectTextureSink{Name = "fox_diffuse", PassName = Name});
+        Sources.Add("swapchain", new DirectTextureSource{Name = "swapchain"});
     }
 
     public FoxRenderer(string name) : base(name){}

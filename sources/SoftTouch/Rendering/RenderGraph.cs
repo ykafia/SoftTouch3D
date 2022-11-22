@@ -15,6 +15,7 @@ public class RenderGraph
     public RenderGraph(WGPUGraphics graphics)
     {
         passes = new();
+        globalSources = new();
         Graphics = graphics;
     }
 
@@ -32,6 +33,7 @@ public class RenderGraph
                 {
                     if (p.Sources.TryGetValue(sink.Name, out var source))
                     {
+                        globalSources.Add(source.Name,source);
                         sink.Bind(source);
                     }
                 }
@@ -40,25 +42,3 @@ public class RenderGraph
     }
 }
 
-public abstract class RenderPass
-{
-    public string Name { get; set; }
-    public SortedList<string, Sink> Sinks { get; set; } = new(4);
-    public SortedList<string, Source> Sources { get; set; } = new(4);
-
-    public ShaderModule Module { get; set; }
-
-    public RenderPass(string name)
-    {
-        Name = name;
-    }
-
-    public RenderPass(string name, ShaderModule module)
-    {
-        Name = name;
-        Module = module;
-    }
-
-    public abstract void Execute();
-    public abstract void Reset();
-}

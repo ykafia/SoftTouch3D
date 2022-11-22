@@ -14,5 +14,6 @@ public class DirectBufferSource : Source
 }
 public class DirectTextureSource : Source
 {
-    public Texture Texture {get;set;}
+    public Texture? Texture {get;set;}
+    public Sampler? TextureSampler {get;set;}
 }
