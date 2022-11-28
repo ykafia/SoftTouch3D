@@ -17,7 +17,7 @@ public class FoxRenderer : RenderPass
     }
 
     public FoxRenderer(string name) : base(name){}
-    public FoxRenderer(string name, ShaderModule module) : base(name, module){}
+    // public FoxRenderer(string name, ShaderModule module) : base(name, module){}
 
     public override void Execute()
     {

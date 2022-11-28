@@ -21,8 +21,7 @@ public class Game : IGame
 {
     IWindow window;
     WGPUGraphics Graphics = new();
-    World world;
-    RenderWorld renderWorld;
+    GameWorld world;
     AssetManager assetManager;
 
     public Game()
@@ -39,15 +38,16 @@ public class Game : IGame
         world.SetResource(Graphics);
         world.AddStartup<Processors.Startup>();
     }
+
     public void Run()
     {
         while (!window.IsClosing)
         {
             Task.WaitAll(
-                Task.Run(() => world.Update()),
-                Task.Run(() => renderWorld.Update())
+                Task.Run(world.Update),
+                Task.Run(world.Render)
             );
-            renderWorld.CopyFrom(world);
+            world.Extract();
         }
     }
 

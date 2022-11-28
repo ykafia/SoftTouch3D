@@ -10,14 +10,14 @@ using WGPU.NET;
 
 namespace SoftTouch.Processors;
 
-public class FoxMeshProcessor : Processor<Query<Transform, GlobalTransform, ModelComponent>, Query<Camera, GlobalTransform>>
+public class FoxMeshProcessor : RenderProcessor<Query<Transform, GlobalTransform, ModelComponent>, Query<Camera, GlobalTransform>>
 {
 
     PipelineLayout Layout;
     private BindGroupLayout bindGroupLayout;
     private BindGroup bindGroup;
     private ShaderModule shader;
-    private WGPU.NET.PipelineLayout pipelineLayout;
+    private PipelineLayout pipelineLayout;
     private VertexState vertexState;
     private FragmentState fragmentState;
 
