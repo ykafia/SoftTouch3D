@@ -1,31 +1,47 @@
 ﻿using System;
-using System.IO;
-using System.Linq;
-using ECSharp;
 using System.Collections.Generic;
-using SPIRVCross;
-using static SPIRVCross.SPIRV;
-using SoftTouch.Graphics.WGPU;
-using SharpGLTF.Schema2;
-using SoftTouch.Rendering;
-using SoftTouch.Assets;
-using Zio.FileSystems;
+using System.Diagnostics;
+using System.Text.Json;
 
 namespace SoftTouch
 {
 
     public class Program
     {
-        static string path = "../../assets/models/fox.glb";
+
         public static void Main(string[] _)
         {
-            // var fs = new PhysicalFileSystem();
-            // var am = new AssetManager(fs);
-            // am.Load<Model>(path);
-            // var model = am.Get(path);
-            // var x = 0;
-            IGame g = new Game();
-            g.Run();
+            TrySerialized();
+            TrySerialized();
+            // var g = new Game();
+            // g.Run();
+        }
+        public static void TrySerialized()
+        {
+            var watch = new Stopwatch();
+            var tr = new Components.Transform() { Position = new(1, 1, 1) };
+
+            watch.Start();
+            var serialized = MessagePack.MessagePackSerializer.Serialize(tr);
+            watch.Stop();
+            Console.WriteLine($"msgpack serialized = {watch.Elapsed}");
+            watch.Reset();
+            watch.Start();
+            var json = JsonSerializer.Serialize(tr);
+            watch.Stop();
+            Console.WriteLine($"json serialized = {watch.Elapsed}");
+            watch.Reset();
+            watch.Start();
+            var dser = MessagePack.MessagePackSerializer.Deserialize<Components.Transform>(serialized);
+            watch.Stop();
+            Console.WriteLine($"msgpack deserialized = {watch.Elapsed}");
+            watch.Reset();
+            watch.Start();
+            var dsrjson = JsonSerializer.Deserialize<Components.Transform>(json);
+            watch.Stop();
+            Console.WriteLine($"json deserialized = {watch.Elapsed}");
+            watch.Reset();
+            watch.Start();
         }
     }
 }

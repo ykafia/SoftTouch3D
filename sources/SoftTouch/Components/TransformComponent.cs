@@ -1,12 +1,21 @@
 using System.Numerics;
 using ECSharp;
+using MessagePack;
+using MessagePack.Formatters;
 
 namespace SoftTouch.Components;
 
+
+
+
+[MessagePackObject]
 public struct Transform
 {
+    [Key(0)]
     public Vector3 Position = Vector3.Zero;
+    [Key(1)]
     public Quaternion Rotation = Quaternion.Identity;
+    [Key(2)]
     public Vector3 Scale = Vector3.One;
 
     public Transform(){}
