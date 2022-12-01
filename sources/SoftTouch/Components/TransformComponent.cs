@@ -1,21 +1,20 @@
 using System.Numerics;
+using System.Runtime.Serialization;
 using ECSharp;
-using MessagePack;
-using MessagePack.Formatters;
 
 namespace SoftTouch.Components;
 
 
 
 
-[MessagePackObject]
+[DataContract]
 public struct Transform
 {
-    [Key(0)]
+    [DataMember(Order = 0)]
     public Vector3 Position = Vector3.Zero;
-    [Key(1)]
+    [DataMember(Order = 1)]
     public Quaternion Rotation = Quaternion.Identity;
-    [Key(2)]
+    [DataMember(Order = 2)]
     public Vector3 Scale = Vector3.One;
 
     public Transform(){}

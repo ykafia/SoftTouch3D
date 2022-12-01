@@ -21,6 +21,8 @@ namespace SoftTouch
             );
             var options = MessagePackSerializerOptions.Standard.WithResolver(resolver);
             MessagePackSerializer.DefaultOptions = options;
+
+            MessagePackSerializer.Serialize(new Transform(){Position = System.Numerics.Vector3.One});
             // var g = new Game();
             // g.Run();
         }
