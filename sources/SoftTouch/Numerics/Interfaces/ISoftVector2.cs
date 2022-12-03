@@ -29,9 +29,12 @@ internal interface ISoftVector2<T, Num> : IEquatable<T>
         );
     }
 
-    public static abstract void Clamp(in T value, in T min, in T max, out T result)
+    public static virtual void Clamp(in T value, in T min, in T max, out T result)
     {
-        
+        result = T.New(
+            Num.MaxMagnitude(Num.MinMagnitude(value.X,max.X), min.X),
+            Num.MaxMagnitude(Num.MinMagnitude(value.Y,max.Y), min.Y)
+        );
     }
     public static abstract Num Distance(in T value);
     public static virtual Num DistanceSquared(in T value)
