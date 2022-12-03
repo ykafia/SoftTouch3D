@@ -21,6 +21,13 @@ internal interface ISoftVector2<T, Num> : IEquatable<T>
         result = T.New(Num.Abs(value.X), Num.Abs(value.Y));
     }
 
+    public static virtual void Add(in T left, Num scalar, out T result)
+    {
+        result = T.New(
+            left.X + scalar,
+            left.Y + scalar
+        );
+    }
     public static virtual void Add(in T left, in T right, out T result)
     {
         result = T.New(
@@ -102,9 +109,41 @@ internal interface ISoftVector2<T, Num> : IEquatable<T>
             x < -Num.One ? -Num.One : x > Num.One ? Num.One : y 
         );
     }
-    public static abstract void Reflect(in T left, in T right, out T result);
+    public static virtual void Reflect(in T vector, in T normal, out T result)
+    {
+        Num dot = T.Dot(vector,normal);
+        result = T.New(
+            vector.X - (Num.One + Num.One) * dot * normal.X,
+            vector.Y - (Num.One + Num.One) * dot * normal.Y
+        );
+    }
     public static abstract void SquareRoot(in T value, out T result);
-    public static abstract void Subtract(in T left, in T right, out T result);
-    public static abstract void Transform(in T left, in T right, out T result);
-    public static abstract void TransformNormal(in T left, in T right, out T result);
+    
+    public static virtual void Subtract(in T left, Num scalar, out T result)
+    {
+        result = T.New(
+            left.X - scalar,
+            left.Y - scalar
+        );
+    }
+    public static virtual void Subtract(Num scalar, in T left, out T result)
+    {
+        result = T.New(
+            scalar - left.X,
+            scalar - left.Y
+        );
+    }
+    public static virtual void Subtract(in T left, in T right, out T result)
+    {
+        result = T.New(
+            left.X - right.X,
+            left.Y - right.Y
+        );
+    }
+
+    public static virtual void Transform(in T vector, in T transform, out T result)
+    {
+        T.Add(vector,transform, out result);
+    }
+    // public static virtual void TransformNormal(in T left, in T right, out T result);
 }
