@@ -146,5 +146,12 @@ internal interface ISoftVector3<T, Num> : ISoftVector2<T, Num>
         );
     }
 
-    public abstract void Cross(T left, T right, out T result);
+    public virtual void Cross(T left, T right, out T result)
+    {
+        result = T.New(
+            left.Y * right.Z - right.Y * left.Z,
+            left.X * right.Z - right.X * left.Z,
+            left.X * right.Y - right.X * left.Y
+        );
+    }
 }

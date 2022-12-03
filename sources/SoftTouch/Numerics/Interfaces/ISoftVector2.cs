@@ -3,7 +3,7 @@ using System.Numerics;
 
 namespace SoftTouch.Numerics;
 
-internal interface ISoftVector2<T, Num> : IEquatable<T>
+internal interface ISoftVector2<T, Num>
     where T :
         struct,
         ISoftVector2<T, Num>
@@ -11,8 +11,8 @@ internal interface ISoftVector2<T, Num> : IEquatable<T>
 {
     public Num X { get; set; }
     public Num Y { get; set; }
-    public T One { get; }
-    public T Zero { get; }
+    public T One => T.New(Num.One);
+    public T Zero => T.New(Num.Zero);
 
     public static abstract T New(Num value);
     public static abstract T New(Num x, Num y);
