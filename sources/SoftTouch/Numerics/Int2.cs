@@ -1,283 +1,96 @@
-using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
-using System.Numerics;
+namespace SoftTouch.Numerics;
 
-namespace SoftTouch.AdditionalNumerics;
-
-public struct Int2 : INumber<Int2>
+public struct Int2 : ISoftVector2<Int2, int>
 {
-    public int X;
-    public int Y;
+    public int X {get;set;}
+    public int Y {get;set;}
 
-    public Int2(int v)
+    public Int2 One => new
+
+    public Int2 Zero => throw new System.NotImplementedException();
+
+    public static void Abs(in Int2 value, out Int2 result)
     {
-        X = v;
-        Y = v;
-    }
-    public Int2(int x, int y)
-    {
-        X = x;
-        Y = y;
+        throw new System.NotImplementedException();
     }
 
-    public static Int2 One => new(1,1);
-
-    public static int Radix => 10;
-
-    public static Int2 Zero => new(0,0);
-
-    public static Int2 AdditiveIdentity => One;
-
-    public static Int2 MultiplicativeIdentity => One;
-
-    public static Int2 Abs(Int2 value)
+    public static void Add(in Int2 left, in Int2 right, out Int2 result)
     {
-        return new(Math.Abs(value.X),Math.Abs(value.X));
+        throw new System.NotImplementedException();
     }
 
-    public static bool IsCanonical(Int2 value)
+    public static void Clamp(in Int2 value, in Int2 min, in Int2 max, out Int2 result)
     {
-        throw new NotImplementedException();
+        throw new System.NotImplementedException();
     }
 
-    public static bool IsComplexNumber(Int2 value)
+    public static void Distance(in Int2 value, out Int2 result)
     {
-        throw new NotImplementedException();
+        throw new System.NotImplementedException();
     }
 
-    public static bool IsEvenInteger(Int2 value)
+    public static void DistanceSquared(in Int2 value, out Int2 result)
     {
-        throw new NotImplementedException();
+        throw new System.NotImplementedException();
     }
 
-    public static bool IsFinite(Int2 value)
+    public static void Divide(in Int2 left, in Int2 right, out Int2 result)
     {
-        throw new NotImplementedException();
+        throw new System.NotImplementedException();
     }
 
-    public static bool IsImaginaryNumber(Int2 value)
+    public static void Dot(in Int2 left, in Int2 right, out Int2 result)
     {
-        throw new NotImplementedException();
+        throw new System.NotImplementedException();
     }
 
-    public static bool IsInfinity(Int2 value)
+    public static void Lerp(in Int2 value1, in Int2 value2, float amount, out Int2 result)
     {
-        throw new NotImplementedException();
+        throw new System.NotImplementedException();
     }
 
-    public static bool IsInteger(Int2 value)
+    public static void Multiply(in Int2 left, in Int2 right, out Int2 result)
     {
-        throw new NotImplementedException();
+        throw new System.NotImplementedException();
     }
 
-    public static bool IsNaN(Int2 value)
+    public static void Negate(in Int2 value, out Int2 result)
     {
-        throw new NotImplementedException();
+        throw new System.NotImplementedException();
     }
 
-    public static bool IsNegative(Int2 value)
+    public static void Normalize(in Int2 left, out Int2 result)
     {
-        throw new NotImplementedException();
+        throw new System.NotImplementedException();
     }
 
-    public static bool IsNegativeInfinity(Int2 value)
+    public static void Reflect(in Int2 left, in Int2 right, out Int2 result)
     {
-        throw new NotImplementedException();
+        throw new System.NotImplementedException();
     }
 
-    public static bool IsNormal(Int2 value)
+    public static void SquareRoot(in Int2 value, out Int2 result)
     {
-        throw new NotImplementedException();
+        throw new System.NotImplementedException();
     }
 
-    public static bool IsOddInteger(Int2 value)
+    public static void Subtract(in Int2 left, in Int2 right, out Int2 result)
     {
-        throw new NotImplementedException();
+        throw new System.NotImplementedException();
     }
 
-    public static bool IsPositive(Int2 value)
+    public static void Transform(in Int2 left, in Int2 right, out Int2 result)
     {
-        throw new NotImplementedException();
+        throw new System.NotImplementedException();
     }
 
-    public static bool IsPositiveInfinity(Int2 value)
+    public static void TransformNormal(in Int2 left, in Int2 right, out Int2 result)
     {
-        throw new NotImplementedException();
-    }
-
-    public static bool IsRealNumber(Int2 value)
-    {
-        throw new NotImplementedException();
-    }
-
-    public static bool IsSubnormal(Int2 value)
-    {
-        throw new NotImplementedException();
-    }
-
-    public static bool IsZero(Int2 value)
-    {
-        throw new NotImplementedException();
-    }
-
-    public static Int2 MaxMagnitude(Int2 x, Int2 y)
-    {
-        throw new NotImplementedException();
-    }
-
-    public static Int2 MaxMagnitudeNumber(Int2 x, Int2 y)
-    {
-        throw new NotImplementedException();
-    }
-
-    public static Int2 MinMagnitude(Int2 x, Int2 y)
-    {
-        throw new NotImplementedException();
-    }
-
-    public static Int2 MinMagnitudeNumber(Int2 x, Int2 y)
-    {
-        throw new NotImplementedException();
-    }
-
-    public static Int2 Parse(ReadOnlySpan<char> s, NumberStyles style, IFormatProvider? provider)
-    {
-        throw new NotImplementedException();
-    }
-
-    public static Int2 Parse(string s, NumberStyles style, IFormatProvider? provider)
-    {
-        throw new NotImplementedException();
-    }
-
-    public static Int2 Parse(ReadOnlySpan<char> s, IFormatProvider? provider)
-    {
-        throw new NotImplementedException();
-    }
-
-    public static Int2 Parse(string s, IFormatProvider? provider)
-    {
-        throw new NotImplementedException();
-    }
-
-    public static bool TryParse(ReadOnlySpan<char> s, NumberStyles style, IFormatProvider? provider, [MaybeNullWhen(false)] out Int2 result)
-    {
-        throw new NotImplementedException();
-    }
-
-    public static bool TryParse([NotNullWhen(true)] string? s, NumberStyles style, IFormatProvider? provider, [MaybeNullWhen(false)] out Int2 result)
-    {
-        throw new NotImplementedException();
-    }
-
-    public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, [MaybeNullWhen(false)] out Int2 result)
-    {
-        throw new NotImplementedException();
-    }
-
-    public static bool TryParse([NotNullWhen(true)] string? s, IFormatProvider? provider, [MaybeNullWhen(false)] out Int2 result)
-    {
-        throw new NotImplementedException();
-    }
-
-    public int CompareTo(object? obj)
-    {
-        throw new NotImplementedException();
-    }
-
-    public int CompareTo(Int2 other)
-    {
-        throw new NotImplementedException();
+        throw new System.NotImplementedException();
     }
 
     public bool Equals(Int2 other)
     {
-        throw new NotImplementedException();
-    }
-
-    public string ToString(string? format, IFormatProvider? formatProvider)
-    {
-        throw new NotImplementedException();
-    }
-
-    public bool TryFormat(Span<char> destination, out int charsWritten, ReadOnlySpan<char> format, IFormatProvider? provider)
-    {
-        throw new NotImplementedException();
-    }
-
-    public static Int2 operator +(Int2 value)
-    {
-        throw new NotImplementedException();
-    }
-
-    public static Int2 operator +(Int2 left, Int2 right)
-    {
-        throw new NotImplementedException();
-    }
-
-    public static Int2 operator -(Int2 value)
-    {
-        throw new NotImplementedException();
-    }
-
-    public static Int2 operator -(Int2 left, Int2 right)
-    {
-        throw new NotImplementedException();
-    }
-
-    public static Int2 operator ++(Int2 value)
-    {
-        throw new NotImplementedException();
-    }
-
-    public static Int2 operator --(Int2 value)
-    {
-        throw new NotImplementedException();
-    }
-
-    public static Int2 operator *(Int2 left, Int2 right)
-    {
-        throw new NotImplementedException();
-    }
-
-    public static Int2 operator /(Int2 left, Int2 right)
-    {
-        throw new NotImplementedException();
-    }
-
-    public static Int2 operator %(Int2 left, Int2 right)
-    {
-        throw new NotImplementedException();
-    }
-
-    public static bool operator ==(Int2 left, Int2 right)
-    {
-        throw new NotImplementedException();
-    }
-
-    public static bool operator !=(Int2 left, Int2 right)
-    {
-        throw new NotImplementedException();
-    }
-
-    public static bool operator <(Int2 left, Int2 right)
-    {
-        throw new NotImplementedException();
-    }
-
-    public static bool operator >(Int2 left, Int2 right)
-    {
-        throw new NotImplementedException();
-    }
-
-    public static bool operator <=(Int2 left, Int2 right)
-    {
-        throw new NotImplementedException();
-    }
-
-    public static bool operator >=(Int2 left, Int2 right)
-    {
-        throw new NotImplementedException();
+        throw new System.NotImplementedException();
     }
 }
