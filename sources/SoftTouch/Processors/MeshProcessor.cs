@@ -7,6 +7,7 @@ using System.Linq;
 using Silk.NET.Maths;
 using System.Runtime.InteropServices;
 using WGPU.NET;
+using SoftTouch.Rendering;
 
 namespace SoftTouch.Processors;
 
