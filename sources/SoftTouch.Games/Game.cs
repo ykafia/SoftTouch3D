@@ -4,8 +4,6 @@ using System.Diagnostics;
 using Silk.NET.GLFW;
 using System.Runtime.InteropServices;
 using System.IO;
-using Image = SixLabors.ImageSharp.Image;
-using SixLabors.ImageSharp.PixelFormats;
 using SoftTouch.ECS;
 using Silk.NET.Windowing;
 using SoftTouch.Graphics.WGPU;
@@ -13,8 +11,8 @@ using SoftTouch.Assets;
 using Zio.FileSystems;
 using SoftTouch.Rendering;
 using System.Threading.Tasks;
-
-namespace SoftTouch;
+using SoftTouch.Graphics;
+namespace SoftTouch.Games;
 
 public class Game : IGame
 {
@@ -35,7 +33,13 @@ public class Game : IGame
         assetManager = new(ss);
         world.SetResource(assetManager);
         world.SetResource(Graphics);
-        world.AddStartup<Processors.Startup>();
+
+    }
+    public Game With<T>() 
+        where T : Processor, new()
+    {
+        world.AddStartup<T>();
+        return this;
     }
 
     public void Run()

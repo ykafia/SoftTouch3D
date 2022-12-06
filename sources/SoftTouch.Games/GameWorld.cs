@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using SoftTouch.ECS;
-using SoftTouch.Processors;
+using SoftTouch.Rendering;
 
-namespace SoftTouch.Rendering;
+namespace SoftTouch.Games;
 
 public class GameWorld : World
 {

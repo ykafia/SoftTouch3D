@@ -1,5 +1,18 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+  <ItemGroup>
+    <ProjectReference Include="..\WGPU\WGPU.NET\WGPU.NET.csproj" />
+    <ProjectReference Include="..\SoftTouch.ECS\sources\SoftTouch.ECS\SoftTouch.ECS.csproj" />
+    <ProjectReference Include="..\SoftTouch.Rendering\SoftTouch.Rendering.csproj" />
+    <ProjectReference Include="..\SoftTouch.Graphics\SoftTouch.Graphics.csproj" />
+    <ProjectReference Include="..\SoftTouch.Assets\SoftTouch.Assets.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Silk.NET" Version="2.16.0" />
+    <PackageReference Include="Zio" Version="0.16.1" />
+  </ItemGroup>
+
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>

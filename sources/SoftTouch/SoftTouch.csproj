@@ -28,6 +28,7 @@
     <ProjectReference Include="..\SoftTouch.Rendering\SoftTouch.Rendering.csproj" />
     <ProjectReference Include="..\SoftTouch.Assets\SoftTouch.Assets.csproj" />
     <ProjectReference Include="..\SoftTouch.Graphics\SoftTouch.Graphics.csproj" />
+    <ProjectReference Include="..\SoftTouch.Games\SoftTouch.Games.csproj" />
   </ItemGroup>
 
   <Target Name="Hello World" AfterTargets="Build">

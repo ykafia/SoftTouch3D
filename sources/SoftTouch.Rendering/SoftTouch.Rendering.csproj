@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SoftTouch.Graphics\SoftTouch.Graphics.csproj" />
+    <ProjectReference Include="..\SoftTouch.ECS\sources\SoftTouch.ECS\SoftTouch.ECS.csproj" />
   </ItemGroup>
 
 </Project>

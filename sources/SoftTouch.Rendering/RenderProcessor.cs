@@ -1,6 +1,6 @@
 using SoftTouch.ECS;
 
-namespace SoftTouch.Processors;
+namespace SoftTouch.Rendering;
 
 public abstract class RenderProcessor : Processor
 {
