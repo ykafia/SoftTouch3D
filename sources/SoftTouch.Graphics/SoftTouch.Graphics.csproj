@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+<Import Project="..\Directory.Build.props" />
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SharpGLTF.Core" Version="$(SharpGLTFVersion)" />
+    <PackageReference Include="SharpGLTF.Toolkit" Version="$(SharpGLTFVersion)" />
+    <PackageReference Include="Silk.NET" Version="$(SilkVersion)" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="$(ImageSharpVersion)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WGPU\WGPU.NET\WGPU.NET.csproj" />
+  </ItemGroup>
+
+</Project>

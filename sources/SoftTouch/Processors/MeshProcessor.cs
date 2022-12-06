@@ -4,7 +4,7 @@ using SoftTouch.Components;
 using SoftTouch.Graphics.WGPU;
 using System;
 using System.Linq;
-using System.Numerics;
+using Silk.NET.Maths;
 using System.Runtime.InteropServices;
 using WGPU.NET;
 
@@ -28,109 +28,109 @@ public class FoxMeshProcessor : RenderProcessor<Query<Transform, GlobalTransform
         (var pos, var worldPos, var model) = query1.QueriedArchetypes.First()[0].Get<Transform, GlobalTransform, ModelComponent>();
         cameraPos.ToMatrix(out var cameraWMat);
         worldPos.ToMatrix(out var meshWMat);
-        var uniformBufferData = new UniformBuffer
-        {
-            Transform = meshWMat
-        };
+        // var uniformBufferData = new UniformBuffer
+        // {
+        //     Transform = meshWMat
+        // };
 
-        var uniformBuffer = graphics.Device.CreateBuffer("UniformBuffer", false, (ulong)Marshal.SizeOf(typeof(UniformBuffer)), Wgpu.BufferUsage.Uniform | Wgpu.BufferUsage.CopyDst);
+        // var uniformBuffer = graphics.Device.CreateBuffer("UniformBuffer", false, (ulong)Marshal.SizeOf(typeof(UniformBuffer)), Wgpu.BufferUsage.Uniform | Wgpu.BufferUsage.CopyDst);
 
-        if(bindGroup != null)
-            CreatePipeline(graphics, uniformBuffer,model.Model);
+        // if(bindGroup != null)
+        //     CreatePipeline(graphics, uniformBuffer,model.Model);
         
-        var swapChainFormat = graphics.Surface.GetPreferredFormat(graphics.Adapter);
+        // var swapChainFormat = graphics.Surface.GetPreferredFormat(graphics.Adapter);
 
-        var colorTargets = new ColorTargetState[]
-        {
-                new ColorTargetState()
-                {
-                    Format = swapChainFormat,
-                    BlendState = new Wgpu.BlendState()
-                    {
-                        color = new Wgpu.BlendComponent()
-                        {
-                            srcFactor = Wgpu.BlendFactor.One,
-                            dstFactor = Wgpu.BlendFactor.Zero,
-                            operation = Wgpu.BlendOperation.Add
-                        },
-                        alpha = new Wgpu.BlendComponent()
-                        {
-                            srcFactor = Wgpu.BlendFactor.One,
-                            dstFactor = Wgpu.BlendFactor.Zero,
-                            operation = Wgpu.BlendOperation.Add
-                        }
-                    },
-                    WriteMask = (uint)Wgpu.ColorWriteMask.All
-                }
-        };
+        // var colorTargets = new ColorTargetState[]
+        // {
+        //         new ColorTargetState()
+        //         {
+        //             Format = swapChainFormat,
+        //             BlendState = new Wgpu.BlendState()
+        //             {
+        //                 color = new Wgpu.BlendComponent()
+        //                 {
+        //                     srcFactor = Wgpu.BlendFactor.One,
+        //                     dstFactor = Wgpu.BlendFactor.Zero,
+        //                     operation = Wgpu.BlendOperation.Add
+        //                 },
+        //                 alpha = new Wgpu.BlendComponent()
+        //                 {
+        //                     srcFactor = Wgpu.BlendFactor.One,
+        //                     dstFactor = Wgpu.BlendFactor.Zero,
+        //                     operation = Wgpu.BlendOperation.Add
+        //                 }
+        //             },
+        //             WriteMask = (uint)Wgpu.ColorWriteMask.All
+        //         }
+        // };
 
-        fragmentState = new FragmentState()
-        {
-            Module = shader,
-            EntryPoint = "fs_main",
-            colorTargets = colorTargets
-        };
+        // fragmentState = new FragmentState()
+        // {
+        //     Module = shader,
+        //     EntryPoint = "fs_main",
+        //     colorTargets = colorTargets
+        // };
 
     }
 
 
     public void CreatePipeline(WGPUGraphics graphics, WGPU.NET.Buffer uniformBuffer, ModelAsset model)
     {
-        bindGroupLayout = graphics.Device.CreateBindgroupLayout(null, new Wgpu.BindGroupLayoutEntry[] {
-                new Wgpu.BindGroupLayoutEntry
-                {
-                    binding = 0,
-                    buffer = new Wgpu.BufferBindingLayout
-                    {
-                        type = Wgpu.BufferBindingType.Uniform,
+        // bindGroupLayout = graphics.Device.CreateBindgroupLayout(null, new Wgpu.BindGroupLayoutEntry[] {
+        //         new Wgpu.BindGroupLayoutEntry
+        //         {
+        //             binding = 0,
+        //             buffer = new Wgpu.BufferBindingLayout
+        //             {
+        //                 type = Wgpu.BufferBindingType.Uniform,
 
-                    },
-                    visibility = (uint)Wgpu.ShaderStage.Vertex,
-                },
-                new Wgpu.BindGroupLayoutEntry
-                {
-                    binding = 1,
-                    sampler = new Wgpu.SamplerBindingLayout
-                    {
-                        type = Wgpu.SamplerBindingType.Filtering
-                    },
-                    visibility = (uint)Wgpu.ShaderStage.Fragment
-                },
-                new Wgpu.BindGroupLayoutEntry
-                {
-                    binding = 2,
-                    texture = new Wgpu.TextureBindingLayout
-                    {
-                        viewDimension = Wgpu.TextureViewDimension.TwoDimensions,
-                        sampleType = Wgpu.TextureSampleType.Float
-                    },
-                    visibility = (uint)Wgpu.ShaderStage.Fragment
-                }
-            });
+        //             },
+        //             visibility = (uint)Wgpu.ShaderStage.Vertex,
+        //         },
+        //         new Wgpu.BindGroupLayoutEntry
+        //         {
+        //             binding = 1,
+        //             sampler = new Wgpu.SamplerBindingLayout
+        //             {
+        //                 type = Wgpu.SamplerBindingType.Filtering
+        //             },
+        //             visibility = (uint)Wgpu.ShaderStage.Fragment
+        //         },
+        //         new Wgpu.BindGroupLayoutEntry
+        //         {
+        //             binding = 2,
+        //             texture = new Wgpu.TextureBindingLayout
+        //             {
+        //                 viewDimension = Wgpu.TextureViewDimension.TwoDimensions,
+        //                 sampleType = Wgpu.TextureSampleType.Float
+        //             },
+        //             visibility = (uint)Wgpu.ShaderStage.Fragment
+        //         }
+        //     });
 
-        bindGroup = graphics.Device.CreateBindGroup(null, bindGroupLayout, new BindGroupEntry[]
-        {
-                new BindGroupEntry
-                {
-                    Binding = 0,
-                    Buffer = uniformBuffer
-                },
-                new BindGroupEntry
-                {
-                    Binding = 1,
-                    Sampler = model.Sampler
-                },
-                new BindGroupEntry
-                {
-                    Binding = 2,
-                    TextureView = model.Diffuse.CreateTextureView()
-                }
-        });
+        // bindGroup = graphics.Device.CreateBindGroup(null, bindGroupLayout, new BindGroupEntry[]
+        // {
+        //         new BindGroupEntry
+        //         {
+        //             Binding = 0,
+        //             Buffer = uniformBuffer
+        //         },
+        //         new BindGroupEntry
+        //         {
+        //             Binding = 1,
+        //             Sampler = model.Sampler
+        //         },
+        //         new BindGroupEntry
+        //         {
+        //             Binding = 2,
+        //             TextureView = model.Diffuse.CreateTextureView()
+        //         }
+        // });
 
 
 
-        var shaderAsset = (ShaderAsset)(World.GetResource<AssetManager>().Load<ShaderAsset>("/shaders/shader.wgsl", graphics));
-        shader = shaderAsset.Module;
+        var shaderAsset = (ShaderAsset)World.GetResource<AssetManager>().Load<ShaderAsset>("/shaders/shader.wgsl");
+        shader =  graphics.Device.CreateWgslShaderModule("shader", shaderAsset.Module);
 
         pipelineLayout = graphics.Device.CreatePipelineLayout(
             label: null,
@@ -150,7 +150,7 @@ public class FoxMeshProcessor : RenderProcessor<Query<Transform, GlobalTransform
             {
                     new VertexBufferLayout
                     {
-                        ArrayStride = (ulong)model.Meshes.First().VertexBuffer.SizeInBytes,
+                        ArrayStride = model.Meshes.First().VertexBuffer.SizeInBytes,
                         Attributes = new Wgpu.VertexAttribute[]
                         {
 							//position
@@ -164,14 +164,14 @@ public class FoxMeshProcessor : RenderProcessor<Query<Transform, GlobalTransform
 							new Wgpu.VertexAttribute
                             {
                                 format = Wgpu.VertexFormat.Float32x4,
-                                offset = (ulong)Marshal.SizeOf(typeof(Vector3)), //right after positon
+                                offset = (ulong)Marshal.SizeOf(typeof(Vector3D<float>)), //right after positon
 								shaderLocation = 1
                             },
 							//uv
 							new Wgpu.VertexAttribute
                             {
                                 format = Wgpu.VertexFormat.Float32x2,
-                                offset = (ulong)(Marshal.SizeOf(typeof(Vector3))+Marshal.SizeOf(typeof(Vector4))), //right after color
+                                offset = (ulong)(Marshal.SizeOf(typeof(Vector3D<float>))+Marshal.SizeOf(typeof(Vector4D<float>))), //right after color
 								shaderLocation = 2
                             }
                         }

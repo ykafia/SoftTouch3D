@@ -1,13 +1,13 @@
-using System.Numerics;
+using Silk.NET.Maths;
 
 namespace SoftTouch.Components;
 
 
 public struct Camera 
 {
-    public Vector3 Eye = new(0,0,1);
-    public Vector3 Target = new(0,0,0);
-    public Vector3 Up = new(0,1,0);
+    public Vector3D<float> Eye = new(0,0,1);
+    public Vector3D<float> Target = new(0,0,0);
+    public Vector3D<float> Up = new(0,1,0);
     public float Aspect = 16/9;
     public float FovY = 45;
     public float ZNear = 0.001f;

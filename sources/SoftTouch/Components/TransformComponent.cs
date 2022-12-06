@@ -1,4 +1,4 @@
-using System.Numerics;
+using Silk.NET.Maths;
 using System.Runtime.Serialization;
 using ECSharp;
 
@@ -11,33 +11,34 @@ namespace SoftTouch.Components;
 public struct Transform
 {
     [DataMember(Order = 0)]
-    public Vector3 Position = Vector3.Zero;
+    public Vector3D<float> Position = Vector3D<float>.Zero;
     [DataMember(Order = 1)]
-    public Quaternion Rotation = Quaternion.Identity;
+    public Quaternion<float> Rotation = Quaternion<float>.Identity;
     [DataMember(Order = 2)]
-    public Vector3 Scale = Vector3.One;
+    public Vector3D<float> Scale = Vector3D<float>.One;
 
     public Transform(){}
     
-    public void ToMatrix(out Matrix4x4 result)
+    public void ToMatrix(out Matrix4X4<float> result)
     {
-        result = Matrix4x4.CreateScale(Scale);
-        result.Translation = Position;
-        result *= Matrix4x4.CreateFromQuaternion(Rotation);
+        result = Matrix4X4.CreateTranslation(Position);
+        result = Matrix4X4.Transform(result,Rotation);
     }
 }
 
 public struct GlobalTransform
 {
-    public Vector3 Position;
-    public Quaternion Rotation;
-    public Vector3 Scale;
+    public Vector3D<float> Position;
+    public Quaternion<float> Rotation;
+    public Vector3D<float> Scale;
 
-    public void ToMatrix(out Matrix4x4 result)
+    public void ToMatrix(out Matrix4X4<float> result)
     {
-        result = Matrix4x4.CreateScale(Scale);
-        result.Translation = Position;
-        result *= Matrix4x4.CreateFromQuaternion(Rotation);
+        result = 
+            Matrix4X4<float>.Identity 
+            * Matrix4X4.CreateFromQuaternion(Rotation) 
+            * Matrix4X4.CreateScale(Scale) 
+            * Matrix4X4.CreateTranslation(Position);
     }
 }
 

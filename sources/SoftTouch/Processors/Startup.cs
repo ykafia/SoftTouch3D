@@ -3,7 +3,7 @@ using ECSharp;
 using SoftTouch.Assets;
 using SoftTouch.Components;
 using SoftTouch.Graphics.WGPU;
-using SoftTouch.Util;
+using SoftTouch.Assets.Importers;
 
 namespace SoftTouch.Processors;
 
@@ -14,7 +14,7 @@ public class Startup : Processor
     {
         // GltfLoader.LoadGltf("../../assets/models/Fox.glb", out var model);
         var graphics = World.GetResource<WGPUGraphics>();
-        var model = World.GetResource<AssetManager>().Load<ModelAsset>("/models/fox.glb", graphics);
+        var model = World.GetResource<AssetManager>().Load<ModelAsset>("/models/fox.glb");
         World.CreateEntity()
             .With(new ModelComponent((ModelAsset)model))
             .WithBundle(new TransformBundle(default, default));

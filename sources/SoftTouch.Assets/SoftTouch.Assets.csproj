@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\Directory.Build.props" />
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SharpGLTF.Core" Version="$(SharpGLTFVersion)" />
+    <PackageReference Include="SharpGLTF.Toolkit" Version="$(SharpGLTFVersion)" />
+    <PackageReference Include="Silk.NET" Version="$(SilkVersion)" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="$(ImageSharpVersion)" />
+    <PackageReference Include="Zio" Version="$(ZioVersion)" />
+    <PackageReference Include="MessagePack" Version="$(MessagePackVersion)" />
+    <PackageReference Include="MessagePackAnalyzer" Version="$(MessagePackVersion)">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WGPU\WGPU.NET\WGPU.NET.csproj" />
+    <ProjectReference Include="..\SoftTouch.Rendering\SoftTouch.Rendering.csproj" />
+  </ItemGroup>
+
+</Project>

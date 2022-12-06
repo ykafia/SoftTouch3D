@@ -1,5 +1,4 @@
 using System;
-using System.Numerics;
 using WGPU.NET;
 using System.Diagnostics;
 using Silk.NET.GLFW;
