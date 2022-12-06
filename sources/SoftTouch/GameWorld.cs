@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using ECSharp;
+using SoftTouch.ECS;
 using SoftTouch.Processors;
 
 namespace SoftTouch.Rendering;

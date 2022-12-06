@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 using System.IO;
 using Image = SixLabors.ImageSharp.Image;
 using SixLabors.ImageSharp.PixelFormats;
-using ECSharp;
+using SoftTouch.ECS;
 using Silk.NET.Windowing;
 using SoftTouch.Graphics.WGPU;
 using SoftTouch.Assets;

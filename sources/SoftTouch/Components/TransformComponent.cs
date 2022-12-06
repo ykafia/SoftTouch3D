@@ -1,6 +1,6 @@
 using Silk.NET.Maths;
 using System.Runtime.Serialization;
-using ECSharp;
+using SoftTouch.ECS;
 
 namespace SoftTouch.Components;
 

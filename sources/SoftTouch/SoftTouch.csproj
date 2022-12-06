@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ECSharp\sources\ECS\ECSharp.csproj" />
+    <ProjectReference Include="..\SoftTouch.ECS\sources\SoftTouch.ECS\SoftTouch.ECS.csproj" />
     <ProjectReference Include="..\WGPU\WGPU.NET\WGPU.NET.csproj" />
     <ProjectReference Include="..\SoftTouch.Rendering\SoftTouch.Rendering.csproj" />
     <ProjectReference Include="..\SoftTouch.Assets\SoftTouch.Assets.csproj" />

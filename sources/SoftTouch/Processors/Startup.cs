@@ -1,5 +1,5 @@
 using System;
-using ECSharp;
+using SoftTouch.ECS;
 using SoftTouch.Assets;
 using SoftTouch.Components;
 using SoftTouch.Graphics.WGPU;

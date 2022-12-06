@@ -1,4 +1,4 @@
-using ECSharp;
+using SoftTouch.ECS;
 
 namespace SoftTouch.Processors;
 

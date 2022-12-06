@@ -1,5 +1,5 @@
-using ECSharp;
-using ECSharp.Arrays;
+using SoftTouch.ECS;
+using SoftTouch.ECS.Arrays;
 using System.Linq;
 
 
