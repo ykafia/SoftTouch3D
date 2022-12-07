@@ -27,7 +27,7 @@ public static class MeshImporter
 
             ulong stride = (ulong)prim.VertexAccessors.Values.Select(x => x.Format.ByteSize).Sum();
             ulong offset = 0;
-            model.Layouts.Add(new()
+            var layout = new VertexBufferLayout()
             {
                 ArrayStride = stride,
                 Attributes = prim.VertexAccessors.Select(
@@ -42,17 +42,19 @@ public static class MeshImporter
                         };
                     }
                 ).ToArray()
-            });
+            };
 
-            var p = new Rendering.Renderables.MeshPrimitive()
+            var p = new MeshData()
             {
                 Topology = prim.DrawPrimitiveType.Into(),
                 Indices = prim.GetIndices()?.ToArray(),
-                VertexCount = (ulong)prim.GetVertices("POSITION").AsVector3Array().Count
+                VertexCount = (ulong)prim.GetVertices("POSITION").AsVector3Array().Count,
+                Layout = layout,
+                Stride = stride,
+                Offset = offset
             };
             var count = (int)p.VertexCount;
             var buffer = new List<byte>(count * (int)stride);
-            p.LayoutOrder = prim.VertexAccessors.Keys.ToList();
             for (int i = 0; i < count; i++)
             {
                 foreach (var accessor in prim.VertexAccessors)

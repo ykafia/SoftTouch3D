@@ -1,6 +1,7 @@
 using Silk.NET.Maths;
 using System.Runtime.Serialization;
 using SoftTouch.ECS;
+using System.Text;
 
 namespace SoftTouch.Components;
 
@@ -23,6 +24,35 @@ public struct Transform
     {
         result = Matrix4X4.CreateTranslation(Position);
         result = Matrix4X4.Transform(result,Rotation);
+    }
+    public override string ToString()
+    {
+        return 
+            new StringBuilder()
+            .Append("T<")
+            .Append(Position.X.ToString("0.00"))
+            .Append(", ")
+            .Append(Position.Y.ToString("0.00"))
+            .Append(", ")
+            .Append(Position.Z.ToString("0.00"))
+            .AppendLine(">")
+            .Append("S<")
+            .Append(Scale.X.ToString("0.00"))
+            .Append(", ")
+            .Append(Scale.Y.ToString("0.00"))
+            .Append(", ")
+            .Append(Scale.Z.ToString("0.00"))
+            .AppendLine(">")
+            .Append("R<")
+            .Append(Rotation.X.ToString("0.00"))
+            .Append(", ")
+            .Append(Rotation.Y.ToString("0.00"))
+            .Append(", ")
+            .Append(Rotation.Z.ToString("0.00"))
+            .Append(", ")
+            .Append(Rotation.W.ToString("0.00"))
+            .AppendLine(">")
+            .ToString();
     }
 }
 

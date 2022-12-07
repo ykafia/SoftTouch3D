@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using SoftTouch.Graphics.WGPU;
+using SoftTouch.Graphics.WebGPU;
 
 namespace SoftTouch.Rendering;
 

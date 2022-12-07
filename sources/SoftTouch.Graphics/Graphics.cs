@@ -14,7 +14,7 @@ using WGPU.NET;
 using Image = SixLabors.ImageSharp.Image;
 using WTexture = WGPU.NET.Texture;
 
-namespace SoftTouch.Graphics.WGPU
+namespace SoftTouch.Graphics.WebGPU
 {
     public unsafe class WGPUGraphics
     {
@@ -63,7 +63,11 @@ namespace SoftTouch.Graphics.WGPU
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                Surface = instance.CreateSurfaceFromWindowsHWND((IntPtr)window.Native?.Win32?.HInstance,(IntPtr)window.Native?.Win32?.Hwnd);
+                var inst = window.Native?.Win32?.HInstance ?? 0;
+                var hwnd = window.Native?.Win32?.Hwnd ?? 0;
+                if(inst == 0 || hwnd == 0)
+                    throw new NullReferenceException("No window hwnd or instance");
+                Surface = instance.CreateSurfaceFromWindowsHWND(inst,hwnd);
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
@@ -71,18 +75,14 @@ namespace SoftTouch.Graphics.WGPU
             }
             else
             {
-                Surface = instance.CreateSurfaceFromMetalLayer((IntPtr)(window.Native?.Cocoa ?? 0));
+                Surface = instance.CreateSurfaceFromMetalLayer(window.Native?.Cocoa ?? 0);
             }
 
-
-            Adapter = default;
 
             instance.RequestAdapter(Surface, default, default, (s, a, m) => Adapter = a, Wgpu.BackendType.Vulkan);
 
             Adapter.GetProperties(out Wgpu.AdapterProperties properties);
 
-
-            Device = default;
 
             Adapter.RequestDevice((s, d, m) => Device = d,
                 limits: new RequiredLimits()
@@ -103,7 +103,7 @@ namespace SoftTouch.Graphics.WGPU
 
 
             // Create vertices
-            var model = SharpGLTF.Schema2.ModelRoot.Load("../../assets/models/Fox.glb");
+            var model = ModelRoot.Load("../../assets/models/Fox.glb");
             var prim = model.LogicalMeshes[0].Primitives[0];
             var cols = prim.GetVertexColumns();
             vertices = new Vertex[cols.Positions.Count];

@@ -1,3 +1,9 @@
 # SoftTouch3D
 
-A game engine prototype
+A C# game engine prototype
+
+## Design principles
+
+* Simple
+* Modular
+* Data-driven rendering

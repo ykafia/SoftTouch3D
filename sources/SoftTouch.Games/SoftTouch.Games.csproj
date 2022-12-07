@@ -1,5 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
+  <!-- <Import Project="..\Directory.Build.props" /> -->
   <ItemGroup>
     <ProjectReference Include="..\WGPU\WGPU.NET\WGPU.NET.csproj" />
     <ProjectReference Include="..\SoftTouch.ECS\sources\SoftTouch.ECS\SoftTouch.ECS.csproj" />
@@ -9,8 +9,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Silk.NET" Version="2.16.0" />
-    <PackageReference Include="Zio" Version="0.16.1" />
+    <PackageReference Include="Silk.NET" Version="$(SilkVersion)" />
+    <PackageReference Include="Zio" Version="$(ZioVersion)" />
+    <PackageReference Include="MessagePack" Version="$(MessagePackVersion)" />
   </ItemGroup>
 
   <PropertyGroup>
