@@ -1,7 +1,7 @@
 using SoftTouch.ECS;
 using SoftTouch.Assets;
 using SoftTouch.Components;
-using SoftTouch.Graphics.WGPU;
+using SoftTouch.Graphics.WebGPU;
 using System;
 using System.Linq;
 using Silk.NET.Maths;
@@ -151,7 +151,7 @@ public class FoxMeshProcessor : RenderProcessor<Query<Transform, GlobalTransform
             {
                     new VertexBufferLayout
                     {
-                        ArrayStride = model.Meshes.First().VertexBuffer.SizeInBytes,
+                        // ArrayStride = model.Meshes.First().VertexBuffer.SizeInBytes,
                         Attributes = new Wgpu.VertexAttribute[]
                         {
 							//position

@@ -4,12 +4,13 @@ using System.Linq;
 using SharpGLTF.Memory;
 using SharpGLTF.Schema2;
 using SoftTouch.Assets;
-using SoftTouch.Graphics.WGPU;
+using SoftTouch.Graphics.WebGPU;
 using WGPU.NET;
 using Zio;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using SoftTouch.Rendering.Renderables;
+using SoftTouch.Graphics;
 
 namespace SoftTouch.Assets.Importers;
 

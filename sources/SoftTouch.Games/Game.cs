@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 using System.IO;
 using SoftTouch.ECS;
 using Silk.NET.Windowing;
-using SoftTouch.Graphics.WGPU;
+using SoftTouch.Graphics.WebGPU;
 using SoftTouch.Assets;
 using Zio.FileSystems;
 using SoftTouch.Rendering;

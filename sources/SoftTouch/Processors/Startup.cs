@@ -2,7 +2,7 @@ using System;
 using SoftTouch.ECS;
 using SoftTouch.Assets;
 using SoftTouch.Components;
-using SoftTouch.Graphics.WGPU;
+using SoftTouch.Graphics.WebGPU;
 using SoftTouch.Assets.Importers;
 
 namespace SoftTouch.Processors;

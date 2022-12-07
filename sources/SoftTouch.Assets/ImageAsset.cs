@@ -1,4 +1,4 @@
-using SoftTouch.Graphics.WGPU;
+using SoftTouch.Graphics.WebGPU;
 using WGPU.NET;
 using Zio;
 using SixLabors.ImageSharp;

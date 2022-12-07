@@ -22,10 +22,10 @@ public class ModelAsset : IAsset<ModelAsset>
     {
         foreach(var m in asset.Meshes)
         {
-            m.VertexBuffer.DestroyResource();
-            m.IndexBuffer.DestroyResource();
-            m.VertexBuffer.FreeHandle();
-            m.IndexBuffer.FreeHandle();
+            // m.VertexBuffer.DestroyResource();
+            // m.IndexBuffer.DestroyResource();
+            // m.VertexBuffer.FreeHandle();
+            // m.IndexBuffer.FreeHandle();
         }
     }
 
