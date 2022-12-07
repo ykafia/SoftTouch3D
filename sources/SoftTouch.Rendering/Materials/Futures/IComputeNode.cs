@@ -1,4 +1,4 @@
-namespace SoftTouch.Rendering.Materials;
+namespace SoftTouch.Rendering.Materials.Futures;
 
 
 public interface IComputeNode
