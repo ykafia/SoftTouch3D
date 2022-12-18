@@ -22,7 +22,13 @@ public class AssetManager
             return (IAsset<T>)res;
         else
         {
-            LoadedAssets.Add(path, T.Load(path,fileSystem));
+            var asset = T.Load(path,fileSystem);
+            if(asset is IComposableAsset<T> ca)
+            {
+                foreach(var e in ca)
+                    LoadedAssets.Load(path)
+            }
+            LoadedAssets.Add(path, );
             return (IAsset<T>)LoadedAssets[path];
         }
     }
