@@ -12,9 +12,9 @@ using SixLabors.ImageSharp.PixelFormats;
 using SoftTouch.Rendering.Renderables;
 using SoftTouch.Graphics;
 
-namespace SoftTouch.Assets.Importers;
+namespace SoftTouch.Assets.Importers.GLTF;
 
-public static class MeshImporter
+public static partial class MeshImporter
 {
     public static void LoadGltf(UPath path, IFileSystem fs, out ModelAsset model)
     {
@@ -52,8 +52,9 @@ public static class MeshImporter
                 VertexCount = (ulong)prim.GetVertices("POSITION").AsVector3Array().Count,
                 Layout = layout,
                 Stride = stride,
-                Offset = offset
+                Offset = offset 
             };
+            
             var count = (int)p.VertexCount;
             var buffer = new List<byte>(count * (int)stride);
             for (int i = 0; i < count; i++)

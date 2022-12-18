@@ -7,7 +7,7 @@ namespace SoftTouch.Graphics;
 public class IndexBufferBinding
 {
     public string Label { get; }
-    public WGPU.NET.Buffer? IndexBuffer { get; private set; }
+    public WGPU.NET.Buffer IndexBuffer { get; private set; }
     public int Size { get; private set; }
     public long Count { get; private set; }
 

@@ -29,10 +29,11 @@
     <ProjectReference Include="..\SoftTouch.Assets\SoftTouch.Assets.csproj" />
     <ProjectReference Include="..\SoftTouch.Graphics\SoftTouch.Graphics.csproj" />
     <ProjectReference Include="..\SoftTouch.Games\SoftTouch.Games.csproj" />
+    <ProjectReference Include="..\SoftTouch.AssetCompiler\SoftTouch.AssetCompiler.csproj" />
   </ItemGroup>
 
   <Target Name="Hello World" AfterTargets="Build">
-    <Exec Command="pwsh -command %22 Write-Host 34 %22" />
+    <Exec Command="pwsh -command %22 ./bin/Debug/net7.0/SoftTouch.AssetCompiler.exe %22" />
   </Target>
 
 </Project>

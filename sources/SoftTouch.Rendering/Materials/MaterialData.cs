@@ -21,8 +21,4 @@ public class MaterialData
         Sampler = sampler;
     }
 }
-public class MaterialAttributes
-{
-    public MaterialData Diffuse {get;set;}
-}
 

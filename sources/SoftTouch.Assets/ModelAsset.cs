@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using SoftTouch.Rendering.Materials;
 using SoftTouch.Rendering.Renderables;
 using WGPU.NET;
 using Zio;
@@ -11,10 +12,14 @@ public class ModelAsset : IAsset<ModelAsset>
 {
     public readonly List<MeshDraw> Meshes = new();
     public readonly List<VertexBufferLayout> Layouts = new();
+    public MaterialAsset? Material;
+
+    public UPath Path { get; set;}
+    public string Name { get; set;}
 
     public static ModelAsset Load(in UPath path, IFileSystem fs)
     {
-        Importers.MeshImporter.LoadGltf(path, fs, out var model);
+        Importers.GLTF.MeshImporter.LoadGltf(path, fs, out var model);
         return model;
     }
 
@@ -22,10 +27,10 @@ public class ModelAsset : IAsset<ModelAsset>
     {
         foreach(var m in asset.Meshes)
         {
-            // m.VertexBuffer.DestroyResource();
-            // m.IndexBuffer.DestroyResource();
-            // m.VertexBuffer.FreeHandle();
-            // m.IndexBuffer.FreeHandle();
+            m.VertexBufferBinding.VertexBuffer.DestroyResource();
+            m.IndexBufferBinding?.IndexBuffer.DestroyResource();
+            m.VertexBufferBinding.VertexBuffer.FreeHandle();
+            m.IndexBufferBinding?.IndexBuffer.FreeHandle();
         }
     }
 

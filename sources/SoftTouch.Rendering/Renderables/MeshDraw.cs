@@ -7,12 +7,12 @@ namespace SoftTouch.Rendering.Renderables;
 
 public class MeshDraw
 {
-    public VertexBufferBinding VertexBuffer {get;}
-    public IndexBufferBinding? IndexBuffer {get;}
+    public VertexBufferBinding VertexBufferBinding {get;}
+    public IndexBufferBinding? IndexBufferBinding {get;}
     
     public MeshDraw(in MeshData primitive, WGPUGraphics graphics)
     {
-        VertexBuffer = new(
+        VertexBufferBinding = new(
             "VertexBuffer",
             graphics.Device,
             true,
@@ -25,7 +25,7 @@ public class MeshDraw
         
         
         if(primitive.Indices != null)
-            IndexBuffer = new(
+            IndexBufferBinding = new(
                 "IndexBuffer",
                 graphics.Device,
                 true,
