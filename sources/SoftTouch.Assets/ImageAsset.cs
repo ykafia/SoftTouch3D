@@ -23,7 +23,7 @@ public class ImageAsset : IAsset<ImageAsset>
         if (fs.FileExists(path) && path.GetExtensionWithDot() == ".png")
         {
             var image = Image.Load<Rgba32>(fs.OpenFile(path,FileMode.Open,FileAccess.Read));
-            return new ImageAsset(image);
+            return new ImageAsset(image,new());
         }
         else if (fs.FileExists(path) && path.GetExtensionWithDot() == ".gltf")
         {
