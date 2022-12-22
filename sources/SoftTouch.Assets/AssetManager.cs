@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
+using SoftTouch.Assets.FileSystems;
 using Zio;
 using Zio.FileSystems;
 
@@ -8,14 +9,17 @@ namespace SoftTouch.Assets;
 public class AssetManager
 {
     PhysicalFileSystem physicalFileSystem = new();
+    
     AggregateFileSystem fileSystem = new();
 
     Dictionary<UPath, IAsset> LoadedAssets = new();
 
     public AssetManager()
     {
-        fileSystem.AddFileSystem(new SubFileSystem(physicalFileSystem, ))
-        physicalFileSystem.EnumerateFiles("/","*.gl(tf|b)",SearchOption.AllDirectories).ToList().ForEach(x => Console.WriteLine(x));
+        var sub = new SubFileSystem(physicalFileSystem, physicalFileSystem.ConvertPathFromInternal("../../assets/"));
+        fileSystem.AddFileSystem(sub);
+        sub.EnumerateFiles("/","*.glb",SearchOption.AllDirectories).ToList().ForEach(x => AddFileSystem(new GltfFileSystem(sub,x.FullName)));
+        fileSystem.EnumerateItems("/",SearchOption.AllDirectories).ToList().ForEach(x => Console.WriteLine(x));
     }
 
     public void AddFileSystem(params IFileSystem[] fileSystems)
