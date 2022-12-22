@@ -10,7 +10,7 @@ public class AssetManager
 {
     PhysicalFileSystem physicalFileSystem = new();
     
-    AggregateFileSystem fileSystem = new();
+    ResourcesFileSystem fileSystem = new();
 
     Dictionary<UPath, IAsset> LoadedAssets = new();
 
@@ -19,7 +19,10 @@ public class AssetManager
         var sub = new SubFileSystem(physicalFileSystem, physicalFileSystem.ConvertPathFromInternal("../../assets/"));
         fileSystem.AddFileSystem(sub);
         sub.EnumerateFiles("/","*.glb",SearchOption.AllDirectories).ToList().ForEach(x => AddFileSystem(new GltfFileSystem(sub,x.FullName)));
-        fileSystem.EnumerateItems("/",SearchOption.AllDirectories).ToList().ForEach(x => Console.WriteLine(x));
+        fileSystem
+            // .GetFileSystems()[1]
+            .EnumeratePaths("/images/", "*", SearchOption.AllDirectories, SearchTarget.File)
+            .ToList().ForEach(x => Console.WriteLine(x));
     }
 
     public void AddFileSystem(params IFileSystem[] fileSystems)

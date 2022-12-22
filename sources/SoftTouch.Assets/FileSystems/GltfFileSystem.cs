@@ -15,6 +15,13 @@ public class GltfFileSystem : ComposeFileSystem
     ModelRoot Model;
 
     /// <summary>
+    /// Gets the sub path relative to the delegate <see cref="ComposeFileSystem.Fallback"/>
+    /// </summary>
+    public UPath SubPath { get; }
+
+    // internal UPath FullSubPath => ((SubFileSystem)FallbackSafe).SubPath / SubPath;
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="GltfFileSystem"/> class.
     /// </summary>
     /// <param name="fileSystem">The file system to create a view from.</param>
@@ -32,10 +39,7 @@ public class GltfFileSystem : ComposeFileSystem
             Model = ModelRoot.Load(fileSystem.ConvertPathToInternal(SubPath));
     }
 
-    /// <summary>
-    /// Gets the sub path relative to the delegate <see cref="ComposeFileSystem.Fallback"/>
-    /// </summary>
-    public UPath SubPath { get; }
+    
 
     protected override string DebuggerDisplay()
     {
@@ -69,10 +73,17 @@ public class GltfFileSystem : ComposeFileSystem
             return _fileSystem.ConvertPathFromDelegate(pathFromEvent);
         }
     }
-
+    /// <inheritdoc />
     protected override UPath ConvertPathToDelegate(UPath path)
     {
         var safePath = path.ToRelative();
+        if (FallbackSafe is SubFileSystem sfs)
+        {
+            var p = sfs.SubPath / SubPath.ToRelative();
+            if (safePath != UPath.Root && safePath != UPath.Empty)
+                p /= safePath;
+            return p;
+        }
         return SubPath / safePath;
     }
 
@@ -91,26 +102,64 @@ public class GltfFileSystem : ComposeFileSystem
         return subPath == string.Empty ? UPath.Root : subPath;
     }
 
-    static readonly string[] folderNames = {"images", "meshes", "materials"};
-    
-    
+    static readonly UPath[] folderNames = { "images", "meshes", "materials" };
+
+    protected override IEnumerable<UPath> EnumeratePathsImpl(UPath path, string searchPattern, SearchOption searchOption, SearchTarget searchTarget)
+    {
+        var pattern = SearchPattern.Parse(ref path, ref searchPattern);
+        var folders = folderNames.Select(x => ConvertPathToDelegate(path) / x);
+        var images = Model.LogicalImages.Select(x => folderNames[0] / (x.Name ?? x.LogicalIndex.ToString())).Select(ConvertPathToDelegate);
+        var meshes = Model.LogicalMeshes.Select(x => folderNames[1] / (x.Name ?? x.LogicalIndex.ToString())).Select(ConvertPathToDelegate);
+        var materials = Model.LogicalMaterials.Select(x => folderNames[2] / (x.Name ?? x.LogicalIndex.ToString())).Select(ConvertPathToDelegate);
+        
+        var selection = Enumerable.Empty<UPath>();
+        if(path == "/images/")
+            selection = selection.Concat(images);
+        else if(path == "/meshes/")
+            selection = selection.Concat(meshes);
+        else if(path == "/materials/")
+            selection = selection.Concat(materials);
+        else 
+            selection = images.Concat(meshes).Concat(materials);
+        
+        return (searchOption, searchTarget) switch
+        {
+            (_, SearchTarget.Directory) =>
+                folders.Where(pattern.Match),
+            (SearchOption.AllDirectories, SearchTarget.Both) =>
+                folders.Concat(selection).Where(pattern.Match),
+            (SearchOption.AllDirectories, SearchTarget.File) =>
+                selection.Where(pattern.Match),
+            _ => Enumerable.Empty<UPath>()
+        };
+
+    }
     protected override IEnumerable<FileSystemItem> EnumerateItemsImpl(UPath path, SearchOption searchOption, SearchPredicate? searchPredicate)
     {
-        var folders = folderNames.Select(x => new FileSystemItem(FallbackSafe, ConvertPathToDelegate(path) / x, true));
-        var images = Model.LogicalImages.Select(x => new FileSystemItem(FallbackSafe, ConvertPathToDelegate(path) / folderNames[0] / (x.Name ?? x.LogicalIndex.ToString()),false));
-        var meshes = Model.LogicalMeshes.Select(x => new FileSystemItem(FallbackSafe, ConvertPathToDelegate(path) / folderNames[1] / (x.Name ?? x.LogicalIndex.ToString()),false));
-        var materials = Model.LogicalMaterials.Select(x => new FileSystemItem(FallbackSafe, ConvertPathToDelegate(path) / folderNames[2] / (x.Name ?? x.LogicalIndex.ToString()),false));
-        if(path == UPath.Root) 
+        var folders = folderNames.Select(x => new FileSystemItem(FallbackSafe, ConvertPathToDelegate(x), true));
+        var images = Model.LogicalImages.Select(x => new FileSystemItem(FallbackSafe, ConvertPathToDelegate(folderNames[0] / (x.Name ?? x.LogicalIndex.ToString())), false));
+        var meshes = Model.LogicalMeshes.Select(x => new FileSystemItem(FallbackSafe, ConvertPathToDelegate(folderNames[1] / (x.Name ?? x.LogicalIndex.ToString())), false));
+        var materials = Model.LogicalMaterials.Select(x => new FileSystemItem(FallbackSafe, ConvertPathToDelegate(folderNames[2] / (x.Name ?? x.LogicalIndex.ToString())), false));
+        if (path == UPath.Root)
             return images.Concat(meshes).Concat(materials).Concat(meshes);
-        else if(path.GetFirstDirectory(out UPath _) == "images")
+        else if (path.GetFirstDirectory(out UPath _) == "images")
             return images;
-        else if(path.GetFirstDirectory(out UPath _) == "meshes")
+        else if (path.GetFirstDirectory(out UPath _) == "meshes")
             return meshes;
-        else if(path.GetFirstDirectory(out UPath _) == "materials")
+        else if (path.GetFirstDirectory(out UPath _) == "materials")
             return materials;
-        else 
+        else
             return Enumerable.Empty<FileSystemItem>();
     }
 
+    protected override bool DirectoryExistsImpl(UPath path)
+    {
+        return 
+            path == new UPath("/meshes") 
+            || path == new UPath("/materials")
+            || path == new UPath("/images");
     
+    }
+
+
 }
