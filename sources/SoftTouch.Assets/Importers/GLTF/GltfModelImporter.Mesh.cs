@@ -6,24 +6,17 @@ using SharpGLTF.Schema2;
 using SoftTouch.Assets;
 using SoftTouch.Graphics.WebGPU;
 using WGPU.NET;
-using Zio;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
-using SoftTouch.Rendering.Renderables;
 using SoftTouch.Graphics;
 
 namespace SoftTouch.Assets.Importers.GLTF;
 
-public static partial class MeshImporter
+public partial class GLTFModelImporter
 {
-    public static void LoadGltf(UPath path, IFileSystem fs, out ModelAsset model)
+    public static ModelAsset Convert(Mesh mesh)
     {
-        model = new ModelAsset();
+        var model = new ModelAsset();
 
-
-        var gltf = ModelRoot.Load(fs.ConvertPathToInternal(path));
-        
-        foreach (var prim in gltf.LogicalMeshes[0].Primitives)
+        foreach (var prim in mesh.Primitives)
         {
 
             ulong stride = (ulong)prim.VertexAccessors.Values.Select(x => x.Format.ByteSize).Sum();
@@ -52,9 +45,9 @@ public static partial class MeshImporter
                 VertexCount = (ulong)prim.GetVertices("POSITION").AsVector3Array().Count,
                 Layout = layout,
                 Stride = stride,
-                Offset = offset 
+                Offset = offset
             };
-            
+
             var count = (int)p.VertexCount;
             var buffer = new List<byte>(count * (int)stride);
             for (int i = 0; i < count; i++)
@@ -66,9 +59,11 @@ public static partial class MeshImporter
             }
             // model.Meshes.Add(new MeshDraw(p, graphics));
         }
+        return model;
     }
-
-
+}
+internal static class WGPUExtensions
+{
     public static Wgpu.VertexFormat Into(this AttributeFormat format)
     {
         return format switch

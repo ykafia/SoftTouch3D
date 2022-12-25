@@ -1,6 +1,3 @@
-// Copyright (c) Alexandre Mutel. All rights reserved.
-// This file is licensed under the BSD-Clause 2 license. 
-// See the license.txt file in the project root for more information.
 using System;
 using System.Diagnostics;
 using System.Collections.Generic;
@@ -10,14 +7,17 @@ using Zio.FileSystems;
 
 namespace SoftTouch.Assets.FileSystems;
 [DebuggerDisplay("{" + nameof(DebuggerDisplay) + "(),nq}")]
-public class GltfFileSystem : ComposeFileSystem
+public class GltfFileSystem : ComposeFileSystem, ICompositeAssetFileSystem
 {
+    static readonly string[] extensions = {".gltf", ".glb"};
+    public string[] Extensions => extensions;
     ModelRoot Model;
-
     /// <summary>
     /// Gets the sub path relative to the delegate <see cref="ComposeFileSystem.Fallback"/>
     /// </summary>
     public UPath SubPath { get; }
+    public string FileName { get; set; }
+
 
     // internal UPath FullSubPath => ((SubFileSystem)FallbackSafe).SubPath / SubPath;
 
@@ -31,6 +31,7 @@ public class GltfFileSystem : ComposeFileSystem
     public GltfFileSystem(IFileSystem fileSystem, UPath gltfPath, bool owned = false) : base(fileSystem, owned)
     {
         SubPath = gltfPath.AssertAbsolute(nameof(gltfPath));
+        FileName = gltfPath.GetName();
         if (!fileSystem.FileExists(SubPath))
         {
             throw new Exception("Cannot find file");
@@ -39,7 +40,7 @@ public class GltfFileSystem : ComposeFileSystem
             Model = ModelRoot.Load(fileSystem.ConvertPathToInternal(SubPath));
     }
 
-    
+
 
     protected override string DebuggerDisplay()
     {
@@ -111,17 +112,17 @@ public class GltfFileSystem : ComposeFileSystem
         var images = Model.LogicalImages.Select(x => folderNames[0] / (x.Name ?? x.LogicalIndex.ToString())).Select(ConvertPathToDelegate);
         var meshes = Model.LogicalMeshes.Select(x => folderNames[1] / (x.Name ?? x.LogicalIndex.ToString())).Select(ConvertPathToDelegate);
         var materials = Model.LogicalMaterials.Select(x => folderNames[2] / (x.Name ?? x.LogicalIndex.ToString())).Select(ConvertPathToDelegate);
-        
+
         var selection = Enumerable.Empty<UPath>();
-        if(path == "/images/")
+        if (path == "/images/")
             selection = selection.Concat(images);
-        else if(path == "/meshes/")
+        else if (path == "/meshes/")
             selection = selection.Concat(meshes);
-        else if(path == "/materials/")
+        else if (path == "/materials/")
             selection = selection.Concat(materials);
-        else 
+        else
             selection = images.Concat(meshes).Concat(materials);
-        
+
         return (searchOption, searchTarget) switch
         {
             (_, SearchTarget.Directory) =>
@@ -141,7 +142,7 @@ public class GltfFileSystem : ComposeFileSystem
         var meshes = Model.LogicalMeshes.Select(x => new FileSystemItem(FallbackSafe, ConvertPathToDelegate(folderNames[1] / (x.Name ?? x.LogicalIndex.ToString())), false));
         var materials = Model.LogicalMaterials.Select(x => new FileSystemItem(FallbackSafe, ConvertPathToDelegate(folderNames[2] / (x.Name ?? x.LogicalIndex.ToString())), false));
         if (path == UPath.Root)
-            return images.Concat(meshes).Concat(materials).Concat(meshes);
+            return images.Concat(meshes).Concat(materials);
         else if (path.GetFirstDirectory(out UPath _) == "images")
             return images;
         else if (path.GetFirstDirectory(out UPath _) == "meshes")
@@ -154,12 +155,47 @@ public class GltfFileSystem : ComposeFileSystem
 
     protected override bool DirectoryExistsImpl(UPath path)
     {
-        return 
-            path == new UPath("/meshes") 
+        return
+            path == new UPath("/meshes")
             || path == new UPath("/materials")
             || path == new UPath("/images");
-    
+
     }
 
+    protected override Stream OpenFileImpl(UPath path, FileMode mode, FileAccess access, FileShare share = FileShare.None)
+    {
+        throw new NotImplementedException();
+    }
 
+    public Mesh GetMesh(UPath path)
+    {
+        var folder = path.GetFirstDirectory(out var rest);
+        if(folder != "meshes")
+            throw new Exception($"Wrong folder {folder} for meshes");
+        return Model.LogicalMeshes
+            .First(x => 
+                x.LogicalIndex.ToString() == (string)rest.ToRelative()
+                || x.Name == (string)rest.ToRelative());
+    }
+    public Image GetImage(UPath path)
+    {
+        var folder = path.GetFirstDirectory(out var rest);
+        if(folder != "images")
+            throw new Exception($"Wrong folder {folder} for images");
+        return Model.LogicalImages
+            .First(x => 
+                x.LogicalIndex.ToString() == (string)rest.ToRelative()
+                || x.Name == (string)rest.ToRelative());
+    }
+    public Material GetMaterial(UPath path)
+    {
+        var folder = path.GetFirstDirectory(out var rest);
+        if(folder != "materials")
+            throw new Exception($"Wrong folder {folder} for materials");
+        return Model.LogicalMaterials
+            .First(x => 
+                x.LogicalIndex.ToString() == (string)rest.ToRelative()
+                || x.Name == (string)rest.ToRelative());
+                
+    }
 }

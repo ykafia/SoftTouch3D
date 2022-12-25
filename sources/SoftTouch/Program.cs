@@ -1,16 +1,8 @@
 ﻿using System;
 using System.Linq;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text.Json;
-using MessagePack;
-using MessagePack.Resolvers;
-using Silk.NET.Maths;
 using SoftTouch.Assets;
-using SoftTouch.Components;
-using SoftTouch.Games;
-using Zio.FileSystems;
-using SoftTouch.Assets.FileSystems;
+using SoftTouch.Graphics.WebGPU;
+using System.IO;
 
 // var fs = new PhysicalFileSystem();
 // var sub = new SubFileSystem(fs,fs.ConvertPathFromInternal("../../assets/"));
@@ -19,7 +11,10 @@ using SoftTouch.Assets.FileSystems;
 // foreach( var e in gltf.EnumerateItems("/", System.IO.SearchOption.TopDirectoryOnly))
 //     Console.WriteLine(e);
 
-var manager = new AssetManager();
-
+var manager = new AssetManager("../../assets/",new WGPUGraphics());
+manager.FileSystem
+    .EnumerateItems("/",SearchOption.AllDirectories)
+    .ToList()
+    .ForEach(x => Console.WriteLine(x));
 // var g = new MyGame();
 // g.Run();

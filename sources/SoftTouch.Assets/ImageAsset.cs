@@ -7,7 +7,7 @@ using System;
 
 namespace SoftTouch.Assets;
 
-public class ImageAsset : IAsset<ImageAsset>
+public class ImageAsset : IAsset
 {
     public Image<Rgba32> ImageTexture { get; private set; }
     public Wgpu.SamplerDescriptor SamplerDesc { get; private set; }
@@ -18,29 +18,14 @@ public class ImageAsset : IAsset<ImageAsset>
         SamplerDesc = samplerDesc;
         
     }
-    public static ImageAsset Load(in UPath path, IFileSystem fs)
+
+    public void Load(WGPUGraphics gfx)
     {
-        if (fs.FileExists(path) && path.GetExtensionWithDot() == ".png")
-        {
-            var image = Image.Load<Rgba32>(fs.OpenFile(path,FileMode.Open,FileAccess.Read));
-            return new ImageAsset(image,new());
-        }
-        else if (fs.FileExists(path) && path.GetExtensionWithDot() == ".gltf")
-        {
-            throw new NotImplementedException();
-            // var image = Image.Load<Rgba32>(fs.OpenFile(path,FileMode.Open,FileAccess.Read));
-            // return new ImageAsset(image);
-        }
-        else
-            throw new Exception("Not an image file");
-    }
-    public static void Unload(ImageAsset asset)
-    {
-        asset.Unload();
+        throw new NotImplementedException();
     }
 
     public void Unload()
     {
-        ImageTexture.Dispose();
+        throw new NotImplementedException();
     }
 }

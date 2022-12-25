@@ -1,8 +1,9 @@
+using SoftTouch.Graphics.WebGPU;
 using Zio;
 
 namespace SoftTouch.Assets;
 
-public class ShaderAsset : IAsset<ShaderAsset>
+public class ShaderAsset : IAsset
 {
     public required string Module {get; init;}
     public static ShaderAsset Load(in UPath path, IFileSystem fs)
@@ -10,16 +11,16 @@ public class ShaderAsset : IAsset<ShaderAsset>
         if(fs.FileExists(path) && path.GetExtensionWithDot() == ".wgsl")
             return new ShaderAsset{ Module = fs.ReadAllText(path)};
         else
-            throw new System.Exception("Not a wgsl file");
+            throw new Exception("Not a wgsl file");
     }
 
-    public static void Unload(ShaderAsset asset)
+    public void Load(WGPUGraphics gfx)
     {
-        //throw new System.NotImplementedException();
+        throw new NotImplementedException();
     }
 
     public void Unload()
     {
-        //throw new System.NotImplementedException();
+        throw new NotImplementedException();
     }
 }

@@ -1,17 +1,8 @@
 using System;
-using WGPU.NET;
-using System.Diagnostics;
-using Silk.NET.GLFW;
-using System.Runtime.InteropServices;
-using System.IO;
 using SoftTouch.ECS;
 using Silk.NET.Windowing;
 using SoftTouch.Graphics.WebGPU;
 using SoftTouch.Assets;
-using Zio.FileSystems;
-using SoftTouch.Rendering;
-using System.Threading.Tasks;
-using SoftTouch.Graphics;
 using MessagePack;
 using MessagePack.Resolvers;
 using Silk.NET.Maths;

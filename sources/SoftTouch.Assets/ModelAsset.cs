@@ -1,6 +1,9 @@
 using System;
+using System.Linq;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using SoftTouch.Graphics.WebGPU;
 using SoftTouch.Rendering.Materials;
 using SoftTouch.Rendering.Renderables;
 using WGPU.NET;
@@ -8,35 +11,32 @@ using Zio;
 
 namespace SoftTouch.Assets;
 
-public class ModelAsset : IAsset<ModelAsset>
+public class ModelAsset : IAsset, IEnumerable<IAsset>
 {
     public readonly List<MeshDraw> Meshes = new();
     public readonly List<VertexBufferLayout> Layouts = new();
-    public MaterialAsset? Material;
+    public MaterialAsset Material;
 
-    public UPath Path { get; set;}
-    public string Name { get; set;}
-
-    public static ModelAsset Load(in UPath path, IFileSystem fs)
+    public IEnumerator<IAsset> GetEnumerator()
     {
-        Importers.GLTF.MeshImporter.LoadGltf(path, fs, out var model);
-        return model;
+        foreach(var a in Material)
+            yield return a;
+        yield return this;
     }
 
-    public static void Unload(ModelAsset asset)
+    public void Load(WGPUGraphics gfx)
     {
-        foreach(var m in asset.Meshes)
-        {
-            m.VertexBufferBinding.VertexBuffer.DestroyResource();
-            m.IndexBufferBinding?.IndexBuffer.DestroyResource();
-            m.VertexBufferBinding.VertexBuffer.FreeHandle();
-            m.IndexBufferBinding?.IndexBuffer.FreeHandle();
-        }
+        throw new NotImplementedException();
     }
 
     public void Unload()
     {
-        Unload(this);
+        throw new NotImplementedException();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
     }
 }
 
