@@ -5,7 +5,7 @@ namespace SoftTouch.Games;
 
 public class MyGame : Game
 {
-    public MyGame() : base(Assets.SoftTouchResolver.Instance, StandardResolver.Instance)
+    public MyGame() : base()
     {
 
     }

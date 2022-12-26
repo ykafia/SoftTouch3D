@@ -17,22 +17,14 @@ public abstract class Game : IGame
     AssetManager assetManager;
 
 
-    public Game(params IFormatterResolver[] resolvers)
+    public Game()
     {
-        
-        var options = 
-            MessagePackSerializerOptions.Standard.WithResolver(CompositeResolver.Create(resolvers))
-            .WithCompression(MessagePackCompression.Lz4BlockArray);
-        MessagePackSerializer.DefaultOptions = options;
+        // MessagePackSerializer.DefaultOptions = SoftTouchResolver.Options;
 
-        var buff = MessagePackSerializer.Serialize(Vector3D<float>.One);
-        var des = MessagePackSerializer.Deserialize<Vector3D<float>>(buff);
-        Console.WriteLine($"<{des.X}, {des.Y}, {des.Z}>");
-        
         // window = Window.Create(WindowOptions.Default);
         // window.Initialize();
         // OnLoad();
-        
+
 
         // world = new();
         // var fs = new PhysicalFileSystem();

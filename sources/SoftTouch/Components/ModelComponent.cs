@@ -8,14 +8,14 @@ namespace SoftTouch.Components;
 
 public readonly struct ModelComponent
 {
-    public ModelAsset Model {get;}
-    public readonly List<MeshDraw> Meshes => Model.Meshes;
-    public readonly List<VertexBufferLayout> Layouts => Model.Layouts;
+    // public ModelAsset Model {get;}
+    public readonly List<MeshDraw> Meshes;// => Model.Meshes;
+    public readonly List<VertexBufferLayout> Layouts;// => Model.Layouts;
 
-    public ModelComponent(ModelAsset model)
-    {
-        Model = model;
-    }
+    // public ModelComponent(ModelAsset model)
+    // {
+    //     Model = model;
+    // }
 
     
 }

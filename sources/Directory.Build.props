@@ -4,7 +4,7 @@
    <SilkVersion>2.16.0</SilkVersion>
    <SharpGLTFVersion>1.0.0-alpha0027</SharpGLTFVersion>
    <ImageSharpVersion>2.1.3</ImageSharpVersion>
-   <MessagePackVersion>2.4.59</MessagePackVersion>
+   <MemoryPackVersion>1.9.7</MemoryPackVersion>
    <YamlDotNetVersion>12.1.0</YamlDotNetVersion>
  </PropertyGroup>
 </Project>

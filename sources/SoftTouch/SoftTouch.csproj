@@ -10,11 +10,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MessagePack" Version="2.4.59" />
-    <PackageReference Include="MessagePackAnalyzer" Version="2.4.59">
+    <PackageReference Include="MemoryPack" Version="$(MemoryPackVersion)" />
+    <!-- <PackageReference Include="MessagePackAnalyzer" Version="2.4.59">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
+    </PackageReference> -->
     <PackageReference Include="SharpGLTF.Core" Version="$(SharpGLTFVersion)" />
     <PackageReference Include="SharpGLTF.Toolkit" Version="$(SharpGLTFVersion)" />
     <PackageReference Include="Silk.NET" Version="$(SilkVersion)" />

@@ -9,29 +9,10 @@ using System.Collections;
 
 namespace SoftTouch.Assets;
 
-public class MaterialAsset : IAsset, IEnumerable<IAsset>
+public class MaterialAsset : AssetItem
 {
-    public ImageAsset DiffuseMap {get;set;}
-
-    public IEnumerator<IAsset> GetEnumerator()
+    public MaterialAsset(UPath path) : base(path)
     {
-        yield return DiffuseMap;
-        yield return this;
-    }
-
-    public void Load(WGPUGraphics gfx)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void Unload()
-    {
-        throw new NotImplementedException();
-    }
-
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return GetEnumerator();
     }
 }
 

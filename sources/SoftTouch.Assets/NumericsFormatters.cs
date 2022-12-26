@@ -1,41 +1,67 @@
 using System;
 using System.Collections.Generic;
-using MessagePack;
-using MessagePack.Formatters;
+using System.Numerics;
+using MemoryPack;
+using MemoryPack.Formatters;
 using Silk.NET.Maths;
 
 namespace SoftTouch.Assets;
 
-public class Vector2DFloatFormatter : IMessagePackFormatter<Vector2D<float>>
+public class Vector2DFloatFormatter<T> : MemoryPackFormatter<Vector2D<T>>
+    where T : unmanaged, IFormattable, IEquatable<T>, IComparable<T>
 {
-    public void Serialize(
-      ref MessagePackWriter writer, Vector2D<float> value, MessagePackSerializerOptions options)
+    // public void Serialize(
+    //   ref MessagePackWriter writer, Vector2D<float> value, MessagePackSerializerOptions options)
+    // {
+    //     if (value == null)
+    //     {
+    //         writer.WriteNil();
+    //         return;
+    //     }
+
+    //     writer.Write(value.X);
+    //     writer.Write(value.Y);
+    // }
+
+    // public Vector2D<float> Deserialize(
+    //   ref MessagePackReader reader, MessagePackSerializerOptions options)
+    // {
+    //     if (reader.TryReadNil())
+    //     {
+    //         return Vector2D<float>.Zero;
+    //     }
+
+    //     options.Security.DepthStep(ref reader);
+
+    //     var x = reader.ReadSingle();
+    //     var y = reader.ReadSingle();
+    //     reader.Depth--;
+
+    //     return new Vector2D<float>(x,y);
+    // }
+    public override void Deserialize(ref MemoryPackReader reader, ref Vector2D<T> value)
+    {
+        if (reader.PeekIsNull())
+        {
+            value = Vector2D<T>.Zero;
+        }
+
+        var x = reader.ReadValue<T>();
+        var y = reader.ReadValue<T>();
+
+        value = new Vector2D<T>(x,y);
+    }
+
+    public override void Serialize<TBufferWriter>(ref MemoryPackWriter<TBufferWriter> writer, ref Vector2D<T> value)
     {
         if (value == null)
         {
-            writer.WriteNil();
+            writer.WriteNullObjectHeader();
             return;
         }
 
-        writer.Write(value.X);
-        writer.Write(value.Y);
-    }
-
-    public Vector2D<float> Deserialize(
-      ref MessagePackReader reader, MessagePackSerializerOptions options)
-    {
-        if (reader.TryReadNil())
-        {
-            return Vector2D<float>.Zero;
-        }
-
-        options.Security.DepthStep(ref reader);
-
-        var x = reader.ReadSingle();
-        var y = reader.ReadSingle();
-        reader.Depth--;
-
-        return new Vector2D<float>(x,y);
+        writer.WriteValue(value.X);
+        writer.WriteValue(value.Y);
     }
 }
 

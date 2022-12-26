@@ -130,55 +130,55 @@ public class FoxMeshProcessor : RenderProcessor<Query<Transform, GlobalTransform
 
 
 
-        var shaderAsset = (ShaderAsset)World.GetResource<AssetManager>().Load<ShaderAsset>("/shaders/shader.wgsl");
-        shader =  graphics.Device.CreateWgslShaderModule("shader", shaderAsset.Module);
+        // var shaderAsset = (ShaderAsset)World.GetResource<AssetManager>().Load<ShaderAsset>("/shaders/shader.wgsl");
+        // shader =  graphics.Device.CreateWgslShaderModule("shader", shaderAsset.Module);
 
-        pipelineLayout = graphics.Device.CreatePipelineLayout(
-            label: null,
-            new BindGroupLayout[]
-            {
-                    bindGroupLayout
-            }
-        );
+        // pipelineLayout = graphics.Device.CreatePipelineLayout(
+        //     label: null,
+        //     new BindGroupLayout[]
+        //     {
+        //             bindGroupLayout
+        //     }
+        // );
 
 
 
-        vertexState = new VertexState()
-        {
-            Module = shader,
-            EntryPoint = "vs_main",
-            bufferLayouts = new VertexBufferLayout[]
-            {
-                    new VertexBufferLayout
-                    {
-                        // ArrayStride = model.Meshes.First().VertexBuffer.SizeInBytes,
-                        Attributes = new Wgpu.VertexAttribute[]
-                        {
-							//position
-							new Wgpu.VertexAttribute
-                            {
-                                format = Wgpu.VertexFormat.Float32x3,
-                                offset = 0,
-                                shaderLocation = 0
-                            },
-							//color
-							new Wgpu.VertexAttribute
-                            {
-                                format = Wgpu.VertexFormat.Float32x4,
-                                offset = (ulong)Marshal.SizeOf(typeof(Vector3D<float>)), //right after positon
-								shaderLocation = 1
-                            },
-							//uv
-							new Wgpu.VertexAttribute
-                            {
-                                format = Wgpu.VertexFormat.Float32x2,
-                                offset = (ulong)(Marshal.SizeOf(typeof(Vector3D<float>))+Marshal.SizeOf(typeof(Vector4D<float>))), //right after color
-								shaderLocation = 2
-                            }
-                        }
-                    }
-            }
-        };
+        // vertexState = new VertexState()
+        // {
+        //     Module = shader,
+        //     EntryPoint = "vs_main",
+        //     bufferLayouts = new VertexBufferLayout[]
+        //     {
+        //             new VertexBufferLayout
+        //             {
+        //                 // ArrayStride = model.Meshes.First().VertexBuffer.SizeInBytes,
+        //                 Attributes = new Wgpu.VertexAttribute[]
+        //                 {
+		// 					//position
+		// 					new Wgpu.VertexAttribute
+        //                     {
+        //                         format = Wgpu.VertexFormat.Float32x3,
+        //                         offset = 0,
+        //                         shaderLocation = 0
+        //                     },
+		// 					//color
+		// 					new Wgpu.VertexAttribute
+        //                     {
+        //                         format = Wgpu.VertexFormat.Float32x4,
+        //                         offset = (ulong)Marshal.SizeOf(typeof(Vector3D<float>)), //right after positon
+		// 						shaderLocation = 1
+        //                     },
+		// 					//uv
+		// 					new Wgpu.VertexAttribute
+        //                     {
+        //                         format = Wgpu.VertexFormat.Float32x2,
+        //                         offset = (ulong)(Marshal.SizeOf(typeof(Vector3D<float>))+Marshal.SizeOf(typeof(Vector4D<float>))), //right after color
+		// 						shaderLocation = 2
+        //                     }
+        //                 }
+        //             }
+        //     }
+        // };
 
         
     }

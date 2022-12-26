@@ -6,15 +6,15 @@ namespace SoftTouch.Assets.Importers;
 public abstract class AssetImporter
 {
     public abstract string[] Extensions {get;}
-    public abstract IAsset Import(UPath path, AssetManager assetManager);
+    public abstract IEnumerable<AssetItem> Import(UPath path);
 }
 
 public abstract class AssetImporter<T> : AssetImporter
-    where T : class, IAsset
+    where T : AssetItem
 {
-    public abstract T ImportAsset(UPath path, AssetManager assetManager);
-    public override IAsset Import(UPath path, AssetManager assetManager)
+    public abstract IEnumerable<T> ImportAsset(UPath path);
+    public override IEnumerable<AssetItem> Import(UPath path)
     {
-        return ImportAsset(path,assetManager);
+        return ImportAsset(path);
     }
 }
