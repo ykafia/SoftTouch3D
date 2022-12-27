@@ -1,39 +1,34 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <!-- <Import Project="..\Directory.Build.props" /> -->
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net7.0</TargetFramework>
-    <LangVersion>preview</LangVersion>
-    <EnablePreviewFeatures>true</EnablePreviewFeatures>
-    <Nullable>enable</Nullable>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
+	<!-- <Import Project="..\Directory.Build.props" /> -->
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net7.0</TargetFramework>
+		<LangVersion>preview</LangVersion>
+		<EnablePreviewFeatures>true</EnablePreviewFeatures>
+		<Nullable>enable</Nullable>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="MemoryPack" Version="$(MemoryPackVersion)" />
-    <!-- <PackageReference Include="MessagePackAnalyzer" Version="2.4.59">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference> -->
-    <PackageReference Include="SharpGLTF.Core" Version="$(SharpGLTFVersion)" />
-    <PackageReference Include="SharpGLTF.Toolkit" Version="$(SharpGLTFVersion)" />
-    <PackageReference Include="Silk.NET" Version="$(SilkVersion)" />
-    <PackageReference Include="SixLabors.ImageSharp" Version="$(ImageSharpVersion)" />
-    <PackageReference Include="Zio" Version="$(ZioVersion)" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="MemoryPack" Version="$(MemoryPackVersion)" />
+		<PackageReference Include="SharpGLTF.Core" Version="$(SharpGLTFVersion)" />
+		<PackageReference Include="SharpGLTF.Toolkit" Version="$(SharpGLTFVersion)" />
+		<PackageReference Include="Silk.NET" Version="$(SilkVersion)" />
+		<PackageReference Include="SixLabors.ImageSharp" Version="$(ImageSharpVersion)" />
+		<PackageReference Include="Zio" Version="$(ZioVersion)" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\SoftTouch.ECS\sources\SoftTouch.ECS\SoftTouch.ECS.csproj" />
-    <ProjectReference Include="..\WGPU\WGPU.NET\WGPU.NET.csproj" />
-    <ProjectReference Include="..\SoftTouch.Rendering\SoftTouch.Rendering.csproj" />
-    <ProjectReference Include="..\SoftTouch.Assets\SoftTouch.Assets.csproj" />
-    <ProjectReference Include="..\SoftTouch.Graphics\SoftTouch.Graphics.csproj" />
-    <ProjectReference Include="..\SoftTouch.Games\SoftTouch.Games.csproj" />
-    <ProjectReference Include="..\SoftTouch.AssetsCompiler\SoftTouch.AssetsCompiler.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\SoftTouch.ECS\sources\SoftTouch.ECS\SoftTouch.ECS.csproj" />
+		<ProjectReference Include="..\WGPU\WGPU.NET\WGPU.NET.csproj" />
+		<ProjectReference Include="..\SoftTouch.Rendering\SoftTouch.Rendering.csproj" />
+		<ProjectReference Include="..\SoftTouch.Assets\SoftTouch.Assets.csproj" />
+		<ProjectReference Include="..\SoftTouch.Graphics\SoftTouch.Graphics.csproj" />
+		<ProjectReference Include="..\SoftTouch.Games\SoftTouch.Games.csproj" />
+		<ProjectReference Include="..\SoftTouch.AssetsCompiler\SoftTouch.AssetsCompiler.csproj" />
+	</ItemGroup>
 
-  <Target Name="Hello World" AfterTargets="Build">
-    <Exec Command="pwsh -command %22 ./bin/Debug/net7.0/SoftTouch.AssetsCompiler.exe %22" />
-  </Target>
-
+	<Target Name="Compile Assets" AfterTargets="Build">
+		<Exec Command="$(OutputPath)coffret.exe -h" />
+	</Target>
 </Project>

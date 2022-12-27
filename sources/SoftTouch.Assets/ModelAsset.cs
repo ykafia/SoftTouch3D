@@ -15,6 +15,8 @@ namespace SoftTouch.Assets;
 [MemoryPackable]
 public partial class ModelAsset : AssetItem
 {
+    public override string Extension { get; init; } = "model";
+
     [MemoryPackConstructor]
     public ModelAsset()
     {

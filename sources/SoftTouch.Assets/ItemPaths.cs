@@ -5,30 +5,30 @@ using Zio;
 namespace SoftTouch.Assets;
 
 [MemoryPackable]
-public sealed partial class PackaginConfig
+public sealed partial class ProjectPaths
 {
     [MemoryPackInclude]
-    public List<string>? ResourcesFolders = new();
+    public List<string> ResourcesFolders = new();
     
     [MemoryPackInclude]
-    public List<string>? AssetsFolders = new();
+    public List<string> AssetsFolders = new();
     
     [MemoryPackInclude]
-    public List<string>? ShadersFolders = new();
+    public List<string> ShadersFolders = new();
 
 
-    public PackaginConfig()
+    public ProjectPaths()
     {
         
     }
     [MemoryPackConstructor]
-    public PackaginConfig(List<string> resourcesFolders, List<string> assetsFolders, List<string> shadersFolders)
+    public ProjectPaths(List<string> resourcesFolders, List<string> assetsFolders, List<string> shadersFolders)
     {
         ResourcesFolders.AddRange(resourcesFolders);
         AssetsFolders.AddRange(assetsFolders);
         ShadersFolders.AddRange(shadersFolders);
     }
-    public PackaginConfig(string resourcef, string assetf, string shaderf)
+    public ProjectPaths(string resourcef, string assetf, string shaderf)
     {
         ResourcesFolders.Add(resourcef);
         AssetsFolders.Add(assetf);

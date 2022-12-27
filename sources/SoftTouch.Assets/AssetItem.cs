@@ -10,10 +10,13 @@ namespace SoftTouch.Assets;
 // [Union(1, typeof(MaterialAsset))]
 [MemoryPackable]
 [MemoryPackUnion(0,typeof(ModelAsset))]
-// [MemoryPackUnion(0,typeof(ImageAsset))]
-// [MemoryPackUnion(0,typeof(MaterialAsset))]
+[MemoryPackUnion(1, typeof(ImageAsset))]
+[MemoryPackUnion(2, typeof(MaterialAsset))]
+[MemoryPackUnion(3, typeof(ShaderAsset))]
 public abstract partial class AssetItem
 {
+    [MemoryPackIgnore]
+    public abstract string Extension { get; init; }
     [MemoryPackIgnore]
     public UPath Path { get; private set; }
     [MemoryPackIgnore]

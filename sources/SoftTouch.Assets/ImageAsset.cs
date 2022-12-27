@@ -4,12 +4,21 @@ using Zio;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using System;
+using MemoryPack;
 
 namespace SoftTouch.Assets;
 
-public class ImageAsset : AssetItem
+[MemoryPackable]
+public partial class ImageAsset : AssetItem
 {
-    public ImageAsset(UPath path) : base(path)
+    public override string Extension { get; init; } = "image";
+
+    [MemoryPackConstructor]
+    public ImageAsset() { }
+    
+    public ImageAsset(UPath path, UPath subpath) : base(path, subpath)
     {
+
     }
+
 }

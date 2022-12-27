@@ -6,11 +6,18 @@ using SixLabors.ImageSharp.PixelFormats;
 using System;
 using SharpGLTF.Schema2;
 using System.Collections;
+using MemoryPack;
 
 namespace SoftTouch.Assets;
 
-public class MaterialAsset : AssetItem
+[MemoryPackable]
+public partial class MaterialAsset : AssetItem
 {
+    public override string Extension { get; init; } = "mat";
+
+    [MemoryPackConstructor]
+    public MaterialAsset() { }
+
     public MaterialAsset(UPath path) : base(path)
     {
     }

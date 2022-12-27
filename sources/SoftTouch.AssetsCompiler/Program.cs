@@ -1,17 +1,17 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using Zio.FileSystems;
 using Zio;
+using System.CommandLine;
+using SoftTouch.AssetsCompiler;
 
 namespace SoftTouch.Assets.CompilerApp;
 
 public class Program
 {
-    public static void Main(string[] args)
+    public static async Task<int> Main(string[] args)
     {
-        var fs = new PhysicalFileSystem();
-        var sub = new SubFileSystem(fs, fs.ConvertPathFromInternal("./"));
-        sub.EnumerateItems("/", SearchOption.TopDirectoryOnly)
-            .ToList()
-            .ForEach(x => Console.WriteLine(x));
+        var rootCommand = new CompilationCommand();
+        return await rootCommand.InvokeAsync(args);
+
     }
 }

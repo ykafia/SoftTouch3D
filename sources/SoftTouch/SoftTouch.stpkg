@@ -1,0 +1,14 @@
+{
+  "version" :  "1.0.0",
+  "folders": {
+    "resourceFolders": [
+      "/Resources/"
+    ],
+    "assetFolders": [
+      "/Assets/"
+    ],
+    "effectFolders": [
+      "/Effects/"
+    ]
+  }
+}
