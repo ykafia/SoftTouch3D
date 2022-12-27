@@ -21,7 +21,17 @@ MemoryPackFormatterProvider.Register(new UPathFormatter());
 Console.WriteLine("Hello, world!");
 var fs = new PhysicalFileSystem();
 var sub = new SubFileSystem(fs, fs.ConvertPathFromInternal("./"));
-sub.WriteAllText("/vec2.json", JsonSerializer.Generic.Utf16.Serialize(new Vector2D<float>(2,5)));
+var packageConfig = new PackageConfig(
+    "1.0.0", 
+    new(
+        "Resources", 
+        "Assets", 
+        "Shaders"
+    )
+);
+var serialized = JsonSerializer.Generic.Utf16.Serialize(packageConfig);
+Console.WriteLine(serialized);
+sub.WriteAllText("/SoftTouch.stpkg", serialized);
 
 // var fs = new PhysicalFileSystem();
 // var sub = new SubFileSystem(fs,fs.ConvertPathFromInternal("../../assets/"));

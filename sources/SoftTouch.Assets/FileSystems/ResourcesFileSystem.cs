@@ -8,6 +8,10 @@ namespace SoftTouch.Assets.FileSystems;
 
 public class ResourcesFileSystem : AggregateFileSystem
 {
+    public override void AddFileSystem(IFileSystem fs)
+    {
+        base.AddFileSystem(fs);
+    }
     protected override IEnumerable<UPath> EnumeratePathsImpl(UPath path, string searchPattern, SearchOption searchOption, SearchTarget searchTarget)
     {
         SearchPattern.Parse(ref path, ref searchPattern);

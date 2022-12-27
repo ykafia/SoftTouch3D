@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.Serialization;
 using MemoryPack;
 using SoftTouch.Graphics.WebGPU;
 using Zio;
@@ -16,6 +17,7 @@ namespace SoftTouch.Assets;
 public abstract partial class AssetItem
 {
     [MemoryPackIgnore]
+    [IgnoreDataMember]
     public abstract string Extension { get; init; }
     [MemoryPackInclude]
     [MemoryPackAllowSerialize]

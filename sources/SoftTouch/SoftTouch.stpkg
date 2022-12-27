@@ -1,14 +1,14 @@
 {
-  "version" :  "1.0.0",
-  "folders": {
-    "resourceFolders": [
-      "/Resources/"
+  "Version": "1.0.0",
+  "Paths": {
+    "ResourcesFolders": [
+      "Resources"
     ],
-    "assetFolders": [
-      "/Assets/"
+    "AssetsFolders": [
+      "Assets"
     ],
-    "effectFolders": [
-      "/Effects/"
+    "ShadersFolders": [
+      "Shaders"
     ]
   }
 }
