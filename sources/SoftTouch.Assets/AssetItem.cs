@@ -17,18 +17,20 @@ public abstract partial class AssetItem
 {
     [MemoryPackIgnore]
     public abstract string Extension { get; init; }
-    [MemoryPackIgnore]
+    [MemoryPackInclude]
+    [MemoryPackAllowSerialize]
     public UPath Path { get; private set; }
     [MemoryPackIgnore]
     public string? Name => Path.GetNameWithoutExtension();
     
-    [MemoryPackIgnore]
+    [MemoryPackInclude]
+    [MemoryPackAllowSerialize]
     public UPath SubPath { get; private set; }
 
     [MemoryPackIgnore]
     public bool IsEmbedded => SubPath.IsEmpty;
     
-    [MemoryPackConstructor]
+    
     public AssetItem()
     {
         
@@ -38,6 +40,7 @@ public abstract partial class AssetItem
         Path = path;
         SubPath = UPath.Empty;
     }
+    [MemoryPackConstructor]
     public AssetItem(UPath path, UPath subpath)
     {
         Path = path;

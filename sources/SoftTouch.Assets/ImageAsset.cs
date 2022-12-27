@@ -13,9 +13,9 @@ public partial class ImageAsset : AssetItem
 {
     public override string Extension { get; init; } = "image";
 
-    [MemoryPackConstructor]
     public ImageAsset() { }
     
+    [MemoryPackConstructor]
     public ImageAsset(UPath path, UPath subpath) : base(path, subpath)
     {
 

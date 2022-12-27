@@ -15,10 +15,10 @@ public partial class MaterialAsset : AssetItem
 {
     public override string Extension { get; init; } = "mat";
 
-    [MemoryPackConstructor]
     public MaterialAsset() { }
 
-    public MaterialAsset(UPath path) : base(path)
+    [MemoryPackConstructor]
+    public MaterialAsset(UPath path, UPath subpath) : base(path,subpath)
     {
     }
 }

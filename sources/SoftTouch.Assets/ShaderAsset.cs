@@ -9,9 +9,9 @@ public partial class ShaderAsset : AssetItem
 {
     public override string Extension { get; init; } = "sdsl";
 
-    [MemoryPackConstructor]
     public ShaderAsset() { }
 
+    [MemoryPackConstructor]
     public ShaderAsset(UPath path, UPath subpath) : base(path,subpath)
     {
     }

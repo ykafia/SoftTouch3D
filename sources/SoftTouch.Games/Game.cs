@@ -6,6 +6,9 @@ using SoftTouch.Assets;
 using MessagePack;
 using MessagePack.Resolvers;
 using Silk.NET.Maths;
+using MemoryPack;
+using Zio;
+using SoftTouch.Assets.Serialization.MemoryPack;
 
 namespace SoftTouch.Games;
 
@@ -19,6 +22,7 @@ public abstract class Game : IGame
 
     public Game()
     {
+        MemoryPackFormatterProvider.Register(new UPathFormatter());
         // MessagePackSerializer.DefaultOptions = SoftTouchResolver.Options;
 
         // window = Window.Create(WindowOptions.Default);

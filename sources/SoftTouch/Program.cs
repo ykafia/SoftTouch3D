@@ -13,6 +13,10 @@ using SpanJson;
 using Silk.NET.Maths;
 using SpanJson.Resolvers;
 using Zio;
+using MemoryPack;
+using SoftTouch.Assets.Serialization.MemoryPack;
+
+MemoryPackFormatterProvider.Register(new UPathFormatter());
 
 Console.WriteLine("Hello, world!");
 var fs = new PhysicalFileSystem();

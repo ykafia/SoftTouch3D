@@ -17,13 +17,13 @@ public partial class ModelAsset : AssetItem
 {
     public override string Extension { get; init; } = "model";
 
-    [MemoryPackConstructor]
     public ModelAsset()
     {
 
     }
     public ModelAsset(UPath path) : base(path)
     {}
+    [MemoryPackConstructor]
     public ModelAsset(UPath path, UPath subpath) : base(path, subpath)
     {}
 }
