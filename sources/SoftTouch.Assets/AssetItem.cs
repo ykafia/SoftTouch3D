@@ -1,5 +1,5 @@
 using System;
-using MessagePack;
+using MemoryPack;
 using SoftTouch.Graphics.WebGPU;
 using Zio;
 
@@ -8,18 +8,28 @@ namespace SoftTouch.Assets;
 // [Union(0, typeof(ModelAsset))]
 // [Union(1, typeof(ImageAsset))]
 // [Union(1, typeof(MaterialAsset))]
-[MessagePackObject]
-public abstract class AssetItem
+[MemoryPackable]
+[MemoryPackUnion(0,typeof(ModelAsset))]
+// [MemoryPackUnion(0,typeof(ImageAsset))]
+// [MemoryPackUnion(0,typeof(MaterialAsset))]
+public abstract partial class AssetItem
 {
-    [Key(0)]
+    [MemoryPackIgnore]
     public UPath Path { get; private set; }
-    [Key(1)]
+    [MemoryPackIgnore]
     public string? Name => Path.GetNameWithoutExtension();
-    [Key(2)]
+    
+    [MemoryPackIgnore]
     public UPath SubPath { get; private set; }
-    [Key(3)]
-    public bool IsEmbedded => SubPath.IsEmpty;
 
+    [MemoryPackIgnore]
+    public bool IsEmbedded => SubPath.IsEmpty;
+    
+    [MemoryPackConstructor]
+    public AssetItem()
+    {
+        
+    }
     public AssetItem(UPath path)
     {
         Path = path;

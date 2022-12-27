@@ -8,13 +8,18 @@ using SoftTouch.Rendering.Materials;
 using SoftTouch.Rendering.Renderables;
 using WGPU.NET;
 using Zio;
-using MessagePack;
+using MemoryPack;
 
 namespace SoftTouch.Assets;
 
-[MessagePackObject]
-public class ModelAsset : AssetItem
+[MemoryPackable]
+public partial class ModelAsset : AssetItem
 {
+    [MemoryPackConstructor]
+    public ModelAsset()
+    {
+
+    }
     public ModelAsset(UPath path) : base(path)
     {}
     public ModelAsset(UPath path, UPath subpath) : base(path, subpath)

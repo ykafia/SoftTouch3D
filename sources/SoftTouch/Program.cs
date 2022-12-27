@@ -5,10 +5,19 @@ using SoftTouch.Graphics.WebGPU;
 using System.IO;
 using Zio.FileSystems;
 using System.Collections.Generic;
-using SoftTouch.Assets.Serialization.Yaml;
+// using SoftTouch.Assets.Serialization.Yaml;
 using MessagePack;
 using MessagePack.Resolvers;
 using SoftTouch;
+using SpanJson;
+using Silk.NET.Maths;
+using SpanJson.Resolvers;
+using Zio;
+
+Console.WriteLine("Hello, world!");
+var fs = new PhysicalFileSystem();
+var sub = new SubFileSystem(fs, fs.ConvertPathFromInternal("./"));
+sub.WriteAllText("/vec2.json", JsonSerializer.Generic.Utf16.Serialize(new Vector2D<float>(2,5)));
 
 // var fs = new PhysicalFileSystem();
 // var sub = new SubFileSystem(fs,fs.ConvertPathFromInternal("../../assets/"));
@@ -23,10 +32,10 @@ using SoftTouch;
 //     .ToList()
 //     .ForEach(x => Console.WriteLine(x));
 
-MessagePackSerializer.DefaultOptions = SoftTouchResolver.Options;
-// Console.WriteLine(MessagePackSerializer.SerializeToJson(new PackaginConfig("/Resources/","/Assets/","/Shaders/")));
-var json = MessagePackSerializer.ConvertToJson(MessagePackSerializer.Serialize(new ModelAsset("/assets/models/Fox.glb")));
-Console.WriteLine(json);
+// MessagePackSerializer.DefaultOptions = SoftTouchResolver.Options;
+// // Console.WriteLine(MessagePackSerializer.SerializeToJson(new PackaginConfig("/Resources/","/Assets/","/Shaders/")));
+// var json = MessagePackSerializer.ConvertToJson(MessagePackSerializer.Serialize(new ModelAsset("/assets/models/Fox.glb")));
+// Console.WriteLine(json);
 
 // var g = new MyGame();
 // g.Run();

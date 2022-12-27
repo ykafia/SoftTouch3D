@@ -11,6 +11,7 @@
     <PackageReference Include="SharpGLTF.Toolkit" Version="$(SharpGLTFVersion)" />
     <PackageReference Include="Silk.NET" Version="$(SilkVersion)" />
     <PackageReference Include="SixLabors.ImageSharp" Version="$(ImageSharpVersion)" />
+    <PackageReference Include="SpanJson" Version="4.0.0" />
     <PackageReference Include="VYaml" Version="0.3.0" />
     <PackageReference Include="Zio" Version="$(ZioVersion)" />
     <PackageReference Include="MemoryPack" Version="$(MemoryPackVersion)" />

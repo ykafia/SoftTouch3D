@@ -1,24 +1,32 @@
 using System.Runtime.Serialization;
-using MessagePack;
+using MemoryPack;
 using Zio;
 
 namespace SoftTouch.Assets;
 
-[MessagePackObject]
-public sealed class PackaginConfig
+[MemoryPackable]
+public sealed partial class PackaginConfig
 {
-    [Key(0)]
+    [MemoryPackInclude]
     public List<string>? ResourcesFolders = new();
     
-    [Key(1)]
+    [MemoryPackInclude]
     public List<string>? AssetsFolders = new();
     
-    [Key(2)]
+    [MemoryPackInclude]
     public List<string>? ShadersFolders = new();
+
 
     public PackaginConfig()
     {
         
+    }
+    [MemoryPackConstructor]
+    public PackaginConfig(List<string> resourcesFolders, List<string> assetsFolders, List<string> shadersFolders)
+    {
+        ResourcesFolders.AddRange(resourcesFolders);
+        AssetsFolders.AddRange(assetsFolders);
+        ShadersFolders.AddRange(shadersFolders);
     }
     public PackaginConfig(string resourcef, string assetf, string shaderf)
     {
