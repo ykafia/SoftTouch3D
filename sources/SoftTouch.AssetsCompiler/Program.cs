@@ -3,6 +3,9 @@ using Zio.FileSystems;
 using Zio;
 using System.CommandLine;
 using SoftTouch.AssetsCompiler;
+using Utf8Json;
+using SoftTouch.Assets.Serialization.MemoryPack;
+using SoftTouch.Assets.Serialization.Json;
 
 namespace SoftTouch.Assets.CompilerApp;
 

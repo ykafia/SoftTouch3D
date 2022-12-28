@@ -9,9 +9,9 @@ using System.Collections.Generic;
 using MessagePack;
 using MessagePack.Resolvers;
 using SoftTouch;
-using SpanJson;
+using Utf8Json;
 using Silk.NET.Maths;
-using SpanJson.Resolvers;
+using Utf8Json.Resolvers;
 using Zio;
 using MemoryPack;
 using SoftTouch.Assets.Serialization.MemoryPack;
@@ -29,9 +29,9 @@ var packageConfig = new PackageConfig(
         "Shaders"
     )
 );
-var serialized = JsonSerializer.Generic.Utf16.Serialize(packageConfig);
+var serialized = JsonSerializer.Serialize(packageConfig);
 Console.WriteLine(serialized);
-sub.WriteAllText("/SoftTouch.stpkg", serialized);
+sub.WriteAllBytes("/SoftTouch.stpkg", serialized);
 
 // var fs = new PhysicalFileSystem();
 // var sub = new SubFileSystem(fs,fs.ConvertPathFromInternal("../../assets/"));

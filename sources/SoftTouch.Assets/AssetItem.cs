@@ -1,7 +1,10 @@
 using System;
 using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 using MemoryPack;
+using SoftTouch.Assets.Serialization.JSON;
 using SoftTouch.Graphics.WebGPU;
+using Utf8Json;
 using Zio;
 
 namespace SoftTouch.Assets;
@@ -17,8 +20,10 @@ namespace SoftTouch.Assets;
 public abstract partial class AssetItem
 {
     [MemoryPackIgnore]
-    [IgnoreDataMember]
     public abstract string Extension { get; init; }
+    [MemoryPackInclude]
+    [MemoryPackAllowSerialize]
+    public UPath AssetPath { get; private set; }
     [MemoryPackInclude]
     [MemoryPackAllowSerialize]
     public UPath Path { get; private set; }
@@ -30,21 +35,23 @@ public abstract partial class AssetItem
     public UPath SubPath { get; private set; }
 
     [MemoryPackIgnore]
-    public bool IsEmbedded => SubPath.IsEmpty;
+    public bool IsEmbedded => !SubPath.IsEmpty;
     
     
     public AssetItem()
     {
         
     }
-    public AssetItem(UPath path)
+    public AssetItem(UPath assetPath)
     {
-        Path = path;
+        AssetPath = assetPath;
+        Path = UPath.Empty;
         SubPath = UPath.Empty;
     }
     [MemoryPackConstructor]
-    public AssetItem(UPath path, UPath subpath)
+    public AssetItem(UPath assetPath, UPath path, UPath subpath)
     {
+        AssetPath = assetPath;
         Path = path;
         SubPath = subpath;
     }

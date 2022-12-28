@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "SoftTouch.AssetsCompiler": {
+      "commandName": "Project",
+      "commandLineArgs": "compile --path \"./CompiledAssets\"",
+      "workingDirectory": "C:\\Users\\kafia\\source\\repos\\SoftTouch3D\\sources\\SoftTouch"
+    }
+  }
+}

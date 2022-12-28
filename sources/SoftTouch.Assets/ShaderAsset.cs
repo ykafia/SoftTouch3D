@@ -12,7 +12,7 @@ public partial class ShaderAsset : AssetItem
     public ShaderAsset() { }
 
     [MemoryPackConstructor]
-    public ShaderAsset(UPath path, UPath subpath) : base(path,subpath)
+    public ShaderAsset(UPath assetPath, UPath path, UPath subpath) : base(assetPath, path,subpath)
     {
     }
     // public required string Module {get; init;}

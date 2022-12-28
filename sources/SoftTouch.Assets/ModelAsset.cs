@@ -24,7 +24,7 @@ public partial class ModelAsset : AssetItem
     public ModelAsset(UPath path) : base(path)
     {}
     [MemoryPackConstructor]
-    public ModelAsset(UPath path, UPath subpath) : base(path, subpath)
+    public ModelAsset(UPath assetPath, UPath path, UPath subpath) : base(assetPath, path, subpath)
     {}
 }
 

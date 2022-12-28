@@ -7,7 +7,7 @@ using Zio.FileSystems;
 
 namespace SoftTouch.Assets.FileSystems;
 [DebuggerDisplay("{" + nameof(DebuggerDisplay) + "(),nq}")]
-public class GltfFileSystem : ComposeFileSystem, ICompositeAssetFileSystem
+public class GltfFileSystem : ComposeFileSystem, ICompositeAssetFileSystem<Mesh, Image, Material>
 {
     static readonly string[] extensions = {".gltf", ".glb"};
     public string[] Extensions => extensions;

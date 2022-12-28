@@ -18,7 +18,7 @@ public partial class MaterialAsset : AssetItem
     public MaterialAsset() { }
 
     [MemoryPackConstructor]
-    public MaterialAsset(UPath path, UPath subpath) : base(path,subpath)
+    public MaterialAsset(UPath assetPath, UPath path, UPath subpath) : base(assetPath, path,subpath)
     {
     }
 }

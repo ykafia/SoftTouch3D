@@ -1,6 +1,7 @@
 ﻿using SoftTouch.Assets;
 using SoftTouch.Assets.FileSystems;
-using SpanJson;
+using SoftTouch.Assets.Importers.GLTF;
+using Utf8Json;
 using System;
 using System.Collections.Generic;
 using System.CommandLine;
@@ -13,12 +14,12 @@ using Zio.FileSystems;
 
 namespace SoftTouch.AssetsCompiler
 {
-    internal class CompilationCommand : RootCommand
+    internal partial class CompilationCommand : RootCommand
     {
         PhysicalFileSystem pfs = new();
         SubFileSystem projectfs;
         ResourcesFileSystem resourcefs = new();
-        AggregateFileSystem assetfs = new();
+        SubFileSystem? assetfs;
         public CompilationCommand()
         {
             Name = "coffret";
@@ -29,48 +30,25 @@ namespace SoftTouch.AssetsCompiler
             if (pkgConfPath != UPath.Empty || !pkgConfPath.IsNull)
             {
                 var pkgText = new StreamReader(projectfs.OpenFile(pkgConfPath, FileMode.Open, FileAccess.Read)).ReadToEnd();
-                var pkg = JsonSerializer.Generic.Utf16.Deserialize<PackageConfig>(pkgText);
+                var pkg = JsonSerializer.Deserialize<PackageConfig>(pkgText);
 
                 foreach (var r in pkg.Paths.ResourcesFolders)
                     resourcefs.AddFileSystem(new SubFileSystem(projectfs, new UPath(r).ToAbsolute()));
                 foreach (var r in pkg.Paths.AssetsFolders)
-                    assetfs.AddFileSystem(new SubFileSystem(projectfs, new UPath(r).ToAbsolute()));
+                    assetfs = new SubFileSystem(projectfs,new UPath(r).ToAbsolute());
+                    //assetfs.AddFileSystem(new SubFileSystem(projectfs, new UPath(r).ToAbsolute()));
             }
-            //CreateCompileCommand();
-
+            CreateCompileCommand();
+            CreateAddAsset();
             CreateListCommand();
 
-            
-            //renameCommand.Description = "Rename a file";
-            //renameCommand.Handler = CommandHandler.Create<string, string>((input, output) =>
-            //{
-            //    File.Move(input, output);
-            //});
-
-            //rootCommand.Add(renameCommand);
-
         }
 
-        private void CreateCompileCommand()
-        {
-            Console.WriteLine("List of files : ");
-            var outputPathOption = new Option<string>(new string[] { "--path", "-p" }, "Output folder for the generated compressed package")
-            {
-                IsRequired = true
-            };
-            var compileAssets = new Command("compile")
-            {
-                outputPathOption
-            };
-
-            compileAssets.SetHandler(() => throw new NotImplementedException());
-
-            AddCommand(compileAssets);
-        }
+        
 
         private void CreateListCommand()
         {
-            var assetOption = new Option<bool>("--assets","list asset files");
+            var assetOption = new Option<bool>("--assets", "list asset files");
             var resourceOption = new Option<bool>("--resources", "List resource files");
 
             var listAssets = new Command("list")
@@ -81,6 +59,49 @@ namespace SoftTouch.AssetsCompiler
             listAssets.SetHandler(ListItems, assetOption, resourceOption);
 
             AddCommand(listAssets);
+        }
+
+        public void CreateAddAsset()
+        {
+            var imageOpt = new Option<bool>("--image", "add as image");
+            var modelOpt = new Option<bool>("--model", "add as model");
+            var file = new Option<string>("--file", "path of the file") { IsRequired = true };
+            var path = new Option<string>("--path", "path of the file");
+
+            var addAsset = new Command("add")
+            {
+                file,
+                path,
+                imageOpt,
+                modelOpt
+            };
+
+
+            addAsset.SetHandler(AddAsset, file, path, imageOpt, modelOpt);
+
+            AddCommand(addAsset);
+        }
+
+        public void AddAsset(string file, string path, bool imageOpt, bool modelOpt)
+        {
+            if (imageOpt && modelOpt)
+            {
+                Console.WriteLine("Can't guess which type");
+                Environment.Exit(1);
+            }
+            if (imageOpt)
+            {
+                Console.WriteLine("Adding image asset");
+                var asset = new GLTFImageImporter().Import(path ?? UPath.Root, file);
+                var serialized = JsonSerializer.Serialize(asset);
+                Console.WriteLine(serialized);
+                var fileName = ((UPath)file).GetNameWithoutExtension() + ".stimage";
+                assetfs.WriteAllBytes(path ?? UPath.Root / fileName, serialized);
+            }
+            if (modelOpt)
+            {
+                //new GLTFImageImporter().Import(path ?? UPath.Root, file);
+            }
         }
 
         public void ListItems(bool asset, bool resources)
