@@ -14,7 +14,7 @@ public partial class AssetManager
     readonly PhysicalFileSystem physicalFileSystem = new();
     public ResourcesFileSystem FileSystem { get; private set; } = new();
     public AssetsFileSystem AssetsFileSystem { get; private set; } = new();
-    public readonly Dictionary<Type, AssetImporter> AssetImporters = new();
+    public readonly SortedList<string, AssetImporter> AssetImporters = new();
     public readonly Dictionary<UPath, AssetItem> LoadedAssets = new();
 
     public AssetManager(string resourcePath, WGPUGraphics gfx)
@@ -28,16 +28,21 @@ public partial class AssetManager
     public void AddImporter<T>()
         where T : AssetImporter, new()
     {
-        AssetImporters.Add(typeof(T), new T());
+        var importer = new T();
+        foreach(var ext in importer.Extensions)
+            AssetImporters.Add(ext, importer);
     }
     public void RemoveImporter<T>()
         where T : AssetImporter
     {
-        AssetImporters.Remove(typeof(T));
+        foreach (var item in AssetImporters.Where(kvp => kvp.Value is T))
+        {
+            AssetImporters.Remove(item.Key);
+        }
     }
-    public AssetImporter GetImporter<T>()
+    public AssetImporter? GetImporter<T>()
         where T : AssetImporter
     {
-        return AssetImporters[typeof(T)];
+        return AssetImporters.Values.FirstOrDefault(x => x is T);
     }
 }

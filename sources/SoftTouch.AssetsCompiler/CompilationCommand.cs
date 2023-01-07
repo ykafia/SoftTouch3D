@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Zio;
 using Zio.FileSystems;
+using VYaml.Serialization;
 
 namespace SoftTouch.AssetsCompiler
 {
@@ -24,6 +25,7 @@ namespace SoftTouch.AssetsCompiler
         {
             Name = "coffret";
             Description = "Asset compilation tool for the SoftTouch game engine";
+
 
             projectfs = new SubFileSystem(pfs, pfs.ConvertPathFromInternal("./"));
             var pkgConfPath = projectfs.EnumeratePaths("/", "*.stpkg", SearchOption.TopDirectoryOnly, Zio.SearchTarget.File).FirstOrDefault(UPath.Empty);
@@ -96,7 +98,7 @@ namespace SoftTouch.AssetsCompiler
                 var serialized = JsonSerializer.Serialize(asset);
                 Console.WriteLine(serialized);
                 var fileName = ((UPath)file).GetNameWithoutExtension() + ".stimage";
-                assetfs.WriteAllBytes(path ?? UPath.Root / fileName, serialized);
+                assetfs?.WriteAllBytes(path ?? UPath.Root / fileName, serialized);
             }
             if (modelOpt)
             {
@@ -107,7 +109,7 @@ namespace SoftTouch.AssetsCompiler
         public void ListItems(bool asset, bool resources)
         {
             if (asset)
-                assetfs.EnumerateItems("/", SearchOption.AllDirectories)
+                assetfs?.EnumerateItems("/", SearchOption.AllDirectories)
                 .ToList().ForEach(x => Console.WriteLine(x));
             if (resources)
                 resourcefs.EnumerateItems("/", SearchOption.AllDirectories)

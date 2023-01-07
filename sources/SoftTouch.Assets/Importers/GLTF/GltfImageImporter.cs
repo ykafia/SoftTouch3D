@@ -8,7 +8,7 @@ public class GLTFImageImporter : AssetImporter<ImageAsset>
 {
     static readonly string[] extensions = {".gltf",".glb"};
     public override string[] Extensions => extensions;
-    public override IEnumerable<ImageAsset> ImportAsset(UPath assetPath, UPath path)
+    public override ImageAsset ImportAsset(UPath assetPath, UPath path)
     {
         UPath rest = path;
         var dir = UPath.Root;
@@ -20,7 +20,7 @@ public class GLTFImageImporter : AssetImporter<ImageAsset>
             if (extensions.Contains(dir.GetExtensionWithDot()))
                break;
         }
-        yield return new ImageAsset(assetPath, dir, rest);
+        return new ImageAsset(assetPath, dir, rest);
     }
 }
 

@@ -21,17 +21,17 @@ MemoryPackFormatterProvider.Register(new UPathFormatter());
 Console.WriteLine("Hello, world!");
 var fs = new PhysicalFileSystem();
 var sub = new SubFileSystem(fs, fs.ConvertPathFromInternal("./"));
-var packageConfig = new PackageConfig(
-    "1.0.0", 
-    new(
-        "Resources", 
-        "Assets", 
-        "Shaders"
-    )
-);
-var serialized = JsonSerializer.Serialize(packageConfig);
-Console.WriteLine(serialized);
-sub.WriteAllBytes("/SoftTouch.stpkg", serialized);
+//var packageConfig = new PackageConfig(
+//    "1.0.0", 
+//    new(
+//        "Resources", 
+//        "Assets", 
+//        "Shaders"
+//    )
+//);
+//var serialized = JsonSerializer.Serialize(packageConfig);
+//Console.WriteLine(serialized);
+//sub.WriteAllBytes("/SoftTouch.stpkg", serialized);
 
 // var fs = new PhysicalFileSystem();
 // var sub = new SubFileSystem(fs,fs.ConvertPathFromInternal("../../assets/"));
@@ -46,10 +46,7 @@ sub.WriteAllBytes("/SoftTouch.stpkg", serialized);
 //     .ToList()
 //     .ForEach(x => Console.WriteLine(x));
 
-// MessagePackSerializer.DefaultOptions = SoftTouchResolver.Options;
-// // Console.WriteLine(MessagePackSerializer.SerializeToJson(new PackaginConfig("/Resources/","/Assets/","/Shaders/")));
-// var json = MessagePackSerializer.ConvertToJson(MessagePackSerializer.Serialize(new ModelAsset("/assets/models/Fox.glb")));
-// Console.WriteLine(json);
+
 
 // var g = new MyGame();
 // g.Run();

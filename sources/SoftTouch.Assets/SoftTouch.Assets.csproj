@@ -1,29 +1,24 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <!-- <Import Project="..\Directory.Build.props" /> -->
-  <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="SharpGLTF.Core" Version="$(SharpGLTFVersion)" />
-    <PackageReference Include="SharpGLTF.Toolkit" Version="$(SharpGLTFVersion)" />
-    <PackageReference Include="Silk.NET" Version="$(SilkVersion)" />
-    <PackageReference Include="SixLabors.ImageSharp" Version="$(ImageSharpVersion)" />
-    <PackageReference Include="Utf8Json" Version="1.3.7" />
-    <PackageReference Include="VYaml" Version="0.3.0" />
-    <PackageReference Include="Zio" Version="$(ZioVersion)" />
-    <PackageReference Include="MemoryPack" Version="$(MemoryPackVersion)" />
-    <!-- <PackageReference Include="MessagePackAnalyzer" Version="$(MessagePackVersion)">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference> -->
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="SharpGLTF.Core" Version="$(SharpGLTFVersion)" />
+		<PackageReference Include="SharpGLTF.Toolkit" Version="$(SharpGLTFVersion)" />
+		<PackageReference Include="Silk.NET" Version="$(SilkVersion)" />
+		<PackageReference Include="SixLabors.ImageSharp" Version="$(ImageSharpVersion)" />
+		<PackageReference Include="Utf8Json" Version="$(Utf8JsonVersion)" />
+		<PackageReference Include="VYaml" Version="$(VYamlVersion)" />
+		<PackageReference Include="Zio" Version="$(ZioVersion)" />
+		<PackageReference Include="MemoryPack" Version="$(MemoryPackVersion)" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\WGPU\WGPU.NET\WGPU.NET.csproj" />
-    <ProjectReference Include="..\SoftTouch.Rendering\SoftTouch.Rendering.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\WGPU\WGPU.NET\WGPU.NET.csproj" />
+		<ProjectReference Include="..\SoftTouch.Rendering\SoftTouch.Rendering.csproj" />
+	</ItemGroup>
 
 </Project>
