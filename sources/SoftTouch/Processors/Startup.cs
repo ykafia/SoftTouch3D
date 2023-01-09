@@ -22,4 +22,6 @@ public class Startup : Processor
             .With(default(Camera));
         World.Add<FoxMeshProcessor>();
     }
+
+    
 }
