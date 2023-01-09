@@ -2,6 +2,7 @@ using System;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 using MemoryPack;
+using Silk.NET.Core.Native;
 using SoftTouch.Assets.Serialization.JSON;
 using SoftTouch.Graphics.WebGPU;
 using Utf8Json;
@@ -21,6 +22,17 @@ public abstract partial class AssetItem
 {
     [MemoryPackIgnore]
     public abstract string Extension { get; init; }
+
+    [MemoryPackIgnore]
+    public Guid GuidValue = Guid.NewGuid();
+
+    [MemoryPackIgnore]
+    public string FormattedGuid => 
+        Convert.ToBase64String(GuidValue.ToByteArray())
+        .Replace("/", "_")
+        .Replace("+", "-")
+        .Replace("=", "");
+
     [MemoryPackInclude]
     [MemoryPackAllowSerialize]
     public UPath AssetPath { get; private set; }

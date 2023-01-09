@@ -17,10 +17,12 @@ using MemoryPack;
 using SoftTouch.Assets.Serialization.MemoryPack;
 
 MemoryPackFormatterProvider.Register(new UPathFormatter());
+MemoryPackFormatterProvider.Register(new Vector2DFormatter<float>());
 
 Console.WriteLine("Hello, world!");
 var fs = new PhysicalFileSystem();
 var sub = new SubFileSystem(fs, fs.ConvertPathFromInternal("./"));
+MemoryPackSerializer.Serialize(Vector2D<float>.One);
 //var packageConfig = new PackageConfig(
 //    "1.0.0", 
 //    new(

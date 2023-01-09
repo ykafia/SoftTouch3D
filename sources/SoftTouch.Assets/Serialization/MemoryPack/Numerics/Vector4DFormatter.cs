@@ -1,9 +1,11 @@
 using MemoryPack;
 using Silk.NET.Maths;
+using System.Runtime.InteropServices;
 
 namespace SoftTouch.Assets.Serialization.MemoryPack;
 
 [MemoryPackable]
+[StructLayout(LayoutKind.Auto)]
 public readonly partial struct SerializableVector4D<T>
     where T : unmanaged, IFormattable, IEquatable<T>, IComparable<T>
 {
@@ -22,9 +24,7 @@ public readonly partial struct SerializableVector4D<T>
     [MemoryPackInclude]
     public T W => Vector.W;
 
-
-    [MemoryPackConstructor]
-    SerializableVector4D(T x, T y, T z, T w)
+    public SerializableVector4D(T x, T y, T z, T w)
     {
         Vector = new(x, y, z, w);
     }

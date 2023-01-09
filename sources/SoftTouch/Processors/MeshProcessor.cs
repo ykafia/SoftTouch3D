@@ -24,11 +24,13 @@ public class FoxMeshProcessor : RenderProcessor<Query<Transform, GlobalTransform
 
     public override void Update()
     {
-        var graphics = World.GetResource<WGPUGraphics>();
-        (var camera, var cameraPos) = query2.QueriedArchetypes.First()[0].Get<Camera, GlobalTransform>();
-        (var pos, var worldPos, var model) = query1.QueriedArchetypes.First()[0].Get<Transform, GlobalTransform, ModelComponent>();
-        cameraPos.ToMatrix(out var cameraWMat);
-        worldPos.ToMatrix(out var meshWMat);
+        //var graphics = World.GetResource<WGPUGraphics>();
+        ////(var camera, var cameraPos) = query2.QueriedArchetypes.First()[0].Get<Camera, GlobalTransform>();
+        //var components = query1[0];
+        //var camera = components.Component1;
+        //(var pos, var worldPos, var model) = query1.QueriedArchetypes.First()[0].Get<Transform, GlobalTransform, ModelComponent>();
+        //cameraPos.ToMatrix(out var cameraWMat);
+        //worldPos.ToMatrix(out var meshWMat);
         // var uniformBufferData = new UniformBuffer
         // {
         //     Transform = meshWMat
