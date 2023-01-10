@@ -15,6 +15,5 @@ public class Program
     {
         var rootCommand = new CompilationCommand();
         return await rootCommand.InvokeAsync(args);
-
     }
 }
