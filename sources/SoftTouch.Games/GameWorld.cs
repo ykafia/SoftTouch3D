@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using SoftTouch.ECS;
+using SoftTouch.ECS.Storage;
 using SoftTouch.Rendering;
 
 namespace SoftTouch.Games;
@@ -10,11 +11,11 @@ public class GameWorld : World
     public List<RenderProcessor> Renderers = new();
     public ArchetypeList RenderStorage = new();
 
-    public override void Update()
+    public override void Update(bool parallel = true)
     {
         var timer = GetResource<WorldTimer>();
         timer.Start();
-        base.Update();
+        base.Update(false);
         ComputeVisibility();
         timer.StopAndUpdate();
     }

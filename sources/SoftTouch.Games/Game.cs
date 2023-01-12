@@ -50,7 +50,7 @@ public abstract class Game : IGame
         while (!window.IsClosing)
         {
             Task.WaitAll(
-                Task.Run(world.Update),
+                Task.Run(() => world.Update()),
                 Task.Run(world.Render)
             );
             world.Extract();
