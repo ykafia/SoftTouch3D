@@ -41,7 +41,7 @@ public abstract class Game : IGame
     public Game With<T>()
         where T : Processor, new()
     {
-        world.AddStartup<T>();
+        world.AddStartupProcessor<T>();
         return this;
     }
 

@@ -21,8 +21,8 @@ namespace SoftTouch
     {
         public override void Update()
         {
-            for (int i = 0; i < Entities1.Length; i++)
-                Entities1[i].Component1.Name = "Anton Jobim";
+            //for (int i = 0; i < Entities1.Length; i++)
+            //    Entities1[i].Component1.Name = "Anton Jobim";
         }
     }
     public class LastNameProcessor : Processor<Query<NameComponent>>
@@ -33,7 +33,7 @@ namespace SoftTouch
             {
                 for (int i = 0; i < arch.Length; i++)
                 {
-                    arch.GetComponentSpan<NameComponent>()[i].Name = "Lilicia";
+                    arch.SetComponent<NameComponent>(i, new("Lilicia"));
                 }
             }
         }

@@ -29,7 +29,7 @@ public class TryQuery
         .With(new NameComponent(){Name = "Martha"})
         .With(new Transform());
 
-        w1.Add<NameProcessor>();
+        w1.AddProcessor<NameProcessor>();
         w1.Start();
 
         w2 = new();
@@ -50,7 +50,7 @@ public class TryQuery
         .With(new NameComponent() { Name = "Martha" })
         .With(new Transform());
 
-        w2.Add<IterNameProcessor>();
+        w2.AddProcessor<IterNameProcessor>();
         w2.Start();
     }
     public void QueryIter()
