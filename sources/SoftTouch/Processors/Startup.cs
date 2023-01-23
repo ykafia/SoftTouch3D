@@ -4,6 +4,7 @@ using SoftTouch.Assets;
 using SoftTouch.Components;
 using SoftTouch.Graphics.WebGPU;
 using SoftTouch.Assets.Importers;
+using SoftTouch.ECS.Processors;
 
 namespace SoftTouch.Processors;
 
@@ -15,11 +16,10 @@ public class Startup : Processor
         // GltfLoader.LoadGltf("../../assets/models/Fox.glb", out var model);
         // var graphics = World.GetResource<WGPUGraphics>();
         // var model = World.GetResource<AssetManager>().Load<ModelAsset>("/models/fox.glb");
-        // World.CreateEntity()
+        // World.Spawn(
         //     .With(new ModelComponent((ModelAsset)model))
         //     .WithBundle(new TransformBundle(default, default));
-        World.CreateEntity()
-            .With(default(Camera));
+        World.Commands.Spawn(default(Camera));
         World.AddProcessor<FoxMeshProcessor>();
     }
 

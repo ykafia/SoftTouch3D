@@ -13,42 +13,39 @@ public class TryQuery
     {
         w1 = new();
 
-        w1.CreateEntity()
-        .With(new NameComponent(){Name = "Martha"});
-        w1.CreateEntity()
-        .With(new NameComponent(){Name = "Martha"})
-        .With(new Transform());
-        w1.CreateEntity()
-        .With(new NameComponent(){Name = "Martha"})
-        .With<int>();
-        w1.CreateEntity()
-        .With(new NameComponent(){Name = "Martha"})
-        .With(new Transform())
-        .With((1,5));
-        w1.CreateEntity()
-        .With(new NameComponent(){Name = "Martha"})
-        .With(new Transform());
+        w1.Commands.Spawn(new NameComponent() { Name = "Martha" });
+        w1.Commands.Spawn(
+        new NameComponent() { Name = "Martha" },
+        new Transform());
+        w1.Commands.Spawn(new NameComponent() { Name = "Martha" }, 0);
+        w1.Commands.Spawn(
+        new NameComponent() { Name = "Martha" },
+        new Transform(),
+        (1, 5));
+        w1.Commands.Spawn(
+        new NameComponent() { Name = "Martha" },
+        new Transform());
 
         w1.AddProcessor<NameProcessor>();
         w1.Start();
 
         w2 = new();
 
-        w2.CreateEntity()
-        .With(new NameComponent() { Name = "Martha" });
-        w2.CreateEntity()
-        .With(new NameComponent() { Name = "Martha" })
-        .With(new Transform());
-        w2.CreateEntity()
-        .With(new NameComponent() { Name = "Martha" })
-        .With<int>();
-        w2.CreateEntity()
-        .With(new NameComponent() { Name = "Martha" })
-        .With(new Transform())
-        .With((1, 5));
-        w2.CreateEntity()
-        .With(new NameComponent() { Name = "Martha" })
-        .With(new Transform());
+        w2.Commands.Spawn(
+        new NameComponent() { Name = "Martha" });
+        w2.Commands.Spawn(
+        new NameComponent() { Name = "Martha" },
+        new Transform());
+        w2.Commands.Spawn(
+        new NameComponent() { Name = "Martha" },
+        0);
+        w2.Commands.Spawn(
+        new NameComponent() { Name = "Martha" },
+        new Transform(),
+        (1, 5));
+        w2.Commands.Spawn(
+        new NameComponent() { Name = "Martha" },
+        new Transform());
 
         w2.AddProcessor<IterNameProcessor>();
         w2.Start();

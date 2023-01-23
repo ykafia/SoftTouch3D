@@ -11,10 +11,10 @@ public class IterNameProcessor : Processor<Query<NameComponent>>
 {
     public override void Update()
     {
-        var entities = Entities1.CreateIterator();
-        while(entities.Next())
+        var iter = Entities1.GetEnumerator();
+        while(iter.MoveNext())
         {
-            entities.Set(new NameComponent("Jolyne"));
+            iter.Current.Set(new NameComponent("Jolyne"));
         }
     }
 
