@@ -7,52 +7,35 @@ namespace SoftTouch;
 public class TryQuery
 {
     World w1;
-    World w2;
 
     public TryQuery()
     {
         w1 = new();
 
-        w1.Commands.Spawn(new NameComponent() { Name = "Martha" });
-        w1.Commands.Spawn(
-        new NameComponent() { Name = "Martha" },
-        new Transform());
-        w1.Commands.Spawn(new NameComponent() { Name = "Martha" }, 0);
-        w1.Commands.Spawn(
-        new NameComponent() { Name = "Martha" },
-        new Transform(),
-        (1, 5));
-        w1.Commands.Spawn(
-        new NameComponent() { Name = "Martha" },
-        new Transform());
+        w1.Commands.Spawn(new NameComponent() { Name = "Martha" }).With<Transform>();
+        w1.Commands.Spawn(new NameComponent() { Name = "Martha" }, new Transform());
+        w1.Commands.Spawn(new NameComponent() { Name = "Martha" }, default(int));
+        w1.Commands.Spawn(new NameComponent() { Name = "Martha" }, new Transform(), (1, 5));
+        w1.Commands.Spawn(new NameComponent() { Name = "Martha" }, new Transform());
 
-        w1.AddProcessor<NameProcessor>();
+
+        static void WithoutForeach(Query<NameComponent> q1)
+        {
+            var iter = q1.GetEnumerator();
+            while (iter.MoveNext())
+            {
+                var current = iter.Current;
+                current.Set<NameComponent>(new("Kujo Jolyne"));
+            }
+        }
+
+        w1.AddProcessor((Query<NameComponent> q) => WithoutForeach(q));
         w1.Start();
-
-        w2 = new();
-
-        w2.Commands.Spawn(
-        new NameComponent() { Name = "Martha" });
-        w2.Commands.Spawn(
-        new NameComponent() { Name = "Martha" },
-        new Transform());
-        w2.Commands.Spawn(
-        new NameComponent() { Name = "Martha" },
-        0);
-        w2.Commands.Spawn(
-        new NameComponent() { Name = "Martha" },
-        new Transform(),
-        (1, 5));
-        w2.Commands.Spawn(
-        new NameComponent() { Name = "Martha" },
-        new Transform());
-
-        w2.AddProcessor<IterNameProcessor>();
-        w2.Start();
     }
     public void QueryIter()
     {
-        w2.Update(false);
+        for(int i =0; i < 10; i++)
+            w1.Update(false);
     }
 }
 

@@ -72,20 +72,20 @@ public struct GlobalTransform
     }
 }
 
-public readonly struct TransformBundle : IBundle
-{
-    public readonly Transform Transform;
-    public readonly Transform GTransform;
+//public readonly struct TransformBundle : IBundle
+//{
+//    public readonly Transform Transform;
+//    public readonly Transform GTransform;
 
-    public TransformBundle(Transform transform, Transform gTransform)
-    {
-        Transform = transform;
-        GTransform = gTransform;
-    }
+//    public TransformBundle(Transform transform, Transform gTransform)
+//    {
+//        Transform = transform;
+//        GTransform = gTransform;
+//    }
 
-    public void AddBundle(EntityBuilder b)
-    {
-        b.With(Transform);
-        b.With(GTransform);
-    }
-}
+//    public void AddBundle(EntityBuilder b)
+//    {
+//        //b.With(Transform);
+//        //b.With(GTransform);
+//    }
+//}
