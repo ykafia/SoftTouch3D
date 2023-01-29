@@ -6,20 +6,21 @@ using SixLabors.ImageSharp.PixelFormats;
 using System;
 using MemoryPack;
 using System.Runtime.Serialization;
+using VYaml.Annotations;
 
 namespace SoftTouch.Assets;
 
-[MemoryPackable]
+[YamlObject]
 public partial class ImageAsset : AssetItem
 {
 
-    [IgnoreDataMember]
+    [YamlIgnore]
     public override string Extension { get; init; } = "image";
 
     public ImageAsset() { }
     public ImageAsset(UPath path) : base(path) { }
 
-    [MemoryPackConstructor]
+    [YamlConstructor]
     public ImageAsset(UPath assetPath, UPath path, UPath subpath) : base(assetPath, path, subpath)
     {
 

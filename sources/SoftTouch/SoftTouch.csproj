@@ -34,6 +34,6 @@
 	</ItemGroup>
 
 	<Target Name="Compile Assets" AfterTargets="Build">
-		<Exec Command="$(OutputPath)coffret.exe add --file \Resources\models\Fox.glb --image" />
+		<Exec Command="echo hello" />
 	</Target>
 </Project>

@@ -7,17 +7,18 @@ using System;
 using SharpGLTF.Schema2;
 using System.Collections;
 using MemoryPack;
+using VYaml.Annotations;
 
 namespace SoftTouch.Assets;
 
-[MemoryPackable]
+[YamlObject]
 public partial class MaterialAsset : AssetItem
 {
     public override string Extension { get; init; } = "mat";
 
     public MaterialAsset() { }
 
-    [MemoryPackConstructor]
+    [YamlConstructor]
     public MaterialAsset(UPath assetPath, UPath path, UPath subpath) : base(assetPath, path,subpath)
     {
     }

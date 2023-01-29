@@ -94,11 +94,11 @@ namespace SoftTouch.AssetsCompiler
             if (imageOpt)
             {
                 Console.WriteLine("Adding image asset");
-                var asset = new GLTFImageImporter().Import(path ?? UPath.Root, file);
-                var serialized = JsonSerializer.Serialize(asset);
+                var asset = new GLTFImageImporter().Import(path ?? UPath.Root, file).First();
+                var serialized = YamlSerializer.SerializeToString(asset);
                 Console.WriteLine(serialized);
-                var fileName = ((UPath)file).GetNameWithoutExtension() + ".stimage";
-                assetfs?.WriteAllBytes(path ?? UPath.Root / fileName, serialized);
+                var fileName = (asset.AssetPath != UPath.Empty ? asset.AssetPath : ((UPath)file).GetNameWithoutExtension() ?? "") + ".stimage";
+                assetfs?.WriteAllText(path ?? UPath.Root / fileName, serialized);
             }
             if (modelOpt)
             {

@@ -1,17 +1,18 @@
 using MemoryPack;
 using SoftTouch.Graphics.WebGPU;
+using VYaml.Annotations;
 using Zio;
 
 namespace SoftTouch.Assets;
 
-[MemoryPackable]
+[YamlObject]
 public partial class ShaderAsset : AssetItem
 {
     public override string Extension { get; init; } = "sdsl";
 
     public ShaderAsset() { }
 
-    [MemoryPackConstructor]
+    [YamlConstructor]
     public ShaderAsset(UPath assetPath, UPath path, UPath subpath) : base(assetPath, path,subpath)
     {
     }

@@ -15,45 +15,16 @@ using Utf8Json.Resolvers;
 using Zio;
 using MemoryPack;
 using SoftTouch.Assets.Serialization.MemoryPack;
+using VYaml;
+using VYaml.Serialization;
+using SoftTouch.Assets.Serialization.Yaml;
+using System.Text;
 
-// MemoryPackFormatterProvider.Register(new UPathFormatter());
-// MemoryPackFormatterProvider.Register(new Vector2DFormatter<float>());
+SoftYamlResolver.Init();
 
-// Console.WriteLine("Hello, world!");
-// var fs = new PhysicalFileSystem();
-// var sub = new SubFileSystem(fs, fs.ConvertPathFromInternal("./"));
-// MemoryPackSerializer.Serialize(Vector2D<float>.One);
-//var packageConfig = new PackageConfig(
-//    "1.0.0", 
-//    new(
-//        "Resources", 
-//        "Assets", 
-//        "Shaders"
-//    )
-//);
-//var serialized = JsonSerializer.Serialize(packageConfig);
-//Console.WriteLine(serialized);
-//sub.WriteAllBytes("/SoftTouch.stpkg", serialized);
-
-// var fs = new PhysicalFileSystem();
-// var sub = new SubFileSystem(fs,fs.ConvertPathFromInternal("../../assets/"));
-// var gltf = new GltfFileSystem(fs, fs.ConvertPathFromInternal("../../assets/models/Fox.glb"));
-
-// foreach( var e in gltf.EnumerateItems("/", System.IO.SearchOption.TopDirectoryOnly))
-//     Console.WriteLine(e);
-
-// var manager = new AssetManager("../../assets/",new WGPUGraphics());
-// manager.FileSystem
-//     .EnumerateItems("/",SearchOption.AllDirectories)
-//     .ToList()
-//     .ForEach(x => Console.WriteLine(x));
+var yaml = YamlSerializer.Serialize(new Person());
+Console.WriteLine(Encoding.UTF8.GetString(yaml.ToArray()));
+var path = YamlSerializer.Deserialize<Person>(yaml);
+Console.WriteLine($"path is {path}");
 
 
-
-// var g = new MyGame();
-// g.Run();
-
-
-var t = new TryQuery();
-t.QueryIter();
-var x = 0;

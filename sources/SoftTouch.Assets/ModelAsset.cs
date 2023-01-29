@@ -9,10 +9,11 @@ using SoftTouch.Rendering.Renderables;
 using WGPU.NET;
 using Zio;
 using MemoryPack;
+using VYaml.Annotations;
 
 namespace SoftTouch.Assets;
 
-[MemoryPackable]
+[YamlObject]
 public partial class ModelAsset : AssetItem, IEnumerable<AssetItem>
 {
     public override string Extension { get; init; } = "model";
@@ -25,7 +26,7 @@ public partial class ModelAsset : AssetItem, IEnumerable<AssetItem>
     }
     public ModelAsset(UPath path) : base(path)
     {}
-    [MemoryPackConstructor]
+    [YamlConstructor]
     public ModelAsset(UPath assetPath, UPath path, UPath subpath) : base(assetPath, path, subpath)
     {}
 

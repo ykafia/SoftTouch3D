@@ -13,21 +13,86 @@ using VYaml.Serialization;
 
 namespace SoftTouch.Assets.Serialization.Yaml;
 
-public class VectorFormatter<T> : IYamlFormatter<Vector2D<T>>
+public class Vector2DYFormatter<T> : IYamlFormatter<Vector2D<T>>
     where T : unmanaged, IFormattable, IEquatable<T>, IComparable<T>
 {
     public Vector2D<T> Deserialize(ref YamlParser parser, YamlDeserializationContext context)
     {
+        parser.SkipAfter(ParseEventType.MappingStart);
+        context.DeserializeWithAlias<string>(ref parser);
         var x = context.DeserializeWithAlias<T>(ref parser);
+        context.DeserializeWithAlias<string>(ref parser);
         var y = context.DeserializeWithAlias<T>(ref parser);
         return new(x, y);
     }
 
     public void Serialize(ref Utf8YamlEmitter emitter, Vector2D<T> value, YamlSerializationContext context)
     {
-        emitter.BeginSequence();
+        emitter.BeginMapping();
+        context.Serialize(ref emitter, "X");
         context.Serialize(ref emitter, value.X);
+        context.Serialize(ref emitter, "Y");
         context.Serialize(ref emitter, value.Y);
-        emitter.EndSequence();
+        emitter.EndMapping();
+    }
+}
+
+public class Vector3DYFormatter<T> : IYamlFormatter<Vector3D<T>>
+    where T : unmanaged, IFormattable, IEquatable<T>, IComparable<T>
+{
+    public Vector3D<T> Deserialize(ref YamlParser parser, YamlDeserializationContext context)
+    {
+        parser.SkipAfter(ParseEventType.MappingStart);
+        context.DeserializeWithAlias<string>(ref parser);
+        var x = context.DeserializeWithAlias<T>(ref parser);
+        context.DeserializeWithAlias<string>(ref parser);
+        var y = context.DeserializeWithAlias<T>(ref parser);
+        context.DeserializeWithAlias<string>(ref parser);
+        var z = context.DeserializeWithAlias<T>(ref parser);
+        return new(x, y, z);
+    }
+
+    public void Serialize(ref Utf8YamlEmitter emitter, Vector3D<T> value, YamlSerializationContext context)
+    {
+        emitter.BeginMapping();
+        context.Serialize(ref emitter, "X");
+        context.Serialize(ref emitter, value.X);
+        context.Serialize(ref emitter, "Y");
+        context.Serialize(ref emitter, value.Y);
+        context.Serialize(ref emitter, "Z");
+        context.Serialize(ref emitter, value.Z);
+        emitter.EndMapping();
+    }
+}
+
+public class Vector4DYFormatter<T> : IYamlFormatter<Vector4D<T>>
+    where T : unmanaged, IFormattable, IEquatable<T>, IComparable<T>
+{
+    public Vector4D<T> Deserialize(ref YamlParser parser, YamlDeserializationContext context)
+    {
+        parser.SkipAfter(ParseEventType.MappingStart);
+        context.DeserializeWithAlias<string>(ref parser);
+        var x = context.DeserializeWithAlias<T>(ref parser);
+        context.DeserializeWithAlias<string>(ref parser);
+        var y = context.DeserializeWithAlias<T>(ref parser);
+        context.DeserializeWithAlias<string>(ref parser);
+        var z= context.DeserializeWithAlias<T>(ref parser); 
+        context.DeserializeWithAlias<string>(ref parser);
+        var w = context.DeserializeWithAlias<T>(ref parser);
+        return new(x, y, z, w);
+    }
+
+    public void Serialize(ref Utf8YamlEmitter emitter, Vector4D<T> value, YamlSerializationContext context)
+    {
+        emitter.BeginMapping();
+        context.Serialize(ref emitter, "X");
+        context.Serialize(ref emitter, value.X);
+        context.Serialize(ref emitter, "Y");
+        context.Serialize(ref emitter, value.Y);
+        context.Serialize(ref emitter, "Z");
+        context.Serialize(ref emitter, value.Z);
+        context.Serialize(ref emitter, "W");
+        context.Serialize(ref emitter, value.W);
+        emitter.EndMapping();
     }
 }
