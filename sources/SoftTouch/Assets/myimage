@@ -1,7 +1,0 @@
-!image
-assetPath: !path
-  fullname: /myimage
-path: !path
-  fullname: /Resources/models/Fox.glb
-subPath: !path
-  fullname: images/0
