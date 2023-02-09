@@ -1,23 +1,29 @@
 # SoftTouch3D
 
 A C# game engine prototype heavily inspired from Stride.
-Might serve as a prototype for new Stride features.
 
-## Design principles
-
-* Simple
-* Modular
-* Data-driven rendering
-
-## Features
+## Main prototype ideas
 
 ### Asset system
 
-* Binary serialization :
-  * MemoryPacker.
-  * `coffret` asset tool for asset management and compilation.
-* JSON serialization :
-  * SpanJson.
+The asset system is managed by a cli tool called `coffret`.
+It works like the dotnet cli tool and can add assets and compile them.
+
+```powershell
+# add an asset
+coffret add --image --file <path-to-image> --path <output-path-in-asset-folder>
+# compile assets
+coffret compile
+```
+
+### Serialization
+
+Serialization is done using two libraries
+
+* VYaml for Yaml serialization
+* MemoryPack for Binary serialization
+
+Both those libraries are very fast and have low memory footprint.
 
 ### Graphics
 
@@ -25,4 +31,8 @@ Rendering done in WGPU with wgsl. In the future, it will use SDSL (Stride shader
 
 ### ECS
 
-A simple Entity-Component-System implementation with performance in mind (Very not performant at the moment).
+A simple data-driven Entity-Component-System implementation.
+
+It uses any structs as components, stores everything contiguously as much as possible and the query API has a very low memory footprint while allowing great performance.
+
+In the future, a scheduler will be implemented for async-await and better parallelization of systems.

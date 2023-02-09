@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using Zio;
 using Zio.FileSystems;
 using SoftTouch.Assets.Serialization.Json;
+using VYaml.Serialization;
 
 namespace SoftTouch.AssetsCompiler
 {
@@ -48,19 +49,12 @@ namespace SoftTouch.AssetsCompiler
                 {
                     if (a.GetExtensionWithDot() == ".stimage")
                     {
-                        var imageAsset =
-                            JsonSerializer.Deserialize<ImageAsset>(
-                                assetfs.ReadAllText(a),
-                                SoftTouchJsonOptions.Resolver
-                            );
+                        var imageAsset = YamlSerializer.Deserialize<ImageAsset>(assetfs.ReadAllBytes(a));
                         var gltffs = new GltfFileSystem(resourcefs,imageAsset.Path);
                         // TODO : Do something with the loading
 
                     }
                 }
-
-            //var file = zipFs.CreateFile("/image");
-
         }
     }
 }
