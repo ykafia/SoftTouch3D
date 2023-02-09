@@ -27,7 +27,7 @@ Both those libraries are very fast and have low memory footprint.
 
 ### Graphics
 
-Rendering done in WGPU with wgsl. In the future, it will use SDSL (Stride shader language).
+Rendering done with WGPU with wgsl, might be replaced by Silk.NET.WebGpu. In the future, it will use SDSL (Stride shader language).
 
 ### ECS
 
