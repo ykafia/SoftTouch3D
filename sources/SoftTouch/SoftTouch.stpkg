@@ -1,0 +1,14 @@
+{
+  "Version": "1.0.0",
+  "Paths": {
+    "ResourcesFolders": [
+      "Resources"
+    ],
+    "AssetsFolders": [
+      "Assets"
+    ],
+    "ShadersFolders": [
+      "Shaders"
+    ]
+  }
+}

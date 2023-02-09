@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="SharpGLTF.Core" Version="$(SharpGLTFVersion)" />
+		<PackageReference Include="SharpGLTF.Toolkit" Version="$(SharpGLTFVersion)" />
+		<PackageReference Include="Silk.NET" Version="$(SilkVersion)" />
+		<PackageReference Include="SixLabors.ImageSharp" Version="$(ImageSharpVersion)" />
+		<PackageReference Include="Utf8Json" Version="$(Utf8JsonVersion)" />
+		<PackageReference Include="VYaml" Version="$(VYamlVersion)" />
+		<PackageReference Include="Zio" Version="$(ZioVersion)" />
+		<PackageReference Include="MemoryPack" Version="$(MemoryPackVersion)" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\WGPU\WGPU.NET\WGPU.NET.csproj" />
+		<ProjectReference Include="..\SoftTouch.Rendering\SoftTouch.Rendering.csproj" />
+	</ItemGroup>
+
+</Project>

@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- <Import Project="..\Directory.Build.props" /> -->
+  <ItemGroup>
+    <ProjectReference Include="..\WGPU\WGPU.NET\WGPU.NET.csproj" />
+    <ProjectReference Include="..\SoftTouch.ECS\sources\SoftTouch.ECS\SoftTouch.ECS.csproj" />
+    <ProjectReference Include="..\SoftTouch.Rendering\SoftTouch.Rendering.csproj" />
+    <ProjectReference Include="..\SoftTouch.Graphics\SoftTouch.Graphics.csproj" />
+    <ProjectReference Include="..\SoftTouch.Assets\SoftTouch.Assets.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Silk.NET" Version="$(SilkVersion)" />
+    <PackageReference Include="Zio" Version="$(ZioVersion)" />
+    <PackageReference Include="MessagePack" Version="$(MessagePackVersion)" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>

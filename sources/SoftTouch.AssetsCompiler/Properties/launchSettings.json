@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "SoftTouch.AssetsCompiler": {
+      "commandName": "Project",
+      "commandLineArgs": "add --image --path \"/myimage\" --file \"/Resources/models/Fox.glb/images/0\"",
+      "workingDirectory": "C:\\Users\\kafia\\source\\repos\\SoftTouch3D\\sources\\SoftTouch"
+    }
+  }
+}

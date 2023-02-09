@@ -1,25 +1,39 @@
 <Project Sdk="Microsoft.NET.Sdk">
+	<!-- <Import Project="..\Directory.Build.props" /> -->
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net7.0</TargetFramework>
+		<LangVersion>preview</LangVersion>
+		<EnablePreviewFeatures>true</EnablePreviewFeatures>
+		<Nullable>enable</Nullable>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	</PropertyGroup>
 
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="MemoryPack" Version="$(MemoryPackVersion)" />
+		<PackageReference Include="SharpGLTF.Core" Version="$(SharpGLTFVersion)" />
+		<PackageReference Include="SharpGLTF.Toolkit" Version="$(SharpGLTFVersion)" />
+		<PackageReference Include="Silk.NET" Version="$(SilkVersion)" />
+		<PackageReference Include="SixLabors.ImageSharp" Version="$(ImageSharpVersion)" />
+		<PackageReference Include="Zio" Version="$(ZioVersion)" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Silk.NET" Version="2.13.0" />
-    <PackageReference Include="Silk.NET.Direct3D.Compilers" Version="2.14.0" />
-    <PackageReference Include="Silk.NET.Direct3D11" Version="2.13.0" />
-    <PackageReference Include="Silk.NET.OpenGL" Version="2.13.0" />
-    <PackageReference Include="Silk.NET.Vulkan" Version="2.13.0" />
-    <PackageReference Include="Silk.NET.Vulkan.Extensions.EXT" Version="2.13.0" />
-    <PackageReference Include="Silk.NET.Vulkan.Extensions.KHR" Version="2.13.0" />
-    <PackageReference Include="SPIRVCross.NET" Version="1.1.3" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\SoftTouch.ECS\sources\SoftTouch.ECS\SoftTouch.ECS.csproj" />
+		<ProjectReference Include="..\WGPU\WGPU.NET\WGPU.NET.csproj" />
+		<ProjectReference Include="..\SoftTouch.Rendering\SoftTouch.Rendering.csproj" />
+		<ProjectReference Include="..\SoftTouch.Assets\SoftTouch.Assets.csproj" />
+		<ProjectReference Include="..\SoftTouch.Graphics\SoftTouch.Graphics.csproj" />
+		<ProjectReference Include="..\SoftTouch.Games\SoftTouch.Games.csproj" />
+		<ProjectReference Include="..\SoftTouch.AssetsCompiler\SoftTouch.AssetsCompiler.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\ECSharp\sources\ECS\ECSharp.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Assets\" />
+	  <Folder Include="CompiledAssets\" />
+	</ItemGroup>
 
+	<Target Name="Compile Assets" AfterTargets="Build">
+		<Exec Command="echo hello" />
+	</Target>
 </Project>
