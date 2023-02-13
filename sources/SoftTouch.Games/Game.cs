@@ -15,7 +15,7 @@ namespace SoftTouch.Games;
 public abstract class Game : IGame
 {
     IWindow window;
-    WGPUGraphics Graphics = new();
+    WGPUGraphics Graphics = WGPUGraphics.Instance;
     GameWorld world;
     AssetManager assetManager;
 

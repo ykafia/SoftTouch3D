@@ -18,6 +18,11 @@ namespace SoftTouch.Graphics.WebGPU
 {
     public unsafe class WGPUGraphics
     {
+        static WGPUGraphics instance = new();
+        public static WGPUGraphics Instance => instance;
+
+
+
         // Glfw glfw;
         IWindow window;
         private Wgpu.SwapChainDescriptor swapChainDescriptor;
@@ -44,6 +49,13 @@ namespace SoftTouch.Graphics.WebGPU
         private Vertex[] vertices;
         private uint[] indices;
         private global::WGPU.NET.Buffer vertexBuffer;
+
+
+        WGPUGraphics()
+        {
+
+        }
+
 
         public static void ErrorCallback(Wgpu.ErrorType type, string message)
         {
