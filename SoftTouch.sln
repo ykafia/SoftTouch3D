@@ -44,6 +44,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ReadMe", "ReadMe", "{AC5BE8
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Generators", "Generators", "{FCF11E1D-FCBC-4874-BBFF-E668DD31E87C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoftTouch.Assets.Generators.Serialization", "sources\SoftTouch.Assets.Generators.Serialization\SoftTouch.Assets.Generators.Serialization.csproj", "{07C4BE86-C1B5-4DB7-91CA-F647B8E5B5A7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -102,6 +106,10 @@ Global
 		{3EE32958-A12F-403B-854F-A476DCBAB968}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3EE32958-A12F-403B-854F-A476DCBAB968}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3EE32958-A12F-403B-854F-A476DCBAB968}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07C4BE86-C1B5-4DB7-91CA-F647B8E5B5A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07C4BE86-C1B5-4DB7-91CA-F647B8E5B5A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07C4BE86-C1B5-4DB7-91CA-F647B8E5B5A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07C4BE86-C1B5-4DB7-91CA-F647B8E5B5A7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -112,6 +120,7 @@ Global
 		{775BBF30-A24B-410B-BCDB-0988A4B3D9BC} = {88509F0A-48A7-4F0D-840E-96A33E94BD0A}
 		{0AA970B7-F83E-4114-B82C-27CFB8F3AC36} = {88509F0A-48A7-4F0D-840E-96A33E94BD0A}
 		{3EE32958-A12F-403B-854F-A476DCBAB968} = {88509F0A-48A7-4F0D-840E-96A33E94BD0A}
+		{07C4BE86-C1B5-4DB7-91CA-F647B8E5B5A7} = {FCF11E1D-FCBC-4874-BBFF-E668DD31E87C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FA9E1AA0-378D-4B3C-9736-267A3B5A757E}
