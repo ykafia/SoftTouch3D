@@ -1,7 +1,6 @@
-﻿namespace SoftTouch.Core
-{
-    public class Class1
-    {
+﻿namespace SoftTouch.Core;
 
-    }
+public class Class1
+{
+
 }

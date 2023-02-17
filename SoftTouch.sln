@@ -46,7 +46,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ReadMe", "ReadMe", "{AC5BE8
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Generators", "Generators", "{FCF11E1D-FCBC-4874-BBFF-E668DD31E87C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoftTouch.Assets.Generators.Serialization", "sources\SoftTouch.Assets.Generators.Serialization\SoftTouch.Assets.Generators.Serialization.csproj", "{07C4BE86-C1B5-4DB7-91CA-F647B8E5B5A7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoftTouch.Assets.Generators.SerializationGathering", "sources\SoftTouch.Assets.Generators.Serialization\SoftTouch.Assets.Generators.SerializationGathering.csproj", "{07C4BE86-C1B5-4DB7-91CA-F647B8E5B5A7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoftTouch.Core", "sources\SoftTouch.Core\SoftTouch.Core.csproj", "{CE4999C1-A777-4FCF-9DE2-6E82BD438F2D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -110,6 +112,10 @@ Global
 		{07C4BE86-C1B5-4DB7-91CA-F647B8E5B5A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{07C4BE86-C1B5-4DB7-91CA-F647B8E5B5A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{07C4BE86-C1B5-4DB7-91CA-F647B8E5B5A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE4999C1-A777-4FCF-9DE2-6E82BD438F2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE4999C1-A777-4FCF-9DE2-6E82BD438F2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE4999C1-A777-4FCF-9DE2-6E82BD438F2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE4999C1-A777-4FCF-9DE2-6E82BD438F2D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
