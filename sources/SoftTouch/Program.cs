@@ -20,11 +20,20 @@ using VYaml.Serialization;
 using SoftTouch.Assets.Serialization.Yaml;
 using System.Text;
 
-SoftYamlResolver.Init();
+//using SoftTouch.Generated;
 
-var yaml = YamlSerializer.Serialize(new Person());
-Console.WriteLine(Encoding.UTF8.GetString(yaml.ToArray()));
-var path = YamlSerializer.Deserialize<Person>(yaml);
-Console.WriteLine($"path is {path}");
+//foreach (var e in TypeNames.names)
+//    Console.WriteLine(e);g
+Console.WriteLine(MemoryPackFormatterProvider.IsRegistered<UPath>());
+MemoryPackSerializer.Serialize(new Person());
+
+//SoftYamlResolver.Init();
+
+//var yaml = YamlSerializer.Serialize(new Person());
+//Console.WriteLine(Encoding.UTF8.GetString(yaml.ToArray()));
+//var path = YamlSerializer.Deserialize<Person>(yaml);
+//Console.WriteLine($"path is {path}");
+
+
 
 

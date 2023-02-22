@@ -1,4 +1,4 @@
-﻿using SoftTouch.Graphics.Core;
+﻿using SoftTouch.Graphics.WebGPU;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +29,7 @@ public partial class ContentManager
 
         public override Type AssetType => typeof(T);
         protected ContentManager Content => GetInstance();
-        protected IGraphics Gfx;
+        protected WGPUGraphics Gfx => WGPUGraphics.Instance;
         //void Unload(T asset);
     }
 }

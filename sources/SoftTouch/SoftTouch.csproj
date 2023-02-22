@@ -7,6 +7,7 @@
 		<EnablePreviewFeatures>true</EnablePreviewFeatures>
 		<Nullable>enable</Nullable>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -26,6 +27,13 @@
 		<ProjectReference Include="..\SoftTouch.Graphics\SoftTouch.Graphics.csproj" />
 		<ProjectReference Include="..\SoftTouch.Games\SoftTouch.Games.csproj" />
 		<ProjectReference Include="..\SoftTouch.AssetsCompiler\SoftTouch.AssetsCompiler.csproj" />
+
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\SoftTouch.Assets.Generators.Serialization\SoftTouch.Assets.Generators.SerializationGathering.csproj"
+						  OutputItemType="Analyzer"
+						  ReferenceOutputAssembly="false" />
 	</ItemGroup>
 
 	<ItemGroup>

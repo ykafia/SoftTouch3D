@@ -17,6 +17,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\SoftTouch.Assets.Core\SoftTouch.Assets.Core.csproj" />
 		<ProjectReference Include="..\WGPU\WGPU.NET\WGPU.NET.csproj" />
 		<ProjectReference Include="..\SoftTouch.Rendering\SoftTouch.Rendering.csproj" />
 	</ItemGroup>
