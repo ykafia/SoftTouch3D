@@ -1,7 +1,7 @@
 using SoftTouch.ECS;
 using SoftTouch.Assets;
 using SoftTouch.Components;
-using SoftTouch.Graphics.WebGPU;
+using SoftTouch.Graphics;
 using System;
 using System.Linq;
 using Silk.NET.Maths;
@@ -77,7 +77,7 @@ public class FoxMeshProcessor : RenderProcessor<Query<Transform, GlobalTransform
     }
 
 
-    public void CreatePipeline(WGPUGraphics graphics, WGPU.NET.Buffer uniformBuffer, ModelAsset model)
+    public void CreatePipeline(GraphicsState graphics, WGPU.NET.Buffer uniformBuffer, ModelAsset model)
     {
         // bindGroupLayout = graphics.Device.CreateBindgroupLayout(null, new Wgpu.BindGroupLayoutEntry[] {
         //         new Wgpu.BindGroupLayoutEntry

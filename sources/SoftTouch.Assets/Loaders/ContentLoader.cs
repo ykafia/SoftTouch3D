@@ -1,4 +1,4 @@
-﻿using SoftTouch.Graphics.Core;
+﻿using SoftTouch.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Zio;
 using SoftTouch.Assets;
+using SoftTouch.Graphics;
 
 namespace SoftTouch.Assets;
 
@@ -29,7 +30,7 @@ public partial class ContentManager
 
         public override Type AssetType => typeof(T);
         protected ContentManager Content => GetInstance();
-        protected IGraphics Gfx;
+        protected GraphicsState Gfx;
         //void Unload(T asset);
     }
 }

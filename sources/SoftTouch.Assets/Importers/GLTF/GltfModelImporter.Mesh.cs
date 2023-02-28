@@ -4,7 +4,7 @@ using System.Linq;
 using SharpGLTF.Memory;
 using SharpGLTF.Schema2;
 using SoftTouch.Assets;
-using SoftTouch.Graphics.WebGPU;
+using SoftTouch.Graphics;
 using WGPU.NET;
 using SoftTouch.Graphics;
 

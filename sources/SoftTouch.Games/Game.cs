@@ -1,7 +1,7 @@
 using System;
 using SoftTouch.ECS;
 using Silk.NET.Windowing;
-using SoftTouch.Graphics.WebGPU;
+using SoftTouch.Graphics;
 using SoftTouch.Assets;
 using MessagePack;
 using MessagePack.Resolvers;
@@ -15,7 +15,7 @@ namespace SoftTouch.Games;
 public abstract class Game : IGame
 {
     IWindow window;
-    WGPUGraphics Graphics = WGPUGraphics.Instance;
+    GraphicsStateOld Graphics = GraphicsStateOld.Instance;
     GameWorld world;
     AssetManager assetManager;
 

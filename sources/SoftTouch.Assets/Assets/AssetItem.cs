@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 using MemoryPack;
 using Silk.NET.Core.Native;
 using SoftTouch.Assets.Serialization.JSON;
-using SoftTouch.Graphics.WebGPU;
+using SoftTouch.Graphics;
 using Utf8Json;
 using VYaml.Annotations;
 using Zio;
