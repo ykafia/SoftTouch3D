@@ -96,21 +96,6 @@ public unsafe class GraphicsStateOld
         Adapter.GetProperties(out Wgpu.AdapterProperties properties);
 
 
-        Adapter.RequestDevice((s, d, m) => Device = d,
-            limits: new RequiredLimits()
-            {
-                Limits = new Wgpu.Limits()
-                {
-                    maxBindGroups = 1
-                }
-            },
-            deviceExtras: new DeviceExtras
-            {
-                Label = "Device"
-            }
-        );
-
-
         Device.SetUncapturedErrorCallback(ErrorCallback);
 
 

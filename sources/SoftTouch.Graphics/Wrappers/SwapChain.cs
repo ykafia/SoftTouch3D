@@ -1,6 +1,6 @@
 using SoftTouch.Graphics;
 
-namespace SoftTouch.Graphics;
+namespace SoftTouch.Graphics.SilkWrappers;
 public sealed class SwapChain : GraphicsBaseObject<Silk.NET.WebGPU.SwapChain>
 {
 
@@ -12,7 +12,7 @@ public sealed class SwapChain : GraphicsBaseObject<Silk.NET.WebGPU.SwapChain>
     {
         unsafe
         {
-            Graphics.Disposal.Dispose(Handle);
+            //Graphics.Disposal.Dispose(Handle);
         }
     }
 }

@@ -1,17 +1,16 @@
 ﻿using Silk.NET.SDL;
 using Silk.NET.WebGPU;
-using SoftTouch.Graphics.Wrappers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SoftTouch.Graphics;
+namespace SoftTouch.Graphics.SilkWrappers;
 
 public class Device
 {
-    Silk.NET.WebGPU.WebGPU api => GraphicsState.Instance.Api;
+    Silk.NET.WebGPU.WebGPU api => SilkGraphicsState.GetOrCreate().Api;
 
     readonly unsafe Silk.NET.WebGPU.Device* device;
 
@@ -124,11 +123,11 @@ public class Device
             return new(api.DeviceCreateShaderModule(device, &descriptor));
         }
     }
-    public SwapChain CreateSwapChain(Silk.NET.WebGPU.SwapChainDescriptor descriptor, Surface surface)
-    {
-        unsafe
-        {
-            return new(api.DeviceCreateSwapChain(device, &descriptor, surface.Handle));
-        }
-    }
+    //public SwapChain CreateSwapChain(Silk.NET.WebGPU.SwapChainDescriptor descriptor, Silk.NET.WebGPU.Surface surface)
+    //{
+    //    unsafe
+    //    {
+    //      return new(api.DeviceCreateSwapChain(device, &descriptor, surface.Handle));
+    //    }
+    //}
 }

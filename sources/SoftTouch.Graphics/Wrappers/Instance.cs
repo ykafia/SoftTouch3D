@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace SoftTouch.Graphics.SilkWrappers;
 
-public class Adapter
+public class Instance
 {
-    public unsafe Silk.NET.WebGPU.Adapter* Handle { get; init; }
-    internal unsafe Adapter(Silk.NET.WebGPU.Adapter* adapter)
+    public unsafe Silk.NET.WebGPU.Instance* Handle { get; init; }
+    unsafe Instance(Silk.NET.WebGPU.Instance* instance)
     {
-        Handle = adapter;
+        Handle = instance;
     }
 }

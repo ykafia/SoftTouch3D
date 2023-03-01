@@ -1,6 +1,6 @@
 using SoftTouch.Graphics;
 
-namespace SoftTouch.Graphics;
+namespace SoftTouch.Graphics.SilkWrappers;
 public sealed class QuerySet : GraphicsBaseObject<Silk.NET.WebGPU.QuerySet>
 {
 

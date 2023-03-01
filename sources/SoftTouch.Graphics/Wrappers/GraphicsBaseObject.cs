@@ -1,10 +1,10 @@
-namespace SoftTouch.Graphics;
+namespace SoftTouch.Graphics.SilkWrappers;
 
 public abstract class GraphicsBaseObject<T> : IDisposable
     where T : unmanaged
 {
     public unsafe T* Handle { get; init; }
-    protected GraphicsState Graphics => GraphicsState.Instance;
+    protected SilkGraphicsState Graphics => SilkGraphicsState.GetOrCreate();
     protected Silk.NET.WebGPU.WebGPU Api => Graphics.Api;
 
     internal unsafe GraphicsBaseObject(T* handle)

@@ -1,6 +1,6 @@
 using SoftTouch.Graphics;
 
-namespace SoftTouch.Graphics;
+namespace SoftTouch.Graphics.SilkWrappers;
 public sealed class RenderPipeline : GraphicsBaseObject<Silk.NET.WebGPU.RenderPipeline>
 {
 

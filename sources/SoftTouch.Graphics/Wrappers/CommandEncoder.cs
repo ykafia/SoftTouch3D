@@ -1,5 +1,5 @@
 using SoftTouch.Graphics;
-namespace SoftTouch.Graphics;
+namespace SoftTouch.Graphics.SilkWrappers;
 public sealed class CommandEncoder : GraphicsBaseObject<Silk.NET.WebGPU.CommandEncoder>
 {
 

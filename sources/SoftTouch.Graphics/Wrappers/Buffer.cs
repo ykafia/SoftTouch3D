@@ -1,6 +1,6 @@
 using Silk.NET.WebGPU;
 
-namespace SoftTouch.Graphics;
+namespace SoftTouch.Graphics.SilkWrappers;
 
 public sealed class Buffer : GraphicsBaseObject<Silk.NET.WebGPU.Buffer>
 {

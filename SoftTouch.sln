@@ -56,6 +56,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Graphics", "Graphics", "{87
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoftTouch.WGPU.Serializers", "sources\SoftTouch.WGPU.Serializers\SoftTouch.WGPU.Serializers.csproj", "{FD1A47F3-80DD-4A72-8377-BDEA681AAE9E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoftTouch.Graphics.Tests", "sources\SoftTouch.Graphics.Tests\SoftTouch.Graphics.Tests.csproj", "{D21A0645-08A6-4AA4-B406-2494060A267A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -126,6 +128,10 @@ Global
 		{FD1A47F3-80DD-4A72-8377-BDEA681AAE9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FD1A47F3-80DD-4A72-8377-BDEA681AAE9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FD1A47F3-80DD-4A72-8377-BDEA681AAE9E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D21A0645-08A6-4AA4-B406-2494060A267A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D21A0645-08A6-4AA4-B406-2494060A267A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D21A0645-08A6-4AA4-B406-2494060A267A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D21A0645-08A6-4AA4-B406-2494060A267A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -143,6 +149,7 @@ Global
 		{3EE32958-A12F-403B-854F-A476DCBAB968} = {88509F0A-48A7-4F0D-840E-96A33E94BD0A}
 		{07C4BE86-C1B5-4DB7-91CA-F647B8E5B5A7} = {FCF11E1D-FCBC-4874-BBFF-E668DD31E87C}
 		{FD1A47F3-80DD-4A72-8377-BDEA681AAE9E} = {879B3DF3-2DB6-4BC2-BB0D-2685815D6E43}
+		{D21A0645-08A6-4AA4-B406-2494060A267A} = {879B3DF3-2DB6-4BC2-BB0D-2685815D6E43}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FA9E1AA0-378D-4B3C-9736-267A3B5A757E}

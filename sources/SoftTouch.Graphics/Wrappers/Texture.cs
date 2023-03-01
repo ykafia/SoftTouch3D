@@ -1,7 +1,7 @@
 using SoftTouch.Graphics;
 
 
-namespace SoftTouch.Graphics;
+namespace SoftTouch.Graphics.SilkWrappers;
 
 public sealed class Texture : GraphicsBaseObject<Silk.NET.WebGPU.Texture>
 {

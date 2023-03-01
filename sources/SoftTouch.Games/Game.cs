@@ -9,56 +9,50 @@ using Silk.NET.Maths;
 using MemoryPack;
 using Zio;
 using SoftTouch.Assets.Serialization.MemoryPack;
+using SoftTouch.Graphics.SilkWrappers;
 
 namespace SoftTouch.Games;
 
 public abstract class Game : IGame
 {
     IWindow window;
-    GraphicsStateOld Graphics = GraphicsStateOld.Instance;
+    GraphicsState Graphics= null!;
     GameWorld world;
-    AssetManager assetManager;
-
-
     public Game()
     {
-        MemoryPackFormatterProvider.Register(new UPathFormatter());
-        // MessagePackSerializer.DefaultOptions = SoftTouchResolver.Options;
-
-        // window = Window.Create(WindowOptions.Default);
-        // window.Initialize();
-        // OnLoad();
-
-
-        // world = new();
-        // var fs = new PhysicalFileSystem();
-        // var ss = new SubFileSystem(fs, fs.ConvertPathFromInternal("../../assets"));
-        // assetManager = new(ss);
-        // world.SetResource(assetManager);
-        // world.SetResource(Graphics);
-
+        world = new();
+        window = Window.Create(
+            new()
+            {
+                API = GraphicsAPI.None,
+                FramesPerSecond = 60,
+                Size = new(800,600),
+                Title = "MyRenderer",
+                IsVisible = true
+            }
+        );
+        window.Load += OnLoad;
+        window.Update += Update;
+        window.Initialize();
     }
-    public Game With<T>()
-        where T : Processor, new()
-    {
-        world.AddStartupProcessor<T>();
-        return this;
-    }
-
     public void Run()
     {
         while (!window.IsClosing)
         {
-            Task.WaitAll(
+            window.Run();
+        }
+    }
+    public void Update(double elapsed)
+    {
+        Task.WaitAll(
                 Task.Run(() => world.Update()),
                 Task.Run(world.Render)
             );
-            world.Extract();
-        }
+        world.Extract();
     }
 
     public void OnLoad()
-    {
-        Graphics.LoadWindow(window);
+    {        
+        Graphics = GraphicsState.GetOrCreate(window);
     }
 }

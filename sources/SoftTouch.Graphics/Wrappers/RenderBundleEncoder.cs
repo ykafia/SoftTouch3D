@@ -1,6 +1,6 @@
 using SoftTouch.Graphics;
 
-namespace SoftTouch.Graphics;
+namespace SoftTouch.Graphics.SilkWrappers;
 
 public sealed class RenderBundleEncoder : GraphicsBaseObject<Silk.NET.WebGPU.RenderBundleEncoder>
 {
@@ -13,7 +13,7 @@ public sealed class RenderBundleEncoder : GraphicsBaseObject<Silk.NET.WebGPU.Ren
     {
         unsafe
         {
-            Graphics.Disposal.Dispose(Handle);
+            //Graphics.Disposal.Dispose(Handle);
         }
     }
 }

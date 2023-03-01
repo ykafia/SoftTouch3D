@@ -1,6 +1,6 @@
-using MessagePack.Resolvers;
+using SoftTouch.Games;
 
-namespace SoftTouch.Games;
+namespace SoftTouch;
 
 
 public class MyGame : Game

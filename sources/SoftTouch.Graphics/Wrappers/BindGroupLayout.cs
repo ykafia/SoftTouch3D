@@ -1,6 +1,6 @@
 using Silk.NET.WebGPU;
 
-namespace SoftTouch.Graphics;
+namespace SoftTouch.Graphics.SilkWrappers;
 
 public sealed class BindGroupLayout : GraphicsBaseObject<Silk.NET.WebGPU.BindGroupLayout>
 {
