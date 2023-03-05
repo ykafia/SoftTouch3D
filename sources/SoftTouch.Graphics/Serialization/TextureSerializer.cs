@@ -1,42 +1,43 @@
-﻿using System;
-using System.Buffers;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using WGPU.NET;
 using MemoryPack;
-using WGPU.NET;
+using SoftTouch.Graphics;
 
-namespace SoftTouch.Graphics.Serialization;
+namespace SoftTouch.WGPU.Serialization;
 
-public class TextureSerializer : MemoryPackFormatter<Texture>
+
+public class TextureFormatSerializers : MemoryPackFormatter<Texture>
 {
-    public override void Deserialize(ref MemoryPackReader reader, scoped ref Texture? value)
-    {
-        // var label = reader.ReadValue<string>();
-        // var format = reader.ReadValue<Wgpu.TextureFormat>();
-        // var size = reader.ReadValue<Wgpu.Extent3D>();
-        // var dimension = reader.ReadValue<Wgpu.TextureDimension>();
-        // var mipCount = reader.ReadValue<uint>();
-
-    }
-
+    TrivaxyGraphicsState gfx => TrivaxyGraphicsState.GetOrCreate();
     public override void Serialize<TBufferWriter>(ref MemoryPackWriter<TBufferWriter> writer, scoped ref Texture? value)
     {
-
-        if (value is null)
-            throw new ArgumentNullException("value");
-        // writer.WriteValue(value.Label);
-        // writer.WriteValue(value.Format);
-        // writer.WriteValue(value.Size);
-        // writer.WriteValue(value.Dimension);
-        // writer.WriteValue(value.MipLevelCount);
-        // writer.WriteValue(value.Usage);
-        //writer.WriteSpan<byte>()
-        //CommandEncoder ce;
-        //ce.CopyTexureToBuffer()
-
-        
         throw new NotImplementedException();
+    }
+
+    public override void Deserialize(ref MemoryPackReader reader, scoped ref Texture? value)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Span<byte> GetData(Texture tex)
+    {
+        var encoder = gfx.Device.CreateCommandEncoder(null);
+        var stagingBuffer = gfx.Device.CreateBuffer(null, false, 0, Wgpu.BufferUsage.MapRead | Wgpu.BufferUsage.CopyDst);
+        var copyTex = new ImageCopyTexture() { Texture = tex, MipLevel = tex.MipLevelCount };
+        var copyBuf = new ImageCopyBuffer() { Buffer = stagingBuffer};
+        encoder.CopyTexureToBuffer(copyTex, copyBuf, tex.Size);
+        return stagingBuffer.GetMappedRange<byte>(0, (int)stagingBuffer.SizeInBytes);
+    }
+
+}
+
+public static class ExtentExtension
+{
+    public static ulong GetBufferSize(this Texture e)
+    {
+        return e.Format switch
+        {
+            Wgpu.TextureFormat.RGBA8Unorm => 32,
+            _ => throw new Exception()
+        };
     }
 }

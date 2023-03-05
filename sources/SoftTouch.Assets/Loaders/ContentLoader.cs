@@ -30,7 +30,7 @@ public partial class ContentManager
 
         public override Type AssetType => typeof(T);
         protected ContentManager Content => GetInstance();
-        protected GraphicsState Gfx;
+        protected TrivaxyGraphicsState Gfx;
         //void Unload(T asset);
     }
 }

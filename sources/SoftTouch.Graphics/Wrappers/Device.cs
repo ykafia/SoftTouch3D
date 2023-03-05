@@ -8,66 +8,66 @@ using System.Threading.Tasks;
 
 namespace SoftTouch.Graphics.SilkWrappers;
 
-public class Device
+public class Device : GraphicsBaseObject<Silk.NET.WebGPU.Device>
 {
-    Silk.NET.WebGPU.WebGPU api => SilkGraphicsState.GetOrCreate().Api;
-
-    readonly unsafe Silk.NET.WebGPU.Device* device;
+    internal unsafe Device(Silk.NET.WebGPU.Device* handle) : base(handle)
+    {
+    }
 
     public Buffer CreateBuffer(Silk.NET.WebGPU.BufferDescriptor descriptor)
     {
         unsafe
         {
-            return new(api.DeviceCreateBuffer(device, &descriptor));
+            return new(Api.DeviceCreateBuffer(Handle, &descriptor));
         }
     }
     public Texture CreateTexture(Silk.NET.WebGPU.TextureDescriptor descriptor)
     {
         unsafe
         {
-            return new(api.DeviceCreateTexture(device, &descriptor));
+            return new(Api.DeviceCreateTexture(Handle, &descriptor));
         }
     }
     public Sampler CreateSampler(Silk.NET.WebGPU.SamplerDescriptor descriptor)
     {
         unsafe
         {
-            return new(api.DeviceCreateSampler(device, &descriptor));
+            return new(Api.DeviceCreateSampler(Handle, &descriptor));
         }
     }
     public BindGroup CreateBindGroup(Silk.NET.WebGPU.BindGroupDescriptor descriptor)
     {
         unsafe
         {
-            return new(api.DeviceCreateBindGroup(device, &descriptor));
+            return new(Api.DeviceCreateBindGroup(Handle, &descriptor));
         }
     }
     public BindGroupLayout CreateBindGroupLayout(Silk.NET.WebGPU.BindGroupLayoutDescriptor descriptor)
     {
         unsafe
         {
-            return new(api.DeviceCreateBindGroupLayout(device, &descriptor));
+            return new(Api.DeviceCreateBindGroupLayout(Handle, &descriptor));
         }
     }
     public CommandEncoder CreateCommandEncoder(Silk.NET.WebGPU.CommandEncoderDescriptor descriptor)
     {
         unsafe
         {
-            return new(api.DeviceCreateCommandEncoder(device, &descriptor));
+            return new(Api.DeviceCreateCommandEncoder(Handle, &descriptor));
         }
     }
     public ComputePipeline CreateComputePipeline(Silk.NET.WebGPU.ComputePipelineDescriptor descriptor)
     {
         unsafe
         {
-            return new(api.DeviceCreateComputePipeline(device, &descriptor));
+            return new(Api.DeviceCreateComputePipeline(Handle, &descriptor));
         }
     }
     public QuerySet CreateQuerySet(Silk.NET.WebGPU.QuerySetDescriptor descriptor)
     {
         unsafe
         {
-            return new(api.DeviceCreateQuerySet(device, &descriptor));
+            return new(Api.DeviceCreateQuerySet(Handle, &descriptor));
         }
     }
     public void CreateComputePipelineAsync<T0>(Silk.NET.WebGPU.ComputePipelineDescriptor descriptor, Silk.NET.WebGPU.PfnCreateComputePipelineAsyncCallback callback, ref T0 userData)
@@ -75,30 +75,30 @@ public class Device
     {
         unsafe
         {
-            api.DeviceCreateComputePipelineAsync(device, &descriptor, callback, ref userData);
+            Api.DeviceCreateComputePipelineAsync(Handle, &descriptor, callback, ref userData);
         }
     }
     public PipelineLayout CreatePipelineLayout(Silk.NET.WebGPU.PipelineLayoutDescriptor descriptor)
     {
         unsafe
         {
-            return new(api.DeviceCreatePipelineLayout(device, &descriptor));
+            return new(Api.DeviceCreatePipelineLayout(Handle, &descriptor));
         }
     }
     public RenderBundleEncoder CreateRenderBundleEncoder(Silk.NET.WebGPU.RenderBundleEncoderDescriptor descriptor)
     {
         unsafe
         {
-            return new(api.DeviceCreateRenderBundleEncoder(device, &descriptor));
+            return new(Api.DeviceCreateRenderBundleEncoder(Handle, &descriptor));
         }
     }
 
-    // TODO : check that
+    // TODO : This shouldn't exist per the doc : https://www.w3.org/TR/webgpu/
     //public RenderBundle CreateRenderBundle(Silk.NET.WebGPU.RenderBundleDescriptor descriptor)
     //{
     //    unsafe
     //    {
-    //        return new(api.CreateRenderBundle(device, &descriptor));
+    //        return new(Api.CreateRenderBundle(Handle, &descriptor));
     //    }
     //}
 
@@ -106,28 +106,41 @@ public class Device
     {
         unsafe
         {
-            return new(api.DeviceCreateRenderPipeline(device, &descriptor));
+            return new(Api.DeviceCreateRenderPipeline(Handle, &descriptor));
         }
     }
     public void CreateRenderPipelineAsync(Silk.NET.WebGPU.RenderPipelineDescriptor descriptor, Silk.NET.WebGPU.PfnCreateRenderPipelineAsyncCallback callback, nint userData)
     {
         unsafe
         {
-            api.DeviceCreateRenderPipelineAsync(device, &descriptor, callback, (void*)userData);
+            Api.DeviceCreateRenderPipelineAsync(Handle, &descriptor, callback, (void*)userData);
         }
     }
     public ShaderModule CreateShaderModule(Silk.NET.WebGPU.ShaderModuleDescriptor descriptor)
     {
         unsafe
         {
-            return new(api.DeviceCreateShaderModule(device, &descriptor));
+            return new(Api.DeviceCreateShaderModule(Handle, &descriptor));
         }
     }
-    //public SwapChain CreateSwapChain(Silk.NET.WebGPU.SwapChainDescriptor descriptor, Silk.NET.WebGPU.Surface surface)
-    //{
-    //    unsafe
-    //    {
-    //      return new(api.DeviceCreateSwapChain(device, &descriptor, surface.Handle));
-    //    }
-    //}
+
+    public SwapChain CreateSwapChain(Silk.NET.WebGPU.SwapChainDescriptor descriptor, Surface surface)
+    {
+        unsafe
+        {
+            return new(Api.DeviceCreateSwapChain(Handle, surface.Handle, &descriptor));
+        }
+    }
+
+    public object Queue {get { unsafe { return new(Api.DeviceGetQueue(Handle)); } }
+
+
+    public override void Dispose()
+    {
+       
+        unsafe
+        {
+            Graphics.Disposal.Dispose(Handle);
+        }
+    }
 }

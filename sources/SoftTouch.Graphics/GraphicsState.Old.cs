@@ -13,9 +13,11 @@ using System.Threading;
 using WGPU.NET;
 using Image = SixLabors.ImageSharp.Image;
 using WTexture = WGPU.NET.Texture;
+using Buffer = WGPU.NET.Buffer;
 
 namespace SoftTouch.Graphics;
 
+[Obsolete]
 public unsafe class GraphicsStateOld
 {
     static GraphicsStateOld instance = new();
@@ -32,9 +34,9 @@ public unsafe class GraphicsStateOld
     private TextureView depthTextureView;
     int prevWidth;
     int prevHeight;
-    private WGPU.NET.Buffer indexBuffer;
+    private Buffer indexBuffer;
     private UniformBuffer uniformBufferData;
-    private WGPU.NET.Buffer uniformBuffer;
+    private Buffer uniformBuffer;
     public Device Device {get; private set;}
     public Adapter Adapter {get; private set;}
     public Surface Surface {get;private set;}

@@ -10,14 +10,14 @@ namespace SoftTouch.Assets;
 
 public partial class AssetManager
 {
-    GraphicsState Gfx;
+    TrivaxyGraphicsState Gfx;
     readonly PhysicalFileSystem physicalFileSystem = new();
     public ResourcesFileSystem FileSystem { get; private set; } = new();
     public AssetsFileSystem AssetsFileSystem { get; private set; } = new();
     public readonly SortedList<string, AssetImporter> AssetImporters = new();
     public readonly Dictionary<UPath, AssetItem> LoadedAssets = new();
 
-    public AssetManager(string resourcePath, GraphicsState gfx)
+    public AssetManager(string resourcePath, TrivaxyGraphicsState gfx)
     {
         Gfx = gfx;
         var sub = new SubFileSystem(physicalFileSystem, physicalFileSystem.ConvertPathFromInternal(resourcePath));

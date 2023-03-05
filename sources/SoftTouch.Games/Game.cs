@@ -18,30 +18,27 @@ public abstract class Game : IGame
     IWindow window;
     GraphicsState Graphics= null!;
     GameWorld world;
-    public Game()
+    public Game(string? name = null)
     {
+        var options = WindowOptions.Default;
+        options.API                      = GraphicsAPI.None;
+        options.Size                     = new Vector2D<int>(800, 600);
+        options.FramesPerSecond          = 60;
+        options.UpdatesPerSecond         = 60;
+        options.Position                 = new Vector2D<int>(0, 0);
+        options.Title                    = name ?? "SoftTouchGame";
+        options.IsVisible                = true;
+        options.ShouldSwapAutomatically  = false;
+        options.IsContextControlDisabled = true;
+        window = Window.Create(options);
         world = new();
-        window = Window.Create(
-            new()
-            {
-                API = GraphicsAPI.None,
-                FramesPerSecond = 60,
-                Size = new(800,600),
-                Title = "MyRenderer",
-                IsVisible = true
-            }
-        );
         window.Load += OnLoad;
         window.Update += Update;
+        window.Closing += Close;
         window.Initialize();
     }
-    public void Run()
-    {
-        while (!window.IsClosing)
-        {
-            window.Run();
-        }
-    }
+    public void Run() => window.Run();
+
     public void Update(double elapsed)
     {
         Task.WaitAll(
@@ -52,7 +49,11 @@ public abstract class Game : IGame
     }
 
     public void OnLoad()
-    {        
+    {
         Graphics = GraphicsState.GetOrCreate(window);
+    }
+    public static void Close()
+    {
+        Console.WriteLine("Closing");
     }
 }

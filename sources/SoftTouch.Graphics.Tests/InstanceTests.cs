@@ -14,7 +14,7 @@ namespace SoftTouch.Graphics.Tests
                    FramesPerSecond = 60
                } 
             );
-            var gfx = GraphicsState.GetOrCreate(window);
+            var gfx = TrivaxyGraphicsState.GetOrCreate(window);
             
         }
     }

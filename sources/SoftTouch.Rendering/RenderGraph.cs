@@ -10,9 +10,9 @@ public class RenderGraph
 {
     SortedList<string, RenderPass> passes;
     SortedList<string, Source> globalSources;
-    GraphicsState Graphics {get;}
+    TrivaxyGraphicsState Graphics {get;}
 
-    public RenderGraph(GraphicsState graphics)
+    public RenderGraph(TrivaxyGraphicsState graphics)
     {
         passes = new();
         globalSources = new();
