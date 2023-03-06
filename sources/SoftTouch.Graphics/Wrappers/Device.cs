@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace SoftTouch.Graphics.SilkWrappers;
 
@@ -132,12 +133,63 @@ public class Device : GraphicsBaseObject<Silk.NET.WebGPU.Device>
         }
     }
 
-    public object Queue {get { unsafe { return new(Api.DeviceGetQueue(Handle)); } }
+    public Queue GetQueue()
+    {
+        unsafe
+        {
+            return new(Api.DeviceGetQueue(Handle));
+        }
+    }
+
+    public bool HasFeature(Silk.NET.WebGPU.FeatureName feature)
+    {
+        unsafe
+        {
+            return Api.DeviceHasFeature(Handle, feature);
+        }
+    }
+
+    public bool PopErrorScope<T>(Silk.NET.WebGPU.PfnErrorCallback callback, T[] data)
+        where T : unmanaged
+    {
+        unsafe
+        {
+            fixed(T* ptr = data)
+                return Api.DevicePopErrorScope(Handle, callback,ptr);
+        }
+    }
+    public void PushErrorScope<T>(Silk.NET.WebGPU.ErrorFilter filter)
+        where T : unmanaged
+    {
+        unsafe
+        {
+            Api.DevicePushErrorScope(Handle,filter);
+        }
+    }
+    public void SetDeviceLostCallback<T>(Silk.NET.WebGPU.PfnDeviceLostCallback callback, T[] data)
+        where T : unmanaged
+    {
+        unsafe
+        {
+            fixed (T* ptr = data)
+                Api.DeviceSetDeviceLostCallback(Handle, callback, ptr);
+        }
+    }
+
+    public void SetLabel(string label)
+    {
+        unsafe
+        {
+            var bytes = Encoding.UTF8.GetBytes(label);
+            fixed (byte* ptr = bytes)
+                Api.DeviceSetLabel(Handle, ptr);
+        }
+    }
+
 
 
     public override void Dispose()
     {
-       
         unsafe
         {
             Graphics.Disposal.Dispose(Handle);

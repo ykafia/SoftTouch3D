@@ -11,7 +11,7 @@ public sealed class Texture : GraphicsBaseObject<Silk.NET.WebGPU.Texture>
     {
     }
 
-    public unsafe Silk.NET.WebGPU.ImageCopyTexture GetCopyTexture(Silk.NET.WebGPU.TextureAspect aspect, uint mipLevel, Silk.NET.WebGPU.Origin3D origin, )
+    public unsafe internal Silk.NET.WebGPU.ImageCopyTexture GetCopyTexture(Silk.NET.WebGPU.TextureAspect aspect, uint mipLevel, Silk.NET.WebGPU.Origin3D origin, )
     {
         return new Silk.NET.WebGPU.ImageCopyTexture()
         {
