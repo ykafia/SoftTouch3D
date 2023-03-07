@@ -1,14 +1,21 @@
 using SoftTouch.Graphics;
+using Silk.NET.WebGPU;
 
 namespace SoftTouch.Graphics.SilkWrappers;
-public sealed class RenderPipeline : GraphicsBaseObject<Silk.NET.WebGPU.RenderPipeline>
+public readonly struct RenderPipeline : IGraphicsObject
 {
 
-    internal unsafe RenderPipeline(Silk.NET.WebGPU.RenderPipeline* handle) : base(handle)
-    {
-    }
+    public unsafe Silk.NET.WebGPU.RenderPipeline* Handle { get; init; }
+    public GraphicsState Graphics => GraphicsState.GetOrCreate();
+    public WebGPU Api => Graphics.Api;
 
-    public override void Dispose()
+    internal unsafe RenderPipeline(Silk.NET.WebGPU.RenderPipeline* handle)
+    {
+        Handle = handle;
+    }
+    public unsafe static implicit operator Silk.NET.WebGPU.RenderPipeline*(RenderPipeline a) => a.Handle;
+
+    public void Dispose()
     {
         unsafe
         {

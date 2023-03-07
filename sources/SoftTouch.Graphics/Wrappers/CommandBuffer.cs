@@ -1,19 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Silk.NET.WebGPU;
 
 namespace SoftTouch.Graphics.SilkWrappers;
 
-public class CommandBuffer : GraphicsBaseObject<Silk.NET.WebGPU.CommandBuffer>
+public readonly struct CommandBuffer : IGraphicsObject
 {
-    internal unsafe CommandBuffer(Silk.NET.WebGPU.CommandBuffer* handle) : base(handle) { }
-    public override void Dispose()
+    public unsafe Silk.NET.WebGPU.CommandBuffer* Handle { get; init; }
+    public GraphicsState Graphics => GraphicsState.GetOrCreate();
+    public WebGPU Api => Graphics.Api;
+    internal unsafe CommandBuffer(Silk.NET.WebGPU.CommandBuffer* handle)
+    {
+        Handle = handle;
+    }
+    public unsafe static implicit operator Silk.NET.WebGPU.CommandBuffer*(CommandBuffer a) => a.Handle;
+
+    public void Dispose()
     {
         unsafe
         {
-            Disposal.Dispose(Handle);
+            Graphics.Disposal.Dispose(Handle);
         }
     }
 }

@@ -2,13 +2,21 @@ using Silk.NET.WebGPU;
 
 namespace SoftTouch.Graphics.SilkWrappers;
 
-public sealed class BindGroupLayout : GraphicsBaseObject<Silk.NET.WebGPU.BindGroupLayout>
+
+public readonly struct BindGroupLayout : IGraphicsObject
 {
-    internal unsafe BindGroupLayout(Silk.NET.WebGPU.BindGroupLayout* handle) : base(handle)
+    public unsafe Silk.NET.WebGPU.BindGroupLayout* Handle { get; init; }
+    public GraphicsState Graphics => GraphicsState.GetOrCreate();
+    public WebGPU Api => Graphics.Api;
+    internal unsafe BindGroupLayout(Silk.NET.WebGPU.BindGroupLayout* handle)
     {
+        Handle = handle;
     }
 
-    public override void Dispose()
+    public unsafe static implicit operator Silk.NET.WebGPU.BindGroupLayout*(BindGroupLayout a) => a.Handle;
+
+
+    public void Dispose()
     {
         unsafe
         {

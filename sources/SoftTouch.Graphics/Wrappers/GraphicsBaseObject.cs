@@ -1,6 +1,6 @@
 namespace SoftTouch.Graphics.SilkWrappers;
 
-public abstract class GraphicsBaseObject<T> : IDisposable
+public abstract class GPUObjectBase<T> : IDisposable
     where T : unmanaged
 {
     public unsafe T* Handle { get; init; }
@@ -8,7 +8,7 @@ public abstract class GraphicsBaseObject<T> : IDisposable
     protected Silk.NET.WebGPU.WebGPU Api => Graphics.Api;
     protected Silk.NET.WebGPU.Extensions.Disposal.WebGPUDisposal Disposal => Graphics.Disposal;
 
-    internal unsafe GraphicsBaseObject(T* handle)
+    internal unsafe GPUObjectBase(T* handle)
     {
         Handle = handle;
     }

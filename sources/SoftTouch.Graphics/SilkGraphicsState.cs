@@ -14,6 +14,7 @@ using Image = SixLabors.ImageSharp.Image;
 using Silk.NET.WebGPU.Extensions.Disposal;
 using Silk.NET.WebGPU;
 using WGPU.NET;
+using Silk.NET.Core.Native;
 
 namespace SoftTouch.Graphics.SilkWrappers;
 
@@ -35,7 +36,7 @@ public unsafe class GraphicsState
     public Surface Surface { get; private set; } = null!;
     public Device Device { get; private set; } = null!;
 
-
+     
     GraphicsState(IWindow window)
     {
         Api = Silk.NET.WebGPU.WebGPU.GetApi();
@@ -81,19 +82,27 @@ public unsafe class GraphicsState
 
             Api.AdapterRequestDevice
             (
-                Adapter,
+                Adapter.Handle,
                 deviceDescriptor,
-                new PfnRequestDeviceCallback((_, device1, _, _) => Device = device1),
+                new PfnRequestDeviceCallback((_, device1, _, _) => Device = new(device1)),
                 null
             );
 
-            Console.WriteLine($"Got device {(nuint)_Device:X}");
+            Console.WriteLine($"Got device {(nuint)Device.Handle:X}");
         } //Get device
         var features = stackalloc FeatureName[100];
-        Api.DeviceEnumerateFeatures(_Device, features);
-        Api.DeviceSetUncapturedErrorCallback(_Device, new PfnErrorCallback(UncapturedError), null);
-        Api.DeviceSetDeviceLostCallback(_Device, new PfnDeviceLostCallback(DeviceLost), null);
+        Api.DeviceEnumerateFeatures(Device.Handle, features);
+        Api.DeviceSetUncapturedErrorCallback(Device.Handle, new PfnErrorCallback(UncapturedError), null);
+        Api.DeviceSetDeviceLostCallback(Device.Handle, new PfnDeviceLostCallback(DeviceLost), null);
 
+    }
+    private static void DeviceLost(DeviceLostReason arg0, byte* arg1, void* arg2)
+    {
+        Console.WriteLine($"Device lost! Reason: {arg0} Message: {SilkMarshal.PtrToString((nint)arg1)}");
+    }
+    private static void UncapturedError(ErrorType arg0, byte* arg1, void* arg2)
+    {
+        Console.WriteLine($"{arg0}: {SilkMarshal.PtrToString((nint)arg1)}");
     }
 
     public void Load(IWindow window)

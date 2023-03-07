@@ -1,14 +1,19 @@
-using SoftTouch.Graphics;
+using Silk.NET.WebGPU;
 
 namespace SoftTouch.Graphics.SilkWrappers;
-public sealed class PipelineLayout : GraphicsBaseObject<Silk.NET.WebGPU.PipelineLayout>
+public readonly struct PipelineLayout : IGraphicsObject
 {
+    public unsafe Silk.NET.WebGPU.PipelineLayout* Handle { get; init; }
+    public GraphicsState Graphics => GraphicsState.GetOrCreate();
+    public WebGPU Api => Graphics.Api;
 
-    internal unsafe PipelineLayout(Silk.NET.WebGPU.PipelineLayout* handle) : base(handle)
+    internal unsafe PipelineLayout(Silk.NET.WebGPU.PipelineLayout* handle)
     {
+        Handle = handle;
     }
+    public unsafe static implicit operator Silk.NET.WebGPU.PipelineLayout*(PipelineLayout a) => a.Handle;
 
-    public override void Dispose()
+    public void Dispose()
     {
         unsafe
         {

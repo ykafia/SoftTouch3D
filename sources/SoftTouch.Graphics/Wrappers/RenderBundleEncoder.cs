@@ -1,15 +1,23 @@
 using SoftTouch.Graphics;
+using Silk.NET.WebGPU;
 
 namespace SoftTouch.Graphics.SilkWrappers;
 
-public sealed class RenderBundleEncoder : GraphicsBaseObject<Silk.NET.WebGPU.RenderBundleEncoder>
+public readonly struct RenderBundleEncoder : IGraphicsObject
 {
+    
+    public unsafe Silk.NET.WebGPU.RenderBundleEncoder* Handle { get; init; }
+    public GraphicsState Graphics => GraphicsState.GetOrCreate();
+    public WebGPU Api => Graphics.Api;
 
-    internal unsafe RenderBundleEncoder(Silk.NET.WebGPU.RenderBundleEncoder* handle) : base(handle)
+
+    internal unsafe RenderBundleEncoder(Silk.NET.WebGPU.RenderBundleEncoder* handle)
     {
+        Handle = handle;
     }
+    public unsafe static implicit operator Silk.NET.WebGPU.RenderBundleEncoder*(RenderBundleEncoder a) => a.Handle;
 
-    public override void Dispose()
+    public void Dispose()
     {
         unsafe
         {

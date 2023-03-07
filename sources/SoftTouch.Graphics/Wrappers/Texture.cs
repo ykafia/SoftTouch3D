@@ -1,19 +1,28 @@
 using Silk.NET.Maths;
 using SoftTouch.Graphics;
+using Silk.NET.WebGPU;
 using System.Runtime.CompilerServices;
 
 namespace SoftTouch.Graphics.SilkWrappers;
 
-public sealed class Texture : GraphicsBaseObject<Silk.NET.WebGPU.Texture>
+public readonly struct Texture : IGraphicsObject
 {
+    public unsafe Silk.NET.WebGPU.Texture* Handle { get; init; }
 
-    internal unsafe Texture(Silk.NET.WebGPU.Texture* handle) : base(handle)
+    public GraphicsState Graphics => GraphicsState.GetOrCreate();
+
+    public WebGPU Api => Graphics.Api;
+
+    internal unsafe Texture(Silk.NET.WebGPU.Texture* handle)
     {
+        Handle = handle;
     }
+    public unsafe static implicit operator Silk.NET.WebGPU.Texture*(Texture a) => a.Handle;
 
-    public unsafe internal Silk.NET.WebGPU.ImageCopyTexture GetCopyTexture(Silk.NET.WebGPU.TextureAspect aspect, uint mipLevel, Silk.NET.WebGPU.Origin3D origin, )
+
+    internal unsafe ImageCopyTexture GetCopyTexture(Silk.NET.WebGPU.TextureAspect aspect, uint mipLevel, Silk.NET.WebGPU.Origin3D origin)
     {
-        return new Silk.NET.WebGPU.ImageCopyTexture()
+        return new ImageCopyTexture()
         {
             Aspect = aspect,
             MipLevel = mipLevel,
@@ -22,7 +31,7 @@ public sealed class Texture : GraphicsBaseObject<Silk.NET.WebGPU.Texture>
         };
     }
 
-    public override void Dispose()
+    public void Dispose()
     {
         unsafe
         {

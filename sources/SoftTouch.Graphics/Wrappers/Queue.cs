@@ -1,14 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
+using Silk.NET.WebGPU;
 
 namespace SoftTouch.Graphics.SilkWrappers;
 
-public class Queue : GraphicsBaseObject<Silk.NET.WebGPU.Queue>
+public readonly struct Queue : IGraphicsObject
 {
-    internal unsafe Queue(Silk.NET.WebGPU.Queue* handle) : base(handle) { }
+    public unsafe Silk.NET.WebGPU.Queue* Handle { get; init; }
+    public GraphicsState Graphics => GraphicsState.GetOrCreate();
+    public WebGPU Api => Graphics.Api;
+
+    internal unsafe Queue(Silk.NET.WebGPU.Queue* handle)
+    {
+        Handle = handle;
+    }
+    public unsafe static implicit operator Silk.NET.WebGPU.Queue*(Queue a) => a.Handle;
 
     public void SetLabel(string label)
     {
@@ -59,7 +64,7 @@ public class Queue : GraphicsBaseObject<Silk.NET.WebGPU.Queue>
         }
     }
 
-    public override void Dispose()
+    public void Dispose()
     {
         unsafe
         {

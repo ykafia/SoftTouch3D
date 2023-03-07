@@ -17,8 +17,7 @@ public class TextureLoader : ContentLoader<Texture>
     {
         using var imageStream = Content.FileSystem.OpenFile(path, FileMode.Open, FileAccess.Read);
         var image = Image.Load(imageStream);
-        // TODO: Create image
-        //Gfx.Device.CreateTexture(path.FullName)
+
     }
 
     public override void Unload(UPath path)

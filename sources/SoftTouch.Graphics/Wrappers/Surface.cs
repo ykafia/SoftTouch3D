@@ -3,16 +3,22 @@ using Silk.NET.Windowing;
 using SoftTouch.Graphics;
 
 namespace SoftTouch.Graphics.SilkWrappers;
-public sealed class Surface : GraphicsBaseObject<Silk.NET.WebGPU.Surface>
+public readonly struct Surface : IDisposable
 {
-    internal unsafe Surface(Silk.NET.WebGPU.Surface* hdl) : base(hdl)
-    {}
+    static GraphicsState Gfx => GraphicsState.GetOrCreate();
+    public unsafe Silk.NET.WebGPU.Surface* Handle { get; init; }
+    internal unsafe Surface(Silk.NET.WebGPU.Surface* hdl)
+    {
+        Handle = hdl;
+    }
 
-    public override void Dispose()
+    public unsafe static implicit operator Silk.NET.WebGPU.Surface*(Surface a) => a.Handle;
+
+    public void Dispose()
     {
         unsafe
         {
-            Graphics.Disposal.Dispose(Handle);
+            Gfx.Disposal.Dispose(Handle);
         }
     }
 }
