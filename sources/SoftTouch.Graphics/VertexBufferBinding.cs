@@ -1,5 +1,6 @@
 
 using WGPU.NET;
+using Buffer = WGPU.NET.Buffer;
 
 namespace SoftTouch.Graphics;
 
@@ -7,7 +8,7 @@ namespace SoftTouch.Graphics;
 public class VertexBufferBinding
 {
     public string Label { get; }
-    public WGPU.NET.Buffer VertexBuffer { get; private set; }
+    public Buffer VertexBuffer { get; private set; }
     public ulong Offset { get; private set; }
     public ulong Stride { get; private set; }
     public ulong Count { get; private set; }

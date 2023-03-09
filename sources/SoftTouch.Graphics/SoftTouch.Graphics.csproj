@@ -1,21 +1,41 @@
 <Project Sdk="Microsoft.NET.Sdk">
-<!-- <Import Project="..\Directory.Build.props" /> -->
-  <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
+	<!-- <Import Project="..\Directory.Build.props" /> -->
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="SharpGLTF.Core" Version="$(SharpGLTFVersion)" />
-    <PackageReference Include="SharpGLTF.Toolkit" Version="$(SharpGLTFVersion)" />
-    <PackageReference Include="Silk.NET" Version="$(SilkVersion)" />
-    <PackageReference Include="SixLabors.ImageSharp" Version="$(ImageSharpVersion)" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="SharpGLTF.Core" Version="$(SharpGLTFVersion)" />
+		<PackageReference Include="SharpGLTF.Toolkit" Version="$(SharpGLTFVersion)" />
+		<PackageReference Include="Silk.NET" Version="$(SilkVersion)" />
+		<PackageReference Include="Silk.NET.WebGPU" Version="$(SilkVersion)" />
+		<PackageReference Include="Silk.NET.WebGPU.Extensions.Disposal" Version="$(SilkVersion)" />
+		<PackageReference Include="Silk.NET.WebGPU.Extensions.WGPU" Version="$(SilkVersion)" />
+		<PackageReference Include="SixLabors.ImageSharp" Version="$(ImageSharpVersion)" />
+		<PackageReference Include="MemoryPack" Version="$(MemoryPackVersion)" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\WGPU\WGPU.NET\WGPU.NET.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\WGPU\WGPU.NET\WGPU.NET.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Properties\Resources.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>Resources.resx</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Update="Properties\Resources.resx">
+	    <Generator>ResXFileCodeGenerator</Generator>
+	    <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	</ItemGroup>
 
 </Project>

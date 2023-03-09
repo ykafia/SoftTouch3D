@@ -32,6 +32,23 @@ public readonly partial struct SerializableVector2D<T>
 public class Vector2DFormatter<T> : MemoryPackFormatter<Vector2D<T>?>
     where T : unmanaged, IFormattable, IEquatable<T>, IComparable<T>
 {
+    static Vector2DFormatter()
+    {
+        MemoryPackFormatterProvider.Register(new UPathFormatter());
+        MemoryPackFormatterProvider.Register(new Vector2DFormatter<byte>());
+        MemoryPackFormatterProvider.Register(new Vector2DFormatter<sbyte>());
+        MemoryPackFormatterProvider.Register(new Vector2DFormatter<ushort>());
+        MemoryPackFormatterProvider.Register(new Vector2DFormatter<short>());
+        MemoryPackFormatterProvider.Register(new Vector2DFormatter<uint>());
+        MemoryPackFormatterProvider.Register(new Vector2DFormatter<int>());
+        MemoryPackFormatterProvider.Register(new Vector2DFormatter<ulong>());
+        MemoryPackFormatterProvider.Register(new Vector2DFormatter<long>());
+
+        MemoryPackFormatterProvider.Register(new Vector2DFormatter<Half>());
+        MemoryPackFormatterProvider.Register(new Vector2DFormatter<float>());
+        MemoryPackFormatterProvider.Register(new Vector2DFormatter<double>());
+
+    }
     public override void Deserialize(ref MemoryPackReader reader, scoped ref Vector2D<T>? value)
     {
         if(reader.PeekIsNull())

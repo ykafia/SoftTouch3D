@@ -1,5 +1,5 @@
 using MemoryPack;
-using SoftTouch.Graphics.WebGPU;
+using SoftTouch.Graphics;
 using VYaml.Annotations;
 using Zio;
 

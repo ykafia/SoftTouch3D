@@ -1,7 +1,7 @@
 using System;
 using SoftTouch.ECS;
 using Silk.NET.Windowing;
-using SoftTouch.Graphics.WebGPU;
+using SoftTouch.Graphics;
 using SoftTouch.Assets;
 using MessagePack;
 using MessagePack.Resolvers;
@@ -9,56 +9,51 @@ using Silk.NET.Maths;
 using MemoryPack;
 using Zio;
 using SoftTouch.Assets.Serialization.MemoryPack;
+using SoftTouch.Graphics.SilkWrappers;
 
 namespace SoftTouch.Games;
 
 public abstract class Game : IGame
 {
     IWindow window;
-    WGPUGraphics Graphics = new();
+    GraphicsState Graphics= null!;
     GameWorld world;
-    AssetManager assetManager;
-
-
-    public Game()
+    public Game(string? name = null)
     {
-        MemoryPackFormatterProvider.Register(new UPathFormatter());
-        // MessagePackSerializer.DefaultOptions = SoftTouchResolver.Options;
-
-        // window = Window.Create(WindowOptions.Default);
-        // window.Initialize();
-        // OnLoad();
-
-
-        // world = new();
-        // var fs = new PhysicalFileSystem();
-        // var ss = new SubFileSystem(fs, fs.ConvertPathFromInternal("../../assets"));
-        // assetManager = new(ss);
-        // world.SetResource(assetManager);
-        // world.SetResource(Graphics);
-
+        var options = WindowOptions.Default;
+        options.API                      = GraphicsAPI.None;
+        options.Size                     = new Vector2D<int>(800, 600);
+        options.FramesPerSecond          = 60;
+        options.UpdatesPerSecond         = 60;
+        options.Position                 = new Vector2D<int>(0, 0);
+        options.Title                    = name ?? "SoftTouchGame";
+        options.IsVisible                = true;
+        options.ShouldSwapAutomatically  = false;
+        options.IsContextControlDisabled = true;
+        window = Window.Create(options);
+        world = new();
+        window.Load += OnLoad;
+        window.Update += Update;
+        window.Closing += Close;
+        window.Initialize();
     }
-    public Game With<T>()
-        where T : Processor, new()
-    {
-        world.AddStartupProcessor<T>();
-        return this;
-    }
+    public void Run() => window.Run();
 
-    public void Run()
+    public void Update(double elapsed)
     {
-        while (!window.IsClosing)
-        {
-            Task.WaitAll(
+        Task.WaitAll(
                 Task.Run(() => world.Update()),
                 Task.Run(world.Render)
             );
-            world.Extract();
-        }
+        world.Extract();
     }
 
     public void OnLoad()
     {
-        Graphics.LoadWindow(window);
+        Graphics = GraphicsState.GetOrCreate(window);
+    }
+    public static void Close()
+    {
+        Console.WriteLine("Closing");
     }
 }

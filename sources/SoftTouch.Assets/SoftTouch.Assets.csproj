@@ -6,6 +6,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.HighPerformance" Version="8.1.0" />
 		<PackageReference Include="SharpGLTF.Core" Version="$(SharpGLTFVersion)" />
 		<PackageReference Include="SharpGLTF.Toolkit" Version="$(SharpGLTFVersion)" />
 		<PackageReference Include="Silk.NET" Version="$(SilkVersion)" />
@@ -17,8 +18,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\WGPU\WGPU.NET\WGPU.NET.csproj" />
-		<ProjectReference Include="..\SoftTouch.Rendering\SoftTouch.Rendering.csproj" />
+		<ProjectReference Include="..\SoftTouch.Graphics\SoftTouch.Graphics.csproj" />
 	</ItemGroup>
 
 </Project>

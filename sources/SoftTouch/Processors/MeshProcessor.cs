@@ -1,13 +1,14 @@
 using SoftTouch.ECS;
 using SoftTouch.Assets;
 using SoftTouch.Components;
-using SoftTouch.Graphics.WebGPU;
+using SoftTouch.Graphics;
 using System;
 using System.Linq;
 using Silk.NET.Maths;
 using System.Runtime.InteropServices;
 using WGPU.NET;
 using SoftTouch.Rendering;
+using Buffer = WGPU.NET.Buffer;
 
 namespace SoftTouch.Processors;
 
@@ -77,7 +78,7 @@ public class FoxMeshProcessor : RenderProcessor<Query<Transform, GlobalTransform
     }
 
 
-    public void CreatePipeline(WGPUGraphics graphics, WGPU.NET.Buffer uniformBuffer, ModelAsset model)
+    public void CreatePipeline(TrivaxyGraphicsState graphics, Buffer uniformBuffer, ModelAsset model)
     {
         // bindGroupLayout = graphics.Device.CreateBindgroupLayout(null, new Wgpu.BindGroupLayoutEntry[] {
         //         new Wgpu.BindGroupLayoutEntry

@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using SoftTouch.Graphics.WebGPU;
+using SoftTouch.Graphics;
 using WGPU.NET;
 
 namespace SoftTouch.Rendering;
@@ -10,9 +10,9 @@ public class RenderGraph
 {
     SortedList<string, RenderPass> passes;
     SortedList<string, Source> globalSources;
-    WGPUGraphics Graphics {get;}
+    TrivaxyGraphicsState Graphics {get;}
 
-    public RenderGraph(WGPUGraphics graphics)
+    public RenderGraph(TrivaxyGraphicsState graphics)
     {
         passes = new();
         globalSources = new();

@@ -1,6 +1,6 @@
 using Silk.NET.Maths;
 
-namespace SoftTouch.Graphics.WebGPU;
+namespace SoftTouch.Graphics;
 struct Vertex
 {
     public Vector3D<float> Position;

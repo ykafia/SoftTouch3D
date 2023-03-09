@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
 using MemoryPack;
@@ -20,14 +21,19 @@ public readonly partial struct SerializableUPath
         Path = new(fullName);
     }
 
-    public SerializableUPath(UPath? path)
+    public SerializableUPath(UPath path)
     {
-        Path = path ?? UPath.Empty;
+        Path = path;
     }
 }
 
 public class UPathFormatter : MemoryPackFormatter<UPath?>
 {
+
+    static UPathFormatter()
+    {
+        MemoryPackFormatterProvider.Register(new UPathFormatter());
+    }
     public override void Deserialize(ref MemoryPackReader reader, scoped ref UPath? value)
     {
         if (reader.PeekIsNull())
@@ -46,6 +52,6 @@ public class UPathFormatter : MemoryPackFormatter<UPath?>
             writer.WriteNullObjectHeader();
             return;
         }
-        writer.WritePackable(new SerializableUPath(value));
+        writer.WritePackable(new SerializableUPath(value.Value));
     }
 }
