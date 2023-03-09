@@ -4,6 +4,8 @@ using Silk.NET.WebGPU;
 namespace SoftTouch.Graphics.SilkWrappers;
 public readonly struct Sampler : IGraphicsObject
 {
+    public static GPUResources<Sampler> Samplers { get; } = new();
+
     public unsafe Silk.NET.WebGPU.Sampler* Handle { get; init; }
 
     public GraphicsState Graphics => GraphicsState.GetOrCreate();

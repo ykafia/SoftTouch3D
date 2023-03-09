@@ -31,10 +31,10 @@ public unsafe class GraphicsState
 
     public Silk.NET.WebGPU.WebGPU Api {get; private set;} = null!;
     public WebGPUDisposal Disposal {get;private set;} = null!;
-    public Adapter Adapter { get; private set; } = null!;
-    public Instance Instance { get; private set; } = null!;
-    public Surface Surface { get; private set; } = null!;
-    public Device Device { get; private set; } = null!;
+    public Adapter? Adapter { get; private set; } = null!;
+    public Instance? Instance { get; private set; } = null!;
+    public Surface? Surface { get; private set; } = null!;
+    public Device? Device { get; private set; } = null!;
 
      
     GraphicsState(IWindow window)
@@ -53,7 +53,7 @@ public unsafe class GraphicsState
         var desc = new InstanceDescriptor() { NextInChain = &cs };
         Instance = new(Api.CreateInstance(desc));
         
-        Surface surface = new(window.CreateWebGPUSurface(Api,Instance.Handle));
+        Surface surface = new(window.CreateWebGPUSurface(Api,Instance));
         {
             var requestAdapterOptions = new RequestAdapterOptions
             {
@@ -62,13 +62,13 @@ public unsafe class GraphicsState
 
             Api.InstanceRequestAdapter
             (
-                Instance.Handle,
+                Instance,
                 requestAdapterOptions,
                 new PfnRequestAdapterCallback((_, adapter1, _, _) => Adapter = new(adapter1)),
                 null
             );
 
-            Console.WriteLine($"Got adapter {(nuint)Adapter.Handle:X}");
+            Console.WriteLine($"Got adapter {Adapter:X}");
         }
         {
 
@@ -82,18 +82,18 @@ public unsafe class GraphicsState
 
             Api.AdapterRequestDevice
             (
-                Adapter.Handle,
+                Adapter,
                 deviceDescriptor,
                 new PfnRequestDeviceCallback((_, device1, _, _) => Device = new(device1)),
                 null
             );
 
-            Console.WriteLine($"Got device {(nuint)Device.Handle:X}");
+            Console.WriteLine($"Got device {Device:X}");
         } //Get device
         var features = stackalloc FeatureName[100];
-        Api.DeviceEnumerateFeatures(Device.Handle, features);
-        Api.DeviceSetUncapturedErrorCallback(Device.Handle, new PfnErrorCallback(UncapturedError), null);
-        Api.DeviceSetDeviceLostCallback(Device.Handle, new PfnDeviceLostCallback(DeviceLost), null);
+        Api.DeviceEnumerateFeatures(Device, features);
+        Api.DeviceSetUncapturedErrorCallback(Device, new PfnErrorCallback(UncapturedError), null);
+        Api.DeviceSetDeviceLostCallback(Device, new PfnDeviceLostCallback(DeviceLost), null);
 
     }
     private static void DeviceLost(DeviceLostReason arg0, byte* arg1, void* arg2)

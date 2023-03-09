@@ -1,18 +1,12 @@
-﻿using Silk.NET.SDL;
+﻿using Silk.NET.Core.Native;
 using Silk.NET.WebGPU;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
-using System.Threading.Tasks;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace SoftTouch.Graphics.SilkWrappers;
 
 public readonly struct Device : IGraphicsObject
 {
-
-
     public unsafe Silk.NET.WebGPU.Device* Handle { get; init; }
 
     public GraphicsState Graphics => GraphicsState.GetOrCreate();
@@ -26,121 +20,125 @@ public readonly struct Device : IGraphicsObject
 
     public unsafe static implicit operator Silk.NET.WebGPU.Device*(Device d) => d.Handle;
 
-    public Buffer CreateBuffer(BufferDescriptor descriptor)
+    public Buffer CreateBuffer([NotNull] string label, in BufferDescriptor descriptor)
     {
         unsafe
         {
-            return new(Api.DeviceCreateBuffer(Handle, &descriptor));
+            Buffer.Buffers.Add(label, new(Api.DeviceCreateBuffer(Handle, descriptor)));
+            return Buffer.Buffers[label];
         }
     }
-    public Texture CreateTexture(TextureDescriptor descriptor)
+    public Texture CreateTexture([NotNull] string label, in TextureDescriptor descriptor)
     {
         unsafe
         {
-            return new(Api.DeviceCreateTexture(Handle, &descriptor));
+            Texture texture = new(Api.DeviceCreateTexture(Handle, descriptor));
+            Texture.Textures.Add(label, texture);
+            return texture;
         }
     }
-    public Sampler CreateSampler(SamplerDescriptor descriptor)
+    public Sampler CreateSampler([NotNull] string label, in SamplerDescriptor descriptor)
     {
         unsafe
         {
-            return new(Api.DeviceCreateSampler(Handle, &descriptor));
+            Sampler.Samplers.Add(label, new(Api.DeviceCreateSampler(Handle, descriptor)));
+            return Sampler.Samplers[label];
         }
     }
-    public BindGroup CreateBindGroup(BindGroupDescriptor descriptor)
+    public BindGroup CreateBindGroup(in BindGroupDescriptor descriptor)
     {
         unsafe
         {
-            return new(Api.DeviceCreateBindGroup(Handle, &descriptor));
+            return new(Api.DeviceCreateBindGroup(Handle, descriptor));
         }
     }
-    public BindGroupLayout CreateBindGroupLayout(BindGroupLayoutDescriptor descriptor)
+    public BindGroupLayout CreateBindGroupLayout(in BindGroupLayoutDescriptor descriptor)
     {
         unsafe
         {
-            return new(Api.DeviceCreateBindGroupLayout(Handle, &descriptor));
+            return new(Api.DeviceCreateBindGroupLayout(Handle, descriptor));
         }
     }
-    public CommandEncoder CreateCommandEncoder(CommandEncoderDescriptor descriptor)
+    public CommandEncoder CreateCommandEncoder(in CommandEncoderDescriptor descriptor)
     {
         unsafe
         {
-            return new(Api.DeviceCreateCommandEncoder(Handle, &descriptor));
+            return new(Api.DeviceCreateCommandEncoder(Handle, descriptor));
         }
     }
-    public ComputePipeline CreateComputePipeline(ComputePipelineDescriptor descriptor)
+    public ComputePipeline CreateComputePipeline(in ComputePipelineDescriptor descriptor)
     {
         unsafe
         {
-            return new(Api.DeviceCreateComputePipeline(Handle, &descriptor));
+            return new(Api.DeviceCreateComputePipeline(Handle, descriptor));
         }
     }
-    public QuerySet CreateQuerySet(QuerySetDescriptor descriptor)
+    public QuerySet CreateQuerySet(in QuerySetDescriptor descriptor)
     {
         unsafe
         {
-            return new(Api.DeviceCreateQuerySet(Handle, &descriptor));
+            return new(Api.DeviceCreateQuerySet(Handle, descriptor));
         }
     }
-    public void CreateComputePipelineAsync<T0>(ComputePipelineDescriptor descriptor, PfnCreateComputePipelineAsyncCallback callback, ref T0 userData)
+    public void CreateComputePipelineAsync<T0>(in ComputePipelineDescriptor descriptor, PfnCreateComputePipelineAsyncCallback callback, ref T0 userData)
         where T0 : unmanaged
     {
         unsafe
         {
-            Api.DeviceCreateComputePipelineAsync(Handle, &descriptor, callback, ref userData);
+            Api.DeviceCreateComputePipelineAsync(Handle, descriptor, callback, ref userData);
         }
     }
-    public PipelineLayout CreatePipelineLayout(PipelineLayoutDescriptor descriptor)
+    public PipelineLayout CreatePipelineLayout(in PipelineLayoutDescriptor descriptor)
     {
         unsafe
         {
-            return new(Api.DeviceCreatePipelineLayout(Handle, &descriptor));
+            return new(Api.DeviceCreatePipelineLayout(Handle, descriptor));
         }
     }
-    public RenderBundleEncoder CreateRenderBundleEncoder(RenderBundleEncoderDescriptor descriptor)
+    public RenderBundleEncoder CreateRenderBundleEncoder(in RenderBundleEncoderDescriptor descriptor)
     {
         unsafe
         {
-            return new(Api.DeviceCreateRenderBundleEncoder(Handle, &descriptor));
+            return new(Api.DeviceCreateRenderBundleEncoder(Handle, descriptor));
         }
     }
 
     // TODO : This shouldn't exist per the doc : https://www.w3.org/TR/webgpu/
-    //public RenderBundle CreateRenderBundle(RenderBundleDescriptor descriptor)
+    //public RenderBundle CreateRenderBundle(in RenderBundleDescriptor descriptor)
     //{
     //    unsafe
     //    {
-    //        return new(Api.CreateRenderBundle(Handle, &descriptor));
+    //        return new(Api.CreateRenderBundle(Handle, descriptor));
     //    }
     //}
 
-    public RenderPipeline CreateRenderPipeline(RenderPipelineDescriptor descriptor)
+    public RenderPipeline CreateRenderPipeline(in RenderPipelineDescriptor descriptor)
     {
         unsafe
         {
-            return new(Api.DeviceCreateRenderPipeline(Handle, &descriptor));
+            return new(Api.DeviceCreateRenderPipeline(Handle, descriptor));
         }
     }
-    public void CreateRenderPipelineAsync(RenderPipelineDescriptor descriptor, PfnCreateRenderPipelineAsyncCallback callback, nint userData)
+    public void CreateRenderPipelineAsync(in RenderPipelineDescriptor descriptor, PfnCreateRenderPipelineAsyncCallback callback, nint userData)
     {
         unsafe
         {
-            Api.DeviceCreateRenderPipelineAsync(Handle, &descriptor, callback, (void*)userData);
+            Api.DeviceCreateRenderPipelineAsync(Handle, descriptor, callback, (void*)userData);
         }
     }
-    public ShaderModule CreateShaderModule(ShaderModuleDescriptor descriptor)
+    public ShaderModule CreateShaderModule(in ShaderModuleDescriptor descriptor)
     {
         unsafe
         {
-            return new(Api.DeviceCreateShaderModule(Handle, &descriptor));
+            return new(Api.DeviceCreateShaderModule(Handle, descriptor));
         }
     }
 
-    public SwapChain CreateSwapChain(SwapChainDescriptor descriptor, Surface surface)
+    public SwapChain CreateSwapChain(in SwapChainDescriptor descriptor, Surface surface)
     {
         unsafe
         {
-            return new(Api.DeviceCreateSwapChain(Handle, surface.Handle, &descriptor));
+            return new(Api.DeviceCreateSwapChain(Handle, surface, descriptor));
         }
     }
 
@@ -165,8 +163,8 @@ public readonly struct Device : IGraphicsObject
     {
         unsafe
         {
-            fixed(T* ptr = data)
-                return Api.DevicePopErrorScope(Handle, callback,ptr);
+            fixed (T* ptr = data)
+                return Api.DevicePopErrorScope(Handle, callback, ptr);
         }
     }
     public void PushErrorScope<T>(ErrorFilter filter)
@@ -174,7 +172,7 @@ public readonly struct Device : IGraphicsObject
     {
         unsafe
         {
-            Api.DevicePushErrorScope(Handle,filter);
+            Api.DevicePushErrorScope(Handle, filter);
         }
     }
     public void SetDeviceLostCallback<T>(PfnDeviceLostCallback callback, T[] data)

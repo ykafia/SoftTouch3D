@@ -3,6 +3,8 @@ namespace SoftTouch.Graphics.SilkWrappers;
 
 public readonly struct Buffer : IGraphicsObject
 {
+    public static GPUResources<Buffer> Buffers { get; } = new();
+
     public unsafe Silk.NET.WebGPU.Buffer* Handle { get; init; }
     public GraphicsState Graphics => GraphicsState.GetOrCreate();
     public WebGPU Api => Graphics.Api;

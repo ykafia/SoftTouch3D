@@ -7,6 +7,8 @@ namespace SoftTouch.Graphics.SilkWrappers;
 
 public readonly struct Texture : IGraphicsObject
 {
+    public static GPUResources<Texture> Textures { get; } = new();
+
     public unsafe Silk.NET.WebGPU.Texture* Handle { get; init; }
 
     public GraphicsState Graphics => GraphicsState.GetOrCreate();
