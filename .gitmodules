@@ -1,6 +1,3 @@
-[submodule "sources/WGPU"]
-	path = sources/WGPU
-	url = https://github.com/ykafia/WGPU.NET
 [submodule "sources/SoftTouch.ECS"]
 	path = sources/SoftTouch.ECS
 	url = https://github.com/ykafia/SoftTouch.ECS
