@@ -24,6 +24,7 @@ public readonly struct Device : IGraphicsObject
     {
         unsafe
         {
+            ArgumentNullException.ThrowIfNull(label);
             Buffer.Buffers.Add(label, new(Api.DeviceCreateBuffer(Handle, descriptor)));
             return Buffer.Buffers[label];
         }
@@ -32,15 +33,16 @@ public readonly struct Device : IGraphicsObject
     {
         unsafe
         {
-            Texture texture = new(Api.DeviceCreateTexture(Handle, descriptor));
-            Texture.Textures.Add(label, texture);
-            return texture;
+            ArgumentNullException.ThrowIfNull(label);
+            Texture.Textures.Add(label, new(Api.DeviceCreateTexture(Handle, descriptor)));
+            return Texture.Textures[label];
         }
     }
     public Sampler CreateSampler([NotNull] string label, in SamplerDescriptor descriptor)
     {
         unsafe
         {
+            ArgumentNullException.ThrowIfNull(label);
             Sampler.Samplers.Add(label, new(Api.DeviceCreateSampler(Handle, descriptor)));
             return Sampler.Samplers[label];
         }
