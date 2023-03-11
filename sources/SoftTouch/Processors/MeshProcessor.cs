@@ -6,9 +6,9 @@ using System;
 using System.Linq;
 using Silk.NET.Maths;
 using System.Runtime.InteropServices;
-using WGPU.NET;
 using SoftTouch.Rendering;
-using Buffer = WGPU.NET.Buffer;
+using Buffer = SoftTouch.Graphics.SilkWrappers.Buffer;
+using SoftTouch.Graphics.SilkWrappers;
 
 namespace SoftTouch.Processors;
 
@@ -20,8 +20,8 @@ public class FoxMeshProcessor : RenderProcessor<Query<Transform, GlobalTransform
     private BindGroup bindGroup;
     private ShaderModule shader;
     private PipelineLayout pipelineLayout;
-    private VertexState vertexState;
-    private FragmentState fragmentState;
+    private Silk.NET.WebGPU.VertexState vertexState;
+    private Silk.NET.WebGPU.FragmentState fragmentState;
 
     public override void Update()
     {
@@ -78,7 +78,7 @@ public class FoxMeshProcessor : RenderProcessor<Query<Transform, GlobalTransform
     }
 
 
-    public void CreatePipeline(TrivaxyGraphicsState graphics, Buffer uniformBuffer, ModelAsset model)
+    public void CreatePipeline(GraphicsState graphics, Buffer uniformBuffer, ModelAsset model)
     {
         // bindGroupLayout = graphics.Device.CreateBindgroupLayout(null, new Wgpu.BindGroupLayoutEntry[] {
         //         new Wgpu.BindGroupLayoutEntry

@@ -1,6 +1,6 @@
-using WGPU.NET;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
+using SoftTouch.Graphics.SilkWrappers;
 
 namespace SoftTouch.Rendering;
 
@@ -17,15 +17,15 @@ public class ResourceAllocator
         Resources = new();
     }
 
-    public void AllocateTexture(in Wgpu.TextureDescriptor descriptor)
+    public void AllocateTexture(in Silk.NET.WebGPU.TextureDescriptor descriptor)
     {
         // Textures[descriptor.label] = device.CreateTexture(descriptor);
     }
-    public void CreateTextureView(string textureName, in Wgpu.TextureViewDescriptor descriptor)
+    public void CreateTextureView(string textureName, in Silk.NET.WebGPU.TextureViewDescriptor descriptor)
     {
         // Resources[descriptor.label] = new TrasientTextureView(device, Textures[textureName].CreateTextureView(descriptor));
     }
-    public void CreateBuffer(string textureName, in Wgpu.BufferDescriptor descriptor)
+    public void CreateBuffer(string textureName, in Silk.NET.WebGPU.BufferDescriptor descriptor)
     {
         // Resources[descriptor.label] = new TrasientBuffer(device, device.CreateBuffer(descriptor));
     }

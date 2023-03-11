@@ -1,4 +1,4 @@
-using WGPU.NET;
+using SoftTouch.Graphics.SilkWrappers;
 using System.Linq;
 using System.Collections.Generic;
 using SoftTouch.Assets;
@@ -10,7 +10,7 @@ public readonly struct ModelComponent
 {
     // public ModelAsset Model {get;}
     public readonly List<MeshDraw> Meshes;// => Model.Meshes;
-    public readonly List<VertexBufferLayout> Layouts;// => Model.Layouts;
+    public readonly List<Silk.NET.WebGPU.VertexBufferLayout> Layouts;// => Model.Layouts;
 
     // public ModelComponent(ModelAsset model)
     // {

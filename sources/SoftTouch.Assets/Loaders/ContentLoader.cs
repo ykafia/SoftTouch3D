@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Zio;
 using SoftTouch.Assets;
 using SoftTouch.Graphics;
+using SoftTouch.Graphics.SilkWrappers;
 
 namespace SoftTouch.Assets;
 
@@ -30,7 +31,7 @@ public partial class ContentManager
 
         public override Type AssetType => typeof(T);
         protected ContentManager Content => GetInstance();
-        protected TrivaxyGraphicsState Gfx;
+        protected GraphicsState Gfx => GraphicsState.GetOrCreate();
         //void Unload(T asset);
     }
 }

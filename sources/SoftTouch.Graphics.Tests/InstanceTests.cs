@@ -1,4 +1,5 @@
 using Silk.NET.Windowing;
+using SoftTouch.Graphics.SilkWrappers;
 
 namespace SoftTouch.Graphics.Tests
 {
@@ -14,7 +15,7 @@ namespace SoftTouch.Graphics.Tests
                    FramesPerSecond = 60
                } 
             );
-            var gfx = TrivaxyGraphicsState.GetOrCreate(window);
+            var gfx = GraphicsState.GetOrCreate(window);
             
         }
     }

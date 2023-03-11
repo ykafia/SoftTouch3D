@@ -1,6 +1,5 @@
-using WGPU.NET;
-using Buffer = WGPU.NET.Buffer;
-
+using Buffer = SoftTouch.Graphics.SilkWrappers.Buffer;
+using SoftTouch.Graphics.SilkWrappers;
 namespace SoftTouch.Rendering;
 
 

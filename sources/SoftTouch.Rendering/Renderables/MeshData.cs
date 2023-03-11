@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using WGPU.NET;
+using Silk.NET.WebGPU;
 
 namespace SoftTouch.Graphics;
 
@@ -10,7 +10,7 @@ public readonly struct MeshData
     public byte[] Vertices { get; init; }
     public ulong Stride { get; init; }
     public ulong Offset { get; init; }
-    public Wgpu.PrimitiveTopology Topology { get; init; }
+    public PrimitiveTopology Topology { get; init; }
     public VertexBufferLayout Layout { get; init; }
     public ulong VertexCount { get; init; }
 

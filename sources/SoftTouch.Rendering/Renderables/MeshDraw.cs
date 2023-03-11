@@ -1,7 +1,7 @@
 using System;
 using SoftTouch.Graphics;
 using SoftTouch.Graphics.SilkWrappers;
-using WGPU.NET;
+using Silk.NET.WebGPU;
 
 namespace SoftTouch.Rendering.Renderables;
 

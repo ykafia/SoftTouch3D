@@ -1,5 +1,5 @@
 using System;
-using WGPU.NET;
+using Silk.NET.WebGPU;
 using SoftTouch.Rendering;
 
 namespace SoftTouch.Rendering.Renderer;

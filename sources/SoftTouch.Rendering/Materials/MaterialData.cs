@@ -3,7 +3,7 @@
 
 using System.ComponentModel;
 using SoftTouch.Graphics;
-using WGPU.NET;
+using SoftTouch.Graphics.SilkWrappers;
 
 namespace SoftTouch.Rendering.Materials;
 

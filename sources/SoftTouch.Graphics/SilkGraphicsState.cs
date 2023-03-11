@@ -13,7 +13,7 @@ using System.Threading;
 using Image = SixLabors.ImageSharp.Image;
 using Silk.NET.WebGPU.Extensions.Disposal;
 using Silk.NET.WebGPU;
-using WGPU.NET;
+using Silk.NET.WebGPU;
 using Silk.NET.Core.Native;
 
 namespace SoftTouch.Graphics.SilkWrappers;

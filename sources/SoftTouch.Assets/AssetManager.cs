@@ -3,6 +3,7 @@ using System.IO;
 using SoftTouch.Assets.FileSystems;
 using SoftTouch.Assets.Importers;
 using SoftTouch.Graphics;
+using SoftTouch.Graphics.SilkWrappers;
 using Zio;
 using Zio.FileSystems;
 
@@ -10,14 +11,14 @@ namespace SoftTouch.Assets;
 
 public partial class AssetManager
 {
-    TrivaxyGraphicsState Gfx;
+    GraphicsState Gfx;
     readonly PhysicalFileSystem physicalFileSystem = new();
     public ResourcesFileSystem FileSystem { get; private set; } = new();
     public AssetsFileSystem AssetsFileSystem { get; private set; } = new();
     public readonly SortedList<string, AssetImporter> AssetImporters = new();
     public readonly Dictionary<UPath, AssetItem> LoadedAssets = new();
 
-    public AssetManager(string resourcePath, TrivaxyGraphicsState gfx)
+    public AssetManager(string resourcePath, GraphicsState gfx)
     {
         Gfx = gfx;
         var sub = new SubFileSystem(physicalFileSystem, physicalFileSystem.ConvertPathFromInternal(resourcePath));

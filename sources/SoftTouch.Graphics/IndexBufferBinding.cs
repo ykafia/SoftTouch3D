@@ -1,6 +1,6 @@
 using SoftTouch.Graphics.SilkWrappers;
 using System.Runtime.InteropServices;
-using Buffer = WGPU.NET.Buffer;
+using Buffer = Silk.NET.WebGPU.Buffer;
 
 namespace SoftTouch.Graphics;
 

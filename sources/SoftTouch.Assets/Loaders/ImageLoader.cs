@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WGPU.NET;
+using Silk.NET.WebGPU;
 using Zio;
 using SixLabors.ImageSharp;
 using static SoftTouch.Assets.ContentManager;

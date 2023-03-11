@@ -5,7 +5,7 @@ using SharpGLTF.Memory;
 using SharpGLTF.Schema2;
 using SoftTouch.Assets;
 using SoftTouch.Graphics;
-using WGPU.NET;
+using Silk.NET.WebGPU;
 using SoftTouch.Graphics;
 
 namespace SoftTouch.Assets.Importers.GLTF;
@@ -28,7 +28,7 @@ public partial class GLTFModelImporter
     //                 (x, i) =>
     //                 {
     //                     offset += (ulong)x.Value.Format.ByteSize;
-    //                     return new Wgpu.VertexAttribute()
+    //                     return new VertexAttribute()
     //                     {
     //                         format = x.Value.Format.Into(),
     //                         offset = offset,
@@ -64,38 +64,38 @@ public partial class GLTFModelImporter
 }
 internal static class WGPUExtensions
 {
-    public static Wgpu.VertexFormat Into(this AttributeFormat format)
+    public static VertexFormat Into(this AttributeFormat format)
     {
         return format switch
         {
-            { Dimensions: DimensionType.VEC2, Encoding: EncodingType.UNSIGNED_BYTE } => Wgpu.VertexFormat.Uint8x2,
-            { Dimensions: DimensionType.VEC4, Encoding: EncodingType.UNSIGNED_BYTE } => Wgpu.VertexFormat.Uint8x4,
-            { Dimensions: DimensionType.VEC2, Encoding: EncodingType.UNSIGNED_SHORT } => Wgpu.VertexFormat.Uint16x2,
-            { Dimensions: DimensionType.VEC4, Encoding: EncodingType.UNSIGNED_SHORT } => Wgpu.VertexFormat.Uint16x4,
-            { Dimensions: DimensionType.SCALAR, Encoding: EncodingType.UNSIGNED_INT } => Wgpu.VertexFormat.Uint32,
-            { Dimensions: DimensionType.VEC2, Encoding: EncodingType.UNSIGNED_INT } => Wgpu.VertexFormat.Uint32x2,
-            { Dimensions: DimensionType.VEC3, Encoding: EncodingType.UNSIGNED_INT } => Wgpu.VertexFormat.Uint32x3,
-            { Dimensions: DimensionType.VEC4, Encoding: EncodingType.UNSIGNED_INT } => Wgpu.VertexFormat.Uint32x4,
-            { Dimensions: DimensionType.VEC2, Encoding: EncodingType.BYTE } => Wgpu.VertexFormat.Sint8x2,
-            { Dimensions: DimensionType.VEC4, Encoding: EncodingType.BYTE } => Wgpu.VertexFormat.Sint8x4,
-            { Dimensions: DimensionType.VEC2, Encoding: EncodingType.SHORT } => Wgpu.VertexFormat.Sint16x2,
-            { Dimensions: DimensionType.VEC4, Encoding: EncodingType.SHORT } => Wgpu.VertexFormat.Sint16x4,
-            { Dimensions: DimensionType.SCALAR, Encoding: EncodingType.FLOAT } => Wgpu.VertexFormat.Float32,
-            { Dimensions: DimensionType.VEC2, Encoding: EncodingType.FLOAT } => Wgpu.VertexFormat.Float32x2,
-            { Dimensions: DimensionType.VEC3, Encoding: EncodingType.FLOAT } => Wgpu.VertexFormat.Float32x3,
-            { Dimensions: DimensionType.VEC4, Encoding: EncodingType.FLOAT } => Wgpu.VertexFormat.Float32x4,
+            { Dimensions: DimensionType.VEC2, Encoding: EncodingType.UNSIGNED_BYTE } => VertexFormat.Uint8x2,
+            { Dimensions: DimensionType.VEC4, Encoding: EncodingType.UNSIGNED_BYTE } => VertexFormat.Uint8x4,
+            { Dimensions: DimensionType.VEC2, Encoding: EncodingType.UNSIGNED_SHORT } => VertexFormat.Uint16x2,
+            { Dimensions: DimensionType.VEC4, Encoding: EncodingType.UNSIGNED_SHORT } => VertexFormat.Uint16x4,
+            { Dimensions: DimensionType.SCALAR, Encoding: EncodingType.UNSIGNED_INT } => VertexFormat.Uint32,
+            { Dimensions: DimensionType.VEC2, Encoding: EncodingType.UNSIGNED_INT } => VertexFormat.Uint32x2,
+            { Dimensions: DimensionType.VEC3, Encoding: EncodingType.UNSIGNED_INT } => VertexFormat.Uint32x3,
+            { Dimensions: DimensionType.VEC4, Encoding: EncodingType.UNSIGNED_INT } => VertexFormat.Uint32x4,
+            { Dimensions: DimensionType.VEC2, Encoding: EncodingType.BYTE } => VertexFormat.Sint8x2,
+            { Dimensions: DimensionType.VEC4, Encoding: EncodingType.BYTE } => VertexFormat.Sint8x4,
+            { Dimensions: DimensionType.VEC2, Encoding: EncodingType.SHORT } => VertexFormat.Sint16x2,
+            { Dimensions: DimensionType.VEC4, Encoding: EncodingType.SHORT } => VertexFormat.Sint16x4,
+            { Dimensions: DimensionType.SCALAR, Encoding: EncodingType.FLOAT } => VertexFormat.Float32,
+            { Dimensions: DimensionType.VEC2, Encoding: EncodingType.FLOAT } => VertexFormat.Float32x2,
+            { Dimensions: DimensionType.VEC3, Encoding: EncodingType.FLOAT } => VertexFormat.Float32x3,
+            { Dimensions: DimensionType.VEC4, Encoding: EncodingType.FLOAT } => VertexFormat.Float32x4,
             _ => throw new NotImplementedException()
         };
     }
-    public static Wgpu.PrimitiveTopology Into(this PrimitiveType primitiveType)
+    public static PrimitiveTopology Into(this PrimitiveType primitiveType)
     {
         return primitiveType switch
         {
-            PrimitiveType.LINES => Wgpu.PrimitiveTopology.LineList,
-            PrimitiveType.LINE_STRIP => Wgpu.PrimitiveTopology.LineStrip,
-            PrimitiveType.TRIANGLES => Wgpu.PrimitiveTopology.TriangleList,
-            PrimitiveType.TRIANGLE_STRIP => Wgpu.PrimitiveTopology.TriangleStrip,
-            PrimitiveType.POINTS => Wgpu.PrimitiveTopology.PointList,
+            PrimitiveType.LINES => PrimitiveTopology.LineList,
+            PrimitiveType.LINE_STRIP => PrimitiveTopology.LineStrip,
+            PrimitiveType.TRIANGLES => PrimitiveTopology.TriangleList,
+            PrimitiveType.TRIANGLE_STRIP => PrimitiveTopology.TriangleStrip,
+            PrimitiveType.POINTS => PrimitiveTopology.PointList,
             _ => throw new NotImplementedException()
         };
     }

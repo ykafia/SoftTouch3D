@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using SoftTouch.Graphics;
-using WGPU.NET;
+using SoftTouch.Graphics.SilkWrappers;
 
 namespace SoftTouch.Rendering;
 
@@ -10,9 +10,9 @@ public class RenderGraph
 {
     SortedList<string, RenderPass> passes;
     SortedList<string, Source> globalSources;
-    TrivaxyGraphicsState Graphics {get;}
+    GraphicsState Graphics {get;}
 
-    public RenderGraph(TrivaxyGraphicsState graphics)
+    public RenderGraph(GraphicsState graphics)
     {
         passes = new();
         globalSources = new();

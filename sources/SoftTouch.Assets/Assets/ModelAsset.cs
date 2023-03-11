@@ -3,7 +3,7 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using WGPU.NET;
+using Silk.NET.WebGPU;
 using Zio;
 using MemoryPack;
 using VYaml.Annotations;

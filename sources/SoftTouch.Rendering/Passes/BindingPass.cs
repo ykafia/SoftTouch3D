@@ -1,58 +1,61 @@
 using System.Collections.Generic;
-using WGPU.NET;
-using Buffer = WGPU.NET.Buffer;
+using SoftTouch.Graphics.SilkWrappers;
+using Buffer = SoftTouch.Graphics.SilkWrappers.Buffer;
 
 namespace SoftTouch.Rendering;
 
 public abstract class BindingPass : RenderPass
 {
-    List<BindGroupEntry> bindGroupEntries = new();
-    List<Wgpu.BindGroupLayoutEntry> bindGroupLayouts = new();
+    List<Silk.NET.WebGPU.BindGroupEntry> bindGroupEntries = new();
+    List<Silk.NET.WebGPU.BindGroupLayoutEntry> bindGroupLayouts = new();
     protected BindingPass(string name) : base(name){}
 
-    public void AddBindGroupLayout(uint binding,Wgpu.TextureBindingLayout layout, TextureView view)
+    public void AddBindGroupLayout(uint binding, Silk.NET.WebGPU.TextureBindingLayout layout, Silk.NET.WebGPU.TextureView view)
     {
-        bindGroupLayouts.Add(
-            new(){
-                binding = binding,
-                texture = layout,
-            }
-        );
-        bindGroupEntries.Add(
-            new BindGroupEntry{
-                Binding = binding,
-                TextureView = view
-            }
-        );
+        // bindGroupLayouts.Add(
+        //     new(){
+        //         Binding = binding,
+        //         Texture = layout,
+        //     }
+        // );
+        // unsafe
+        // {
+        //     bindGroupEntries.Add(
+        //         new BindGroupEntry{
+        //             Binding = binding,
+        //             TextureView = &view
+        //         }
+        //     );
+        // }
     }
-    public void AddBindGroupLayout(uint binding,Wgpu.BufferBindingLayout layout, Buffer buffer)
+    public void AddBindGroupLayout(uint binding, Silk.NET.WebGPU.BufferBindingLayout layout, Buffer buffer)
     {
-        bindGroupLayouts.Add(
-            new(){
-                binding = binding,
-                buffer = layout
-            }
-        );
-        bindGroupEntries.Add(
-            new BindGroupEntry{
-                Binding = binding,
-                Buffer = buffer
-            }
-        );
+        // bindGroupLayouts.Add(
+        //     new(){
+        //         binding = binding,
+        //         buffer = layout
+        //     }
+        // );
+        // bindGroupEntries.Add(
+        //     new BindGroupEntry{
+        //         Binding = binding,
+        //         Buffer = buffer
+        //     }
+        // );
     }
-    public void AddBindGroupLayout(uint binding,Wgpu.SamplerBindingLayout layout, Sampler sampler)
+    public void AddBindGroupLayout(uint binding, Silk.NET.WebGPU.SamplerBindingLayout layout, Sampler sampler)
     {
-        bindGroupLayouts.Add(
-            new(){
-                binding = binding,
-                sampler = layout
-            }
-        );
-        bindGroupEntries.Add(
-            new BindGroupEntry{
-                Binding = binding,
-                Sampler = sampler
-            }
-        );
+        // bindGroupLayouts.Add(
+        //     new(){
+        //         binding = binding,
+        //         sampler = layout
+        //     }
+        // );
+        // bindGroupEntries.Add(
+        //     new BindGroupEntry{
+        //         Binding = binding,
+        //         Sampler = sampler
+        //     }
+        // );
     }
 }

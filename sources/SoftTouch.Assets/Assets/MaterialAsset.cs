@@ -1,5 +1,5 @@
 using SoftTouch.Graphics;
-using WGPU.NET;
+using Silk.NET.WebGPU;
 using Zio;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
@@ -26,26 +26,26 @@ public partial class MaterialAsset : AssetItem
 
 internal static class SharpGLTFExtensions
 {
-    public static (Wgpu.FilterMode, Wgpu.MipmapFilterMode) ToWebGPU(this TextureMipMapFilter filter)
+    public static (FilterMode, MipmapFilterMode) ToWebGPU(this TextureMipMapFilter filter)
     {
         return filter switch
         {
-            TextureMipMapFilter.LINEAR => (Wgpu.FilterMode.Linear, Wgpu.MipmapFilterMode.Force32),
-            TextureMipMapFilter.LINEAR_MIPMAP_LINEAR => (Wgpu.FilterMode.Linear, Wgpu.MipmapFilterMode.Linear),
-            TextureMipMapFilter.LINEAR_MIPMAP_NEAREST => (Wgpu.FilterMode.Linear, Wgpu.MipmapFilterMode.Nearest),
-            TextureMipMapFilter.NEAREST => (Wgpu.FilterMode.Nearest, Wgpu.MipmapFilterMode.Force32),
-            TextureMipMapFilter.NEAREST_MIPMAP_LINEAR => (Wgpu.FilterMode.Nearest, Wgpu.MipmapFilterMode.Linear),
-            TextureMipMapFilter.NEAREST_MIPMAP_NEAREST => (Wgpu.FilterMode.Nearest, Wgpu.MipmapFilterMode.Nearest),
+            TextureMipMapFilter.LINEAR => (FilterMode.Linear, MipmapFilterMode.Force32),
+            TextureMipMapFilter.LINEAR_MIPMAP_LINEAR => (FilterMode.Linear, MipmapFilterMode.Linear),
+            TextureMipMapFilter.LINEAR_MIPMAP_NEAREST => (FilterMode.Linear, MipmapFilterMode.Nearest),
+            TextureMipMapFilter.NEAREST => (FilterMode.Nearest, MipmapFilterMode.Force32),
+            TextureMipMapFilter.NEAREST_MIPMAP_LINEAR => (FilterMode.Nearest, MipmapFilterMode.Linear),
+            TextureMipMapFilter.NEAREST_MIPMAP_NEAREST => (FilterMode.Nearest, MipmapFilterMode.Nearest),
             _ => throw new NotImplementedException()
         };
     }
-    public static Wgpu.FilterMode ToWebGPU(this TextureInterpolationFilter filter)
+    public static FilterMode ToWebGPU(this TextureInterpolationFilter filter)
     {
         return filter switch
         {
-            TextureInterpolationFilter.NEAREST => Wgpu.FilterMode.Nearest,
-            TextureInterpolationFilter.LINEAR => Wgpu.FilterMode.Linear,
-            _ => Wgpu.FilterMode.Force32
+            TextureInterpolationFilter.NEAREST => FilterMode.Nearest,
+            TextureInterpolationFilter.LINEAR => FilterMode.Linear,
+            _ => FilterMode.Force32
         };
     }
 
