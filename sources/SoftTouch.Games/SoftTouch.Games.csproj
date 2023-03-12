@@ -10,7 +10,6 @@
   <ItemGroup>
     <PackageReference Include="Silk.NET" Version="$(SilkVersion)" />
     <PackageReference Include="Zio" Version="$(ZioVersion)" />
-    <PackageReference Include="MessagePack" Version="$(MessagePackVersion)" />
   </ItemGroup>
 
   <PropertyGroup>

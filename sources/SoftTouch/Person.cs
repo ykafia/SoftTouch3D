@@ -1,5 +1,4 @@
 using MemoryPack;
-using MessagePack;
 using Silk.NET.Maths;
 using VYaml.Annotations;
 using Zio;

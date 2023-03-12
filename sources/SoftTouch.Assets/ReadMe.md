@@ -14,7 +14,7 @@ Should be able to load :
 
 The asset system works offline, during game compilation. The idea is to read all yaml files describing the assets and offer a way to import them.
 
-Then the asset compiler will serialize them using MessagePack and put them into a zip file.
+Then the asset compiler will serialize them using MemoryPack and put them into a zip file.
 
 During runtime, the ContentManager will load elements based on the data serialized. Meaning that a texture will get serialized into bytes during compilation, read as a Texture object with its description and a Handle to the GPU asset.
 
