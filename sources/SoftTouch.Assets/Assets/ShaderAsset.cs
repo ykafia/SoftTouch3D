@@ -13,11 +13,11 @@ public partial class ShaderAsset : AssetItem
     public ShaderAsset() { }
 
     [YamlConstructor]
-    public ShaderAsset(UPath assetPath, UPath path, UPath subpath) : base(assetPath, path,subpath)
+    public ShaderAsset(string assetPath, string path, string subpath) : base(assetPath, path,subpath)
     {
     }
     // public required string Module {get; init;}
-    // public static ShaderAsset Load(in UPath path, IFileSystem fs)
+    // public static ShaderAsset Load(in string path, IFileSystem fs)
     // {
     //     if(fs.FileExists(path) && path.GetExtensionWithDot() == ".wgsl")
     //         return new ShaderAsset{ Module = fs.ReadAllText(path)};

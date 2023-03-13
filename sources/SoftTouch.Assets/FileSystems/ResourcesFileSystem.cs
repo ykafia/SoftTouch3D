@@ -27,12 +27,12 @@ public class ResourcesFileSystem : AggregateFileSystem
 
         // Query all filesystems, separating gltf ones.
         fileSystems.AddRange(GetFileSystems().Where(x => x is not ICompositeAssetFileSystem));
-        assetFiles.AddRange(GetFileSystems().OfType<ICompositeAssetFileSystem>().Where(x => path.IsInDirectory(x.SubPath, true)));
+        assetFiles.AddRange(GetFileSystems().OfType<ICompositeAssetFileSystem>().Where(x => path.IsInDirectory(x.FilePath, true)));
         
         if (assetFiles.Any())
         {
             var fs = assetFiles.First();
-            var gltfFSPath = new UPath(string.Join('/', path.Split().Except(fs.SubPath.Split()))).ToAbsolute();
+            var gltfFSPath = new UPath(string.Join('/', path.Split().Except(fs.FilePath.Split()))).ToAbsolute();
             foreach (var item in fs.EnumeratePaths(path, searchPattern, searchOption, searchTarget))
             {
                 if (entries.Contains(item)) continue;

@@ -21,10 +21,10 @@ public partial class ModelAsset : AssetItem, IEnumerable<AssetItem>
     {
 
     }
-    public ModelAsset(UPath path) : base(path)
+    public ModelAsset(string path) : base(path)
     {}
     [YamlConstructor]
-    public ModelAsset(UPath assetPath, UPath path, UPath subpath) : base(assetPath, path, subpath)
+    public ModelAsset(string assetPath, string path, string subpath) : base(assetPath, path, subpath)
     {}
 
     public IEnumerator<AssetItem> GetEnumerator()

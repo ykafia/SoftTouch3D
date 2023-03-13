@@ -19,7 +19,7 @@ public partial class MaterialAsset : AssetItem
     public MaterialAsset() { }
 
     [YamlConstructor]
-    public MaterialAsset(UPath assetPath, UPath path, UPath subpath) : base(assetPath, path,subpath)
+    public MaterialAsset(string assetPath, string path, string subpath) : base(assetPath, path,subpath)
     {
     }
 }

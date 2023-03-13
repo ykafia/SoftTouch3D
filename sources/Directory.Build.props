@@ -1,6 +1,6 @@
 <Project>
 	<PropertyGroup>
-		<ZioVersion>0.16.1</ZioVersion>
+		<ZioVersion>0.16.2</ZioVersion>
 		<SilkVersion>2.17.0-build3165.0</SilkVersion>
 		<SharpGLTFVersion>1.0.0-alpha0027</SharpGLTFVersion>
 		<ImageSharpVersion>2.1.3</ImageSharpVersion>

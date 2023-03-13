@@ -32,30 +32,30 @@ public abstract partial class AssetItem
         .Replace("=", "");
 
     
-    public UPath AssetPath { get; init; }
+    public string AssetPath { get; init; }
 
-    public UPath Path { get; init; }
+    public string Path { get; init; }
     [YamlIgnore]
-    public string? Name => Path.GetNameWithoutExtension();
+    public string? Name => new UPath(Path).GetNameWithoutExtension();
 
-    public UPath SubPath { get; init; }
+    public string SubPath { get; init; }
 
     [YamlIgnore]
-    public bool IsEmbedded => !SubPath.IsEmpty;
+    public bool IsEmbedded => !new UPath(SubPath).IsEmpty;
     
     
     public AssetItem()
     {
         
     }
-    public AssetItem(UPath assetPath)
+    public AssetItem(string assetPath)
     {
         AssetPath = assetPath;
-        Path = UPath.Empty;
-        SubPath = UPath.Empty;
+        Path = string.Empty;
+        SubPath = string.Empty;
     }
     [MemoryPackConstructor]
-    public AssetItem(UPath assetPath, UPath path, UPath subpath)
+    public AssetItem(string assetPath, string path, string subpath)
     {
         AssetPath = assetPath;
         Path = path;
