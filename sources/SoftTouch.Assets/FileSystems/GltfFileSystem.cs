@@ -7,32 +7,20 @@ using Zio.FileSystems;
 using System.Diagnostics.CodeAnalysis;
 
 namespace SoftTouch.Assets.FileSystems;
-public class GltfFileSystem : ICompositeAssetFileSystem<GltfFileSystem, Mesh, Image, Material>
+public class GltfFileSystem : CompositeAssetFileSystem<Mesh, Image, Material>
 {
-    static string[] folders = { "meshes", "textures", "materials", "animations" };
     static readonly string[] extensions = { ".gltf", ".glb" };
-    public string[] Extensions => extensions;
-
-    public IFileSystem Parent {get; init;}
-
-    public UPath FilePath { get; init; }
+    public static string[] Extensions => extensions;
     public UPath FullPath => Parent.ConvertPathToInternal(FilePath);
 
     ModelRoot Root;
 
-    public static GltfFileSystem Create(IFileSystem parent, UPath assetPath)
+    public GltfFileSystem([NotNull]IFileSystem parent, UPath filePath) : base(parent,filePath)
     {
-        return new GltfFileSystem(parent,assetPath);
-    }
-
-    public GltfFileSystem([NotNull]IFileSystem parent, UPath filePath)
-    {
-        FilePath = filePath;
-        Parent = parent;
         Root = SharpGLTF.Schema2.ModelRoot.Load(parent.ConvertPathToInternal(filePath));
     }
 
-    public Mesh? GetMesh(UPath path)
+    public override Mesh? GetMesh(UPath path)
     {
         if(path.Split()[^2] != "meshes")
             return null;
@@ -42,7 +30,7 @@ public class GltfFileSystem : ICompositeAssetFileSystem<GltfFileSystem, Mesh, Im
         return Root.LogicalMeshes.First(x => x.Name == meshPath.GetName() || x.LogicalIndex.ToString() == meshPath.GetName());
     }
 
-    public Material? GetMaterial(UPath path)
+    public override Material? GetMaterial(UPath path)
     {
         if(path.Split()[^2] != "materials")
             return null;
@@ -52,7 +40,7 @@ public class GltfFileSystem : ICompositeAssetFileSystem<GltfFileSystem, Mesh, Im
         return Root.LogicalMaterials.First(x => x.Name == meshPath.GetName() || x.LogicalIndex.ToString() == meshPath.GetName());
     }
 
-    public Image? GetImage(UPath path)
+    public override Image? GetImage(UPath path)
     {
         if(path.Split()[^2] != "images")
             return null;
@@ -62,23 +50,19 @@ public class GltfFileSystem : ICompositeAssetFileSystem<GltfFileSystem, Mesh, Im
         return Root.LogicalImages.First(x => x.Name == meshPath.GetName() || x.LogicalIndex.ToString() == meshPath.GetName());
     }
 
-    public void CreateDirectory(UPath path)
+
+    public override bool DirectoryExists(UPath path)
     {
-        throw new NotSupportedException();
+        return 
+            EnumeratePaths("/","*",SearchOption.AllDirectories,SearchTarget.Directory)
+            .Any(x => x == path);  
     }
 
-    public bool DirectoryExists(UPath path)
-    {
-        return path.Split().Count == 1 && folders.Contains(path.GetName());
-    }
-
-
-
-    public IEnumerable<UPath> EnumeratePaths(UPath path, string searchPattern, SearchOption searchOption, SearchTarget searchTarget)
+    public override IEnumerable<UPath> EnumeratePaths(UPath path, string searchPattern, SearchOption searchOption, SearchTarget searchTarget)
     {
         var pattern = SearchPattern.Parse(ref path, ref searchPattern);
 
-        var fd = folders.Select(x => new UPath(x).ToAbsolute());
+        var fd = Folders.Select(x => new UPath(x).ToAbsolute());
 
         var meshes = Root.LogicalMeshes.Select(
             x => FilePath / "meshes" / (x.Name ?? x.LogicalIndex.ToString())
@@ -98,7 +82,6 @@ public class GltfFileSystem : ICompositeAssetFileSystem<GltfFileSystem, Mesh, Im
             .Concat(textures)
             .Concat(animations);
 
-
         var toCheck =
             searchTarget switch
             {
@@ -112,118 +95,10 @@ public class GltfFileSystem : ICompositeAssetFileSystem<GltfFileSystem, Mesh, Im
         return toCheck.Where(x => pattern.Match(x));
     }
 
-    public IEnumerable<FileSystemItem> EnumerateItems(UPath path, SearchOption searchOption, SearchPredicate? searchPredicate = null)
+    public override IEnumerable<FileSystemItem> EnumerateItems(UPath path, SearchOption searchOption, SearchPredicate? searchPredicate = null)
     {
         return
             EnumeratePaths(path, "*", searchOption, SearchTarget.File)
             .Select(x => new FileSystemItem(this, path, false));
-    }
-    public UPath ConvertPathFromInternal(string systemPath)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void MoveDirectory(UPath srcPath, UPath destPath)
-    {
-        throw new NotSupportedException();
-    }
-
-    public void DeleteDirectory(UPath path, bool isRecursive)
-    {
-        throw new NotSupportedException();
-    }
-
-    public void CopyFile(UPath srcPath, UPath destPath, bool overwrite)
-    {
-        throw new NotSupportedException();
-    }
-
-    public void ReplaceFile(UPath srcPath, UPath destPath, UPath destBackupPath, bool ignoreMetadataErrors)
-    {
-        throw new NotSupportedException();
-    }
-
-    public long GetFileLength(UPath path)
-    {
-        throw new NotImplementedException();
-    }
-
-    public bool FileExists(UPath path)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void MoveFile(UPath srcPath, UPath destPath)
-    {
-        throw new NotSupportedException();
-    }
-
-    public void DeleteFile(UPath path)
-    {
-        throw new NotSupportedException();
-    }
-
-    public Stream OpenFile(UPath path, FileMode mode, FileAccess access, FileShare share = FileShare.None)
-    {
-        throw new NotImplementedException();
-    }
-
-    public FileAttributes GetAttributes(UPath path)
-    {
-        throw new NotSupportedException();
-    }
-
-    public void SetAttributes(UPath path, FileAttributes attributes)
-    {
-        throw new NotSupportedException();
-    }
-
-    public DateTime GetCreationTime(UPath path)
-    {
-        throw new NotSupportedException();
-    }
-
-    public void SetCreationTime(UPath path, DateTime time)
-    {
-        throw new NotSupportedException();
-    }
-
-    public DateTime GetLastAccessTime(UPath path)
-    {
-        throw new NotSupportedException();
-    }
-
-    public void SetLastAccessTime(UPath path, DateTime time)
-    {
-        throw new NotSupportedException();
-    }
-
-    public DateTime GetLastWriteTime(UPath path)
-    {
-        throw new NotSupportedException();
-    }
-
-    public void SetLastWriteTime(UPath path, DateTime time)
-    {
-        throw new NotSupportedException();
-    }
-
-    public bool CanWatch(UPath _) => false;
-
-    public IFileSystemWatcher Watch(UPath path)
-    {
-        throw new NotImplementedException();
-    }
-
-    public string ConvertPathToInternal(UPath path)
-    {
-        throw new NotImplementedException();
-    }
-
-
-
-    public void Dispose()
-    {
-        throw new NotImplementedException();
     }
 }

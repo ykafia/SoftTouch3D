@@ -2,22 +2,13 @@ using Zio;
 
 namespace SoftTouch.Assets.FileSystems;
 
-public interface ICompositeAssetFileSystem<FileSystem,Mesh,Image,Material> : IFileSystem
+
+public abstract class CompositeAssetFileSystem : IFileSystem
 {
 
-    public static abstract FileSystem Create(IFileSystem parent, UPath assetPath);
-
-    public Mesh? GetMesh(UPath path);
-    public Material? GetMaterial(UPath path);
-    public Image? GetImage(UPath path);
-}
-
-public abstract class CompositeAssetFileSystem<Mesh,Image,Material> : IFileSystem
-{
-    public abstract string[] Extensions {get;}
-
-    public IFileSystem Parent {get; init;}
-    public UPath FilePath {get; init;}
+    protected string[] Folders { get; private set; } = { "meshes", "textures", "materials", "animations" };
+    public IFileSystem Parent { get; init; }
+    public UPath FilePath { get; init; }
 
     public CompositeAssetFileSystem(IFileSystem parent, UPath filePath)
     {
@@ -25,16 +16,12 @@ public abstract class CompositeAssetFileSystem<Mesh,Image,Material> : IFileSyste
         Parent = parent;
     }
 
-    public abstract Mesh? GetMesh(UPath path);
-    public abstract Material? GetMaterial(UPath path);
-    public abstract Image? GetImage(UPath path);
-
     public void CreateDirectory(UPath path)
     {
         throw new NotImplementedException();
     }
 
-    public bool DirectoryExists(UPath path)
+    public virtual bool DirectoryExists(UPath path)
     {
         throw new NotImplementedException();
     }
@@ -124,12 +111,12 @@ public abstract class CompositeAssetFileSystem<Mesh,Image,Material> : IFileSyste
         throw new NotImplementedException();
     }
 
-    public IEnumerable<UPath> EnumeratePaths(UPath path, string searchPattern, SearchOption searchOption, SearchTarget searchTarget)
+    public virtual IEnumerable<UPath> EnumeratePaths(UPath path, string searchPattern, SearchOption searchOption, SearchTarget searchTarget)
     {
         throw new NotImplementedException();
     }
 
-    public IEnumerable<FileSystemItem> EnumerateItems(UPath path, SearchOption searchOption, SearchPredicate? searchPredicate = null)
+    public virtual IEnumerable<FileSystemItem> EnumerateItems(UPath path, SearchOption searchOption, SearchPredicate? searchPredicate = null)
     {
         throw new NotImplementedException();
     }
@@ -158,4 +145,16 @@ public abstract class CompositeAssetFileSystem<Mesh,Image,Material> : IFileSyste
     {
         throw new NotImplementedException();
     }
+}
+
+
+public abstract class CompositeAssetFileSystem<TMesh, TImage, TMaterial> : CompositeAssetFileSystem
+{
+    protected CompositeAssetFileSystem(IFileSystem parent, UPath filePath) : base(parent, filePath)
+    {
+    }
+
+    public abstract TMesh? GetMesh(UPath path);
+    public abstract TMaterial? GetMaterial(UPath path);
+    public abstract TImage? GetImage(UPath path);
 }

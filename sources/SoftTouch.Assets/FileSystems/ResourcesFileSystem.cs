@@ -18,7 +18,7 @@ public class ResourcesFileSystem : AggregateFileSystem
 
         var entries = new SortedSet<UPath>();
         var fileSystems = new List<IFileSystem>();
-        var assetFiles = new List<ICompositeAssetFileSystem>();
+        var assetFiles = new List<CompositeAssetFileSystem>();
 
         if (Fallback != null)
         {
@@ -26,8 +26,8 @@ public class ResourcesFileSystem : AggregateFileSystem
         }
 
         // Query all filesystems, separating gltf ones.
-        fileSystems.AddRange(GetFileSystems().Where(x => x is not ICompositeAssetFileSystem));
-        assetFiles.AddRange(GetFileSystems().OfType<ICompositeAssetFileSystem>().Where(x => path.IsInDirectory(x.FilePath, true)));
+        fileSystems.AddRange(GetFileSystems().Where(x => x is not CompositeAssetFileSystem));
+        assetFiles.AddRange(GetFileSystems().OfType<CompositeAssetFileSystem>().Where(x => path.IsInDirectory(x.FilePath, true)));
         
         if (assetFiles.Any())
         {

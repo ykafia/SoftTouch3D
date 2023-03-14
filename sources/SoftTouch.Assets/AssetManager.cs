@@ -11,18 +11,39 @@ namespace SoftTouch.Assets;
 
 public partial class AssetManager
 {
-    GraphicsState Gfx;
-    readonly PhysicalFileSystem physicalFileSystem = new();
+
+    static AssetManager manager;
+
+    public static AssetManager GetOrCreate(params string[] resourcePaths)
+    {
+        if(manager is null && resourcePaths.Length == 0)
+            throw new ArgumentException($"Cannot create an asset manager without at least one folder");
+        return manager ??= new AssetManager(resourcePaths);
+    }
+
+    GraphicsState Gfx => GraphicsState.GetOrCreate();
+    static readonly PhysicalFileSystem physicalFileSystem = new();
     public ResourcesFileSystem FileSystem { get; private set; } = new();
     public AssetsFileSystem AssetsFileSystem { get; private set; } = new();
     public readonly SortedList<string, AssetImporter> AssetImporters = new();
     public readonly Dictionary<UPath, AssetItem> LoadedAssets = new();
 
-    public AssetManager(string resourcePath, GraphicsState gfx)
+    AssetManager(params string[] resourcePaths)
     {
-        Gfx = gfx;
-        var sub = new SubFileSystem(physicalFileSystem, physicalFileSystem.ConvertPathFromInternal(resourcePath));
-        FileSystem.AddFileSystem(sub);
+        foreach(var path in resourcePaths)
+            FileSystem.AddFileSystem(
+                new SubFileSystem(physicalFileSystem, physicalFileSystem.ConvertPathFromInternal(path))
+            );
+        
+    }
+
+    public void RegisterCAFS<T>(Func<IFileSystem,UPath,T> creator, params string[] extensions)
+        where T : CompositeAssetFileSystem
+    {
+        foreach(var e in extensions)
+        foreach(var fs in FileSystem.GetFileSystems())
+        foreach(var p in fs.EnumeratePaths("/",$"*{e}",SearchOption.AllDirectories,SearchTarget.File))
+            FileSystem.AddFileSystem(creator(fs,p));
     }
 
     
