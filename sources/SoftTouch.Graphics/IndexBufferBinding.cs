@@ -1,36 +1,40 @@
+using Silk.NET.Core.Native;
 using SoftTouch.Graphics.SilkWrappers;
-using System.Runtime.InteropServices;
-using Buffer = Silk.NET.WebGPU.Buffer;
+using Buffer = SoftTouch.Graphics.SilkWrappers.Buffer;
 
 namespace SoftTouch.Graphics;
 
 
-public class IndexBufferBinding
+public readonly struct IndexBufferBinding
 {
     public string Label { get; }
+    public Buffer IndexBuffer { get; init;}
+    public nuint Size { get; init;}
 
-    public Buffer IndexBuffer { get; private set; }
-    public int Size { get; private set; }
-    public long Count { get; private set; }
-
-    public IndexBufferBinding(string label, Device device, bool mappedAtCreation, uint[] indices)
+    public IndexBufferBinding(string label, in Silk.NET.WebGPU.BufferDescriptor descriptor, uint[] indices)
     {
-        //Label = label;
-        //IndexBuffer = device.CreateBuffer(
-        //    label,
-        //    mappedAtCreation,
-        //    (ulong)indices.Length * (ulong)Marshal.SizeOf(typeof(uint)),
-        //    Wgpu.BufferUsage.Vertex
-        //);
+        Label = label;
+        Size = (nuint)descriptor.Size;
+        var desc = new Silk.NET.WebGPU.BufferDescriptor();
         
-        //Count = indices.Length;
-        //{
-        //    // Fill the vertex buffer
-        //    Span<uint> mapped = IndexBuffer.GetMappedRange<uint>(0, indices.Length);
+        Span<byte> lbl = stackalloc byte[label.Length];
+        SilkMarshal.StringIntoSpan(label,null);
+        unsafe
+        {
+            fixed(byte* bytes = lbl)
+                desc.Label = bytes;
+        }
+        desc.Size = Size;
+        desc.Usage = Silk.NET.WebGPU.BufferUsage.Index;
+        
 
-        //    indices.CopyTo(mapped);
 
-        //    IndexBuffer.Unmap();
-        //}
+        var gfx = GraphicsState.GetOrCreate();
+        var device = gfx.Device;
+        IndexBuffer = device.CreateBuffer(
+            label,
+            in descriptor
+        );
+        device.GetQueue().WriteBuffer(IndexBuffer,0,Size,indices.AsSpan());
     }
 }

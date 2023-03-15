@@ -50,7 +50,7 @@ namespace SoftTouch.AssetsCompiler
                     if (a.GetExtensionWithDot() == ".stimage")
                     {
                         var imageAsset = YamlSerializer.Deserialize<ImageAsset>(assetfs.ReadAllBytes(a));
-                        var gltffs = new GltfFileSystem(resourcefs,imageAsset.Path);
+                        var gltffs = new GltfAssetReader(resourcefs,imageAsset.Path);
                         // TODO : Do something with the loading
 
                     }

@@ -34,16 +34,16 @@ public partial class AssetManager
             FileSystem.AddFileSystem(
                 new SubFileSystem(physicalFileSystem, physicalFileSystem.ConvertPathFromInternal(path))
             );
-        
+        // RegisterCAFS(static (fs,p) => new GltfAssetReader(fs,p),GltfAssetReader.Extensions);
     }
 
     public void RegisterCAFS<T>(Func<IFileSystem,UPath,T> creator, params string[] extensions)
-        where T : CompositeAssetFileSystem
+        where T : GltfAssetReader
     {
-        foreach(var e in extensions)
-        foreach(var fs in FileSystem.GetFileSystems())
-        foreach(var p in fs.EnumeratePaths("/",$"*{e}",SearchOption.AllDirectories,SearchTarget.File))
-            FileSystem.AddFileSystem(creator(fs,p));
+        // foreach(var e in extensions)
+        // foreach(var fs in FileSystem.GetFileSystems())
+        // foreach(var p in fs.EnumeratePaths("/",$"*{e}",SearchOption.AllDirectories,SearchTarget.File))
+        //     FileSystem.AddFileSystem(creator(fs,p));
     }
 
     

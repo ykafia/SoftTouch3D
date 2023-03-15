@@ -18,7 +18,7 @@ public class ResourcesFileSystem : AggregateFileSystem
 
         var entries = new SortedSet<UPath>();
         var fileSystems = new List<IFileSystem>();
-        var assetFiles = new List<CompositeAssetFileSystem>();
+        var assetFiles = new List<CompositeAssetReader>();
 
         if (Fallback != null)
         {
@@ -26,18 +26,18 @@ public class ResourcesFileSystem : AggregateFileSystem
         }
 
         // Query all filesystems, separating gltf ones.
-        fileSystems.AddRange(GetFileSystems().Where(x => x is not CompositeAssetFileSystem));
-        assetFiles.AddRange(GetFileSystems().OfType<CompositeAssetFileSystem>().Where(x => path.IsInDirectory(x.FilePath, true)));
+        fileSystems.AddRange(GetFileSystems().Where(x => x is not CompositeAssetReader));
+        assetFiles.AddRange(GetFileSystems().OfType<CompositeAssetReader>().Where(x => path.IsInDirectory(x.FilePath, true)));
         
         if (assetFiles.Any())
         {
             var fs = assetFiles.First();
             var gltfFSPath = new UPath(string.Join('/', path.Split().Except(fs.FilePath.Split()))).ToAbsolute();
-            foreach (var item in fs.EnumeratePaths(path, searchPattern, searchOption, searchTarget))
-            {
-                if (entries.Contains(item)) continue;
-                entries.Add(item);
-            }
+            // foreach (var item in fs.EnumeratePaths(path, searchPattern, searchOption, searchTarget))
+            // {
+            //     if (entries.Contains(item)) continue;
+            //     entries.Add(item);
+            // }
         }
         else
         {

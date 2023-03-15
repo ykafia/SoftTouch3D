@@ -32,9 +32,9 @@ public unsafe class GraphicsState
     public Silk.NET.WebGPU.WebGPU Api {get; private set;} = null!;
     public WebGPUDisposal Disposal {get;private set;} = null!;
     public Adapter? Adapter { get; private set; } = null!;
-    public Instance? Instance { get; private set; } = null!;
-    public Surface? Surface { get; private set; } = null!;
-    public Device? Device { get; private set; } = null!;
+    public Instance Instance { get; private set; }
+    public Surface Surface { get; private set; }
+    public Device Device { get; private set; }
 
      
     GraphicsState(IWindow window)

@@ -45,7 +45,7 @@ public readonly struct Queue : IGraphicsObject
             Api.QueueSubmit(Handle, (uint)commandbuffer.Length, buffer);
         }
     }
-    public void WriteBuffer<T>(Buffer buffer, uint offset, uint size, Span<T> data)
+    public void WriteBuffer<T>(Buffer buffer, uint offset, nuint size, Span<T> data)
         where T : unmanaged
     {
         unsafe
