@@ -8,4 +8,4 @@ using SoftTouch.Assets.FileSystems;
 using SoftTouch.Graphics.WGPU;
 
 var game = new MyGame();
-game.Run();
+//game.Run();

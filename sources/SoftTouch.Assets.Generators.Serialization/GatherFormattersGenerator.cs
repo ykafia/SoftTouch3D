@@ -13,18 +13,23 @@ namespace SoftTouch.Assets.Generators.SerializationGathering
     {
         public void Initialize(GeneratorInitializationContext context)
         {
-#if DEBUG
-            if (!Debugger.IsAttached)
-            {
-                Debugger.Launch();
-            }
-#endif 
+//#if DEBUG
+//            if (!Debugger.IsAttached)
+//            {
+//                Debugger.Launch();
+//            }
+//#endif 
             //Debug.WriteLine("Initalize code generator");
         }
         public void Execute(GeneratorExecutionContext context)
         {
             var projectAssembly = context.Compilation.Assembly;
 
+            var gameClass =
+                GetAllTypes(projectAssembly.GlobalNamespace)
+                .Where(x => x.BaseType != null)
+                .Where(x => x.BaseType.OriginalDefinition.ToString() == "SoftTouch.Games.Game")
+                .First();
             
             var assemblies =
                 context
@@ -40,36 +45,24 @@ namespace SoftTouch.Assets.Generators.SerializationGathering
                 //.Select(x => x.Name)
                 .ToList();
 
-            context.AddSource("Data.g.cs",
+            context.AddSource($"{gameClass.Name}.g.cs",
 $@"
-namespace SoftTouch.Generated;
-public class TypeNames 
+using System;
+using VYaml;
+using VYaml.Serialization;
+
+
+namespace {gameClass.ContainingNamespace};
+public partial class {gameClass.Name} 
 {{
-    public static string[] names = {{ ""{string.Join("\",\"", assemblies)}"" }};
+    static {gameClass.Name}()
+    {{
+        Console.WriteLine(""Hello world from generated {gameClass.Name} class"");
+    }}
 }}
 "
 
             );
-
-            //var types = context.Compilation.SourceModule.ReferencedAssemblySymbols.SelectMany(a =>
-            //{
-            //    try
-            //    {
-            //        var main = a.Identity.Name.Split('.').Aggregate(a.GlobalNamespace, (s, c) => s.GetNamespaceMembers().Single(m => m.Name.Equals(c)));
-
-            //        return GetAllTypes(main);
-            //    }
-            //    catch
-            //    {
-            //        return Enumerable.Empty<ITypeSymbol>();
-            //    }
-            //});
-
-            //var properties = types.Where(t => t.TypeKind == TypeKind.Interface && t.DeclaredAccessibility == Accessibility.Public).Select(t => new
-            //{
-            //    Interface = t,
-            //    Properties = t.GetMembers()
-            //});
         }
         
         private static IEnumerable<ITypeSymbol> GetAllTypes(INamespaceSymbol root)

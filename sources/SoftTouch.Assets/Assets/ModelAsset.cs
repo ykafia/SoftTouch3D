@@ -13,25 +13,26 @@ namespace SoftTouch.Assets;
 [YamlObject]
 public partial class ModelAsset : IAssetItem, IEnumerable<IAssetItem>
 {
-    public string Extension { get; set; } = "model";
+    [YamlIgnore]
+    public string Extension { get; } = "model";
 
-    private MaterialAsset? Material { get; set; }
+    private MaterialAsset? Material { get; init; }
 
-    public Guid ID { get; set; }
+    public Guid ID { get; init; }
 
-    public string AssetPath { get; set; }
-    public string Path { get; set; }
+    public string AssetPath { get; init; }
+    public string Path { get; init; }
 
     [YamlIgnore]
     public string? Name => new UPath(Path).GetNameWithoutExtension();
 
-
-    [YamlConstructor]
+    public ModelAsset() { }
     public ModelAsset(string assetPath, string path)
     {
         ID = Guid.NewGuid();
         AssetPath = assetPath;
         Path = path;
+        
     }
 
     public IEnumerator<IAssetItem> GetEnumerator()

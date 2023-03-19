@@ -32,7 +32,7 @@ public abstract class Game : IGame
         options.UpdatesPerSecond         = 60;
         options.Position                 = new Vector2D<int>(0, 0);
         options.Title                    = name ?? "SoftTouchGame";
-        options.IsVisible                = true;
+        options.IsVisible                = false;
         options.ShouldSwapAutomatically  = false;
         options.IsContextControlDisabled = true;
         window = Window.Create(options);
@@ -42,7 +42,11 @@ public abstract class Game : IGame
         window.Closing += Close;
         window.Initialize();
     }
-    public void Run() => window.Run();
+    public void Run()
+    {
+        window.IsVisible = true;
+        window.Run();
+    }
 
     public void Update(double elapsed)
     {

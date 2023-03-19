@@ -18,9 +18,9 @@ namespace SoftTouch.Assets;
 //[YamlObjectUnion("!shader", typeof(ShaderAsset))]
 public partial interface IAssetItem
 {
-    public abstract string Extension { get; set; }
+    public abstract string Extension { get; }
 
-    public Guid ID { get; set; }
+    public Guid ID { get; init; }
 
     //[YamlIgnore]
     //private Guid GuidValue = Guid.NewGuid();
@@ -32,9 +32,9 @@ public partial interface IAssetItem
     //    .Replace("+", "-")
     //    .Replace("=", "");
 
-    public string AssetPath { get; set; }
+    public string AssetPath { get; init; }
 
-    public string Path { get; set; }
-    public string? Name { get; }
+    public string Path { get; init; }
+    public string? Name { get;}
     
 }

@@ -13,18 +13,20 @@ namespace SoftTouch.Assets;
 [YamlObject]
 public partial class ImageAsset : IAssetItem
 {
-    public string Extension { get; set; } = "image";
+    [YamlIgnore]
+    public string Extension { get; init; } = "image";
 
-    public TextureFormat Format { get; set; }
+    public TextureFormat Format { get; init; }
 
-    public Guid ID { get; set; }
+    public Guid ID { get; init; }
 
-    public string AssetPath { get; set; }
-    public string Path { get; set; }
+    public string AssetPath { get; init; }
+    public string Path { get; init; }
     [YamlIgnore]
     public string? Name => new UPath(Path).GetNameWithoutExtension();
+    
+    public ImageAsset() { }
 
-    [YamlConstructor]
     public ImageAsset(string assetPath, string path)
     {
         AssetPath = assetPath;
