@@ -6,33 +6,12 @@ using Zio;
 namespace SoftTouch.Assets;
 
 [YamlObject]
-public partial class ShaderAsset : AssetItem
+public partial class ShaderAsset : IAssetItem
 {
-    public override string Extension { get; init; } = "sdsl";
-
-    public ShaderAsset() { }
-
-    [YamlConstructor]
-    public ShaderAsset(string assetPath, string path, string subpath) : base(assetPath, path,subpath)
-    {
-    }
-    // public required string Module {get; init;}
-    // public static ShaderAsset Load(in string path, IFileSystem fs)
-    // {
-    //     if(fs.FileExists(path) && path.GetExtensionWithDot() == ".wgsl")
-    //         return new ShaderAsset{ Module = fs.ReadAllText(path)};
-    //     else
-    //         throw new Exception("Not a wgsl file");
-    // }
-
-    // public void Load(WGPUGraphics gfx)
-    // {
-    //     throw new NotImplementedException();
-    // }
-
-    // public void Unload()
-    // {
-    //     throw new NotImplementedException();
-    // }
-    
+    public string Extension { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+    public Guid ID { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+    public string AssetPath { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+    public string Path { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+    [YamlIgnore]
+    public string? Name => throw new NotImplementedException();
 }

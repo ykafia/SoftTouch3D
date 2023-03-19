@@ -2,7 +2,7 @@ using Silk.NET.WebGPU;
 using Silk.NET.Windowing;
 using SoftTouch.Graphics;
 
-namespace SoftTouch.Graphics.SilkWrappers;
+namespace SoftTouch.Graphics.WGPU;
 public readonly struct Surface : IDisposable
 {
     static GraphicsState Gfx => GraphicsState.GetOrCreate();

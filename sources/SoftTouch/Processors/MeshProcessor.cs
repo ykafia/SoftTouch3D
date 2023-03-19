@@ -7,8 +7,8 @@ using System.Linq;
 using Silk.NET.Maths;
 using System.Runtime.InteropServices;
 using SoftTouch.Rendering;
-using Buffer = SoftTouch.Graphics.SilkWrappers.Buffer;
-using SoftTouch.Graphics.SilkWrappers;
+using Buffer = SoftTouch.Graphics.WGPU.Buffer;
+using SoftTouch.Graphics.WGPU;
 
 namespace SoftTouch.Processors;
 

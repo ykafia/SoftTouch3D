@@ -1,4 +1,4 @@
-namespace SoftTouch.Graphics.SilkWrappers;
+namespace SoftTouch.Graphics.WGPU;
 
 public abstract class GPUObjectBase<T> : IDisposable
     where T : unmanaged

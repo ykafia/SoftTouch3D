@@ -1,7 +1,7 @@
 using SoftTouch.Graphics;
 using Silk.NET.WebGPU;
 
-namespace SoftTouch.Graphics.SilkWrappers;
+namespace SoftTouch.Graphics.WGPU;
 public readonly struct RenderPipeline : IGraphicsObject
 {
 

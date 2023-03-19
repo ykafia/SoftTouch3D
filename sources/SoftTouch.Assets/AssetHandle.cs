@@ -9,16 +9,11 @@ using Zio;
 
 namespace SoftTouch.Assets;
 
-public struct AssetHandle<T>
+public struct AssetHandle 
 {
-    [MemoryPackIgnore]
-    public T Item => ContentManager.GetInstance().Load<T>(ItemPath);
-
-    [MemoryPackInclude]
-    public UPath ItemPath { get; set; }
-
+    
     public AssetHandle(UPath path)
     {
-        ItemPath = path;
+        //ItemPath = path;
     }
 }

@@ -3,7 +3,7 @@ using SoftTouch.Graphics;
 using Silk.NET.WebGPU;
 using System.Runtime.CompilerServices;
 
-namespace SoftTouch.Graphics.SilkWrappers;
+namespace SoftTouch.Graphics.WGPU;
 
 public readonly struct Texture : IGraphicsObject
 {

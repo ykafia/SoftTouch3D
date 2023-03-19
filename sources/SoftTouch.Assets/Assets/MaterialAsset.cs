@@ -12,41 +12,36 @@ using VYaml.Annotations;
 namespace SoftTouch.Assets;
 
 [YamlObject]
-public partial class MaterialAsset : AssetItem
+public partial class MaterialAsset : IAssetItem, IEnumerable<IAssetItem>
 {
-    public override string Extension { get; init; } = "mat";
+    public string Extension { get; set; } = "mat";
 
-    public MaterialAsset() { }
+    public Guid ID { get; set; }
+
+    public string AssetPath { get; set; }
+    public string Path {  get;set; }
+
+
+
+    [YamlIgnore]
+    public string? Name => new UPath(Path).GetNameWithoutExtension();
 
     [YamlConstructor]
-    public MaterialAsset(string assetPath, string path, string subpath) : base(assetPath, path,subpath)
+    public MaterialAsset(string assetPath, string path)
     {
-    }
-}
-
-internal static class SharpGLTFExtensions
-{
-    public static (FilterMode, MipmapFilterMode) ToWebGPU(this TextureMipMapFilter filter)
-    {
-        return filter switch
-        {
-            TextureMipMapFilter.LINEAR => (FilterMode.Linear, MipmapFilterMode.Force32),
-            TextureMipMapFilter.LINEAR_MIPMAP_LINEAR => (FilterMode.Linear, MipmapFilterMode.Linear),
-            TextureMipMapFilter.LINEAR_MIPMAP_NEAREST => (FilterMode.Linear, MipmapFilterMode.Nearest),
-            TextureMipMapFilter.NEAREST => (FilterMode.Nearest, MipmapFilterMode.Force32),
-            TextureMipMapFilter.NEAREST_MIPMAP_LINEAR => (FilterMode.Nearest, MipmapFilterMode.Linear),
-            TextureMipMapFilter.NEAREST_MIPMAP_NEAREST => (FilterMode.Nearest, MipmapFilterMode.Nearest),
-            _ => throw new NotImplementedException()
-        };
-    }
-    public static FilterMode ToWebGPU(this TextureInterpolationFilter filter)
-    {
-        return filter switch
-        {
-            TextureInterpolationFilter.NEAREST => FilterMode.Nearest,
-            TextureInterpolationFilter.LINEAR => FilterMode.Linear,
-            _ => FilterMode.Force32
-        };
+        ID = Guid.NewGuid();
+        AssetPath = assetPath;
+        Path = path;
     }
 
+    public IEnumerator<IAssetItem> GetEnumerator()
+    {
+
+        yield return this;
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
 }

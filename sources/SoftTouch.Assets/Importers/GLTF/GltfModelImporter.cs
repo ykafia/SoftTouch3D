@@ -10,6 +10,6 @@ public partial class GLTFModelImporter : MultiAssetImporter<ModelAsset>
 
     public override ModelAsset ImportAsset(string assetPath, string path)
     {
-        return new ModelAsset(assetPath);
+        return new ModelAsset(assetPath,path);
     }
 }

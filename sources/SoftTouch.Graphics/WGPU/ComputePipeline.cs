@@ -1,6 +1,6 @@
 using Silk.NET.WebGPU;
 
-namespace SoftTouch.Graphics.SilkWrappers;
+namespace SoftTouch.Graphics.WGPU;
 public readonly struct ComputePipeline : IGraphicsObject
 {
     public unsafe Silk.NET.WebGPU.ComputePipeline* Handle { get; init; }

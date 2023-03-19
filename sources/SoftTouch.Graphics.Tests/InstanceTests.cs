@@ -1,5 +1,5 @@
 using Silk.NET.Windowing;
-using SoftTouch.Graphics.SilkWrappers;
+using SoftTouch.Graphics.WGPU;
 
 namespace SoftTouch.Graphics.Tests
 {

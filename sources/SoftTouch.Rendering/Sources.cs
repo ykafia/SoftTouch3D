@@ -1,5 +1,5 @@
-using SoftTouch.Graphics.SilkWrappers;
-using Buffer = SoftTouch.Graphics.SilkWrappers.Buffer;
+using SoftTouch.Graphics.WGPU;
+using Buffer = SoftTouch.Graphics.WGPU.Buffer;
 
 namespace SoftTouch.Rendering;
 

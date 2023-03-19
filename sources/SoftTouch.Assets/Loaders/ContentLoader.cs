@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Zio;
 using SoftTouch.Assets;
 using SoftTouch.Graphics;
-using SoftTouch.Graphics.SilkWrappers;
+using SoftTouch.Graphics.WGPU;
 
 namespace SoftTouch.Assets;
 

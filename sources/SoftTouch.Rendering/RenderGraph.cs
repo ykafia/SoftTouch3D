@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using SoftTouch.Graphics;
-using SoftTouch.Graphics.SilkWrappers;
+using SoftTouch.Graphics.WGPU;
 
 namespace SoftTouch.Rendering;
 

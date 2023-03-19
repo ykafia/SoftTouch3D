@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using Silk.NET.WebGPU;
 
-namespace SoftTouch.Graphics.SilkWrappers;
+namespace SoftTouch.Graphics.WGPU;
 
 public readonly struct Queue : IGraphicsObject
 {

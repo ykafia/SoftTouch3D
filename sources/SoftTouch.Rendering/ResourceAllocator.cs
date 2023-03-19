@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Collections.Concurrent;
-using SoftTouch.Graphics.SilkWrappers;
+using SoftTouch.Graphics.WGPU;
 
 namespace SoftTouch.Rendering;
 

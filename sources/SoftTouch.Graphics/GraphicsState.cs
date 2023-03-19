@@ -9,14 +9,11 @@ using System.IO;
 using System.Linq;
 using Silk.NET.Maths;
 using System.Runtime.InteropServices;
-using System.Threading;
-using Image = SixLabors.ImageSharp.Image;
 using Silk.NET.WebGPU.Extensions.Disposal;
-using Silk.NET.WebGPU;
 using Silk.NET.WebGPU;
 using Silk.NET.Core.Native;
 
-namespace SoftTouch.Graphics.SilkWrappers;
+namespace SoftTouch.Graphics.WGPU;
 
 public unsafe class GraphicsState
 {
@@ -29,20 +26,20 @@ public unsafe class GraphicsState
         return gfxState;
     }
 
-    public Silk.NET.WebGPU.WebGPU Api {get; private set;} = null!;
-    public WebGPUDisposal Disposal {get;private set;} = null!;
-    public Adapter? Adapter { get; private set; } = null!;
+    public Silk.NET.WebGPU.WebGPU Api { get; private set; } = null!;
+    public WebGPUDisposal Disposal { get; private set; } = null!;
+    public Adapter Adapter { get; private set; }
     public Instance Instance { get; private set; }
     public Surface Surface { get; private set; }
     public Device Device { get; private set; }
 
-     
+
     GraphicsState(IWindow window)
     {
         Api = Silk.NET.WebGPU.WebGPU.GetApi();
         Disposal = new(Api);
         var cs = new ChainedStruct();
-        if(RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
             cs.SType = SType.SurfaceDescriptorFromWindowsHwnd;
         }
@@ -52,8 +49,8 @@ public unsafe class GraphicsState
         }
         var desc = new InstanceDescriptor() { NextInChain = &cs };
         Instance = new(Api.CreateInstance(desc));
-        
-        Surface surface = new(window.CreateWebGPUSurface(Api,Instance));
+
+        Surface surface = new(window.CreateWebGPUSurface(Api, Instance));
         {
             var requestAdapterOptions = new RequestAdapterOptions
             {

@@ -14,6 +14,6 @@ public class ImageImporter : AssetImporter<ImageAsset>
 
     public override ImageAsset ImportAsset(string assetPath, string path)
     {
-        return new ImageAsset(assetPath, path,string.Empty);
+        return new ImageAsset(assetPath, path);
     }
 }

@@ -1,7 +1,7 @@
 using SoftTouch.Graphics;
 using Silk.NET.WebGPU;
 
-namespace SoftTouch.Graphics.SilkWrappers;
+namespace SoftTouch.Graphics.WGPU;
 public readonly struct SwapChain : IGraphicsObject
 {
     public unsafe Silk.NET.WebGPU.SwapChain* Handle { get; init; }

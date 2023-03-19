@@ -11,32 +11,39 @@ using VYaml.Annotations;
 namespace SoftTouch.Assets;
 
 [YamlObject]
-public partial class ModelAsset : AssetItem, IEnumerable<AssetItem>
+public partial class ModelAsset : IAssetItem, IEnumerable<IAssetItem>
 {
-    public override string Extension { get; init; } = "model";
+    public string Extension { get; set; } = "model";
 
-    public MaterialAsset? Material { get; set; }
+    private MaterialAsset? Material { get; set; }
 
-    public ModelAsset()
-    {
+    public Guid ID { get; set; }
 
-    }
-    public ModelAsset(string path) : base(path)
-    {}
+    public string AssetPath { get; set; }
+    public string Path { get; set; }
+
+    [YamlIgnore]
+    public string? Name => new UPath(Path).GetNameWithoutExtension();
+
+
     [YamlConstructor]
-    public ModelAsset(string assetPath, string path, string subpath) : base(assetPath, path, subpath)
-    {}
+    public ModelAsset(string assetPath, string path)
+    {
+        ID = Guid.NewGuid();
+        AssetPath = assetPath;
+        Path = path;
+    }
 
-    public IEnumerator<AssetItem> GetEnumerator()
+    public IEnumerator<IAssetItem> GetEnumerator()
     {
         yield return this;
-        if(Material is not null)
+        if (Material is not null)
             yield return Material;
     }
 
     IEnumerator IEnumerable.GetEnumerator()
     {
-        throw new NotImplementedException();
+        return GetEnumerator();
     }
 }
 

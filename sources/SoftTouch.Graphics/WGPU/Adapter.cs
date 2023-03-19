@@ -1,8 +1,8 @@
 ﻿using Silk.NET.WebGPU;
 
-namespace SoftTouch.Graphics.SilkWrappers;
+namespace SoftTouch.Graphics.WGPU;
 
-public struct Adapter : IGraphicsObject
+public readonly struct Adapter : IGraphicsObject
 {
     public unsafe Silk.NET.WebGPU.Adapter* Handle { get; init; }
     public GraphicsState Graphics => GraphicsState.GetOrCreate();

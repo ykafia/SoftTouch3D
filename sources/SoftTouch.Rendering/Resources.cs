@@ -1,5 +1,5 @@
 using System.Numerics;
-using SoftTouch.Graphics.SilkWrappers;
+using SoftTouch.Graphics.WGPU;
 namespace SoftTouch.Rendering;
 
 public interface IGraphicResource

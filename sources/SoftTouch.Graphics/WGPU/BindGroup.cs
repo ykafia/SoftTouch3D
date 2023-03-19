@@ -1,7 +1,7 @@
 using Silk.NET.WebGPU;
 using System.Reflection.Metadata;
 
-namespace SoftTouch.Graphics.SilkWrappers;
+namespace SoftTouch.Graphics.WGPU;
 
 public readonly struct BindGroup : IGraphicsObject
 {

@@ -1,7 +1,7 @@
 
 
 using Silk.NET.WebGPU;
-using SoftTouch.Graphics.SilkWrappers;
+using SoftTouch.Graphics.WGPU;
 
 namespace SoftTouch.Graphics;
 
@@ -9,7 +9,7 @@ namespace SoftTouch.Graphics;
 public class VertexBufferBinding
 {
     public string Label { get; }
-    public SoftTouch.Graphics.SilkWrappers.Buffer VertexBuffer { get; private set; }
+    public SoftTouch.Graphics.WGPU.Buffer VertexBuffer { get; private set; }
     public ulong Offset { get; private set; }
     public ulong Stride { get; private set; }
     public ulong Count { get; private set; }

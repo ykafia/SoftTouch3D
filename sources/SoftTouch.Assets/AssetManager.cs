@@ -3,7 +3,7 @@ using System.IO;
 using SoftTouch.Assets.FileSystems;
 using SoftTouch.Assets.Importers;
 using SoftTouch.Graphics;
-using SoftTouch.Graphics.SilkWrappers;
+using SoftTouch.Graphics.WGPU;
 using Zio;
 using Zio.FileSystems;
 
@@ -26,7 +26,7 @@ public partial class AssetManager
     public ResourcesFileSystem FileSystem { get; private set; } = new();
     public AssetsFileSystem AssetsFileSystem { get; private set; } = new();
     public readonly SortedList<string, AssetImporter> AssetImporters = new();
-    public readonly Dictionary<UPath, AssetItem> LoadedAssets = new();
+    public readonly Dictionary<UPath, IAssetItem> LoadedAssets = new();
 
     AssetManager(params string[] resourcePaths)
     {

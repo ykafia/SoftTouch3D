@@ -7,12 +7,19 @@ using Silk.NET.Maths;
 using MemoryPack;
 using Zio;
 using SoftTouch.Assets.Serialization.MemoryPack;
-using SoftTouch.Graphics.SilkWrappers;
+using SoftTouch.Graphics.WGPU;
+using VYaml.Serialization;
+using SoftTouch.Assets.Serialization.Yaml;
 
 namespace SoftTouch.Games;
 
+public delegate void InitYamlSerializer();
+
+
 public abstract class Game : IGame
 {
+    protected static InitYamlSerializer InitYaml;
+
     IWindow window;
     GraphicsState Graphics= null!;
     GameWorld world;

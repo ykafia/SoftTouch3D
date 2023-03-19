@@ -3,7 +3,7 @@ using Silk.NET.WebGPU;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
-namespace SoftTouch.Graphics.SilkWrappers;
+namespace SoftTouch.Graphics.WGPU;
 
 public readonly struct Device : IGraphicsObject
 {

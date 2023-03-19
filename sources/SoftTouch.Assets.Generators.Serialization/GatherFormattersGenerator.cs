@@ -13,12 +13,12 @@ namespace SoftTouch.Assets.Generators.SerializationGathering
     {
         public void Initialize(GeneratorInitializationContext context)
         {
-//#if DEBUG
-//            if (!Debugger.IsAttached)
-//            {
-//                Debugger.Launch();
-//            }
-//#endif 
+#if DEBUG
+            if (!Debugger.IsAttached)
+            {
+                Debugger.Launch();
+            }
+#endif 
             //Debug.WriteLine("Initalize code generator");
         }
         public void Execute(GeneratorExecutionContext context)
@@ -34,9 +34,10 @@ namespace SoftTouch.Assets.Generators.SerializationGathering
                 .Append(projectAssembly)
                 .Where(x => x.Name.Contains("SoftTouch"))
                 .SelectMany(x => GetAllTypes(x.GlobalNamespace))
-                .Where(x => x.BaseType != null)
-                .Where(x => x.BaseType.Name.Contains("MemoryPackFormatter"))
-                .Select(x => x.Name)
+                .Where(x => x.AllInterfaces.Any(i => i.Name == "IYamlFormatter"))
+                //.Where(x => x.BaseType != null)
+                //.Where(x => x.BaseType.Name.Contains("MemoryPackFormatter"))
+                //.Select(x => x.Name)
                 .ToList();
 
             context.AddSource("Data.g.cs",
