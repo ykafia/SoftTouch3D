@@ -29,8 +29,7 @@ namespace SoftTouch.Assets.Generators.SerializationGathering
             var gameClass =
                 GetAllTypes(projectAssembly.GlobalNamespace)
                 .Where(x => x.BaseType != null)
-                .Where(x => x.BaseType.OriginalDefinition.ToString() == "SoftTouch.Games.Game")
-                .First();
+                .First(x => x.BaseType.OriginalDefinition.ToString() == "SoftTouch.Games.Game");
 
             var yamlFormatters =
                 context
