@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace SoftTouch.Assets.Generators.SerializationGathering
@@ -30,8 +31,8 @@ namespace SoftTouch.Assets.Generators.SerializationGathering
                 .Where(x => x.BaseType != null)
                 .Where(x => x.BaseType.OriginalDefinition.ToString() == "SoftTouch.Games.Game")
                 .First();
-            
-            var assemblies =
+
+            var yamlFormatters =
                 context
                 .Compilation
                 .SourceModule
@@ -40,10 +41,31 @@ namespace SoftTouch.Assets.Generators.SerializationGathering
                 .Where(x => x.Name.Contains("SoftTouch"))
                 .SelectMany(x => GetAllTypes(x.GlobalNamespace))
                 .Where(x => x.AllInterfaces.Any(i => i.Name == "IYamlFormatter"))
+                .Where(x => !x.OriginalDefinition.ToString().Contains("Generated"))
                 //.Where(x => x.BaseType != null)
                 //.Where(x => x.BaseType.Name.Contains("MemoryPackFormatter"))
                 //.Select(x => x.Name)
                 .ToList();
+            var constructors = new StringBuilder();
+            foreach(var y in yamlFormatters)
+            {
+                var fullname = y.OriginalDefinition.ToString();
+                if (fullname.StartsWith("SoftTouch.Assets.Serialization.Yaml") && fullname.Contains("Vector") && fullname.Contains("<T>"))
+                {
+                    constructors.Append("       GeneratedResolver.Register(new ").Append(fullname.Replace("<T>", "<byte>")).AppendLine("());");
+                    constructors.Append("       GeneratedResolver.Register(new ").Append(fullname.Replace("<T>", "<sbyte>")).AppendLine("());");
+                    constructors.Append("       GeneratedResolver.Register(new ").Append(fullname.Replace("<T>", "<Half>")).AppendLine("());");
+                    constructors.Append("       GeneratedResolver.Register(new ").Append(fullname.Replace("<T>", "<short>")).AppendLine("());");
+                    constructors.Append("       GeneratedResolver.Register(new ").Append(fullname.Replace("<T>", "<ushort>")).AppendLine("());");
+                    constructors.Append("       GeneratedResolver.Register(new ").Append(fullname.Replace("<T>", "<float>")).AppendLine("());");
+                    constructors.Append("       GeneratedResolver.Register(new ").Append(fullname.Replace("<T>", "<int>")).AppendLine("());");
+                    constructors.Append("       GeneratedResolver.Register(new ").Append(fullname.Replace("<T>", "<uint>")).AppendLine("());");
+                    constructors.Append("       GeneratedResolver.Register(new ").Append(fullname.Replace("<T>", "<double>")).AppendLine("());");
+                    constructors.Append("       GeneratedResolver.Register(new ").Append(fullname.Replace("<T>", "<long>")).AppendLine("());");
+                    constructors.Append("       GeneratedResolver.Register(new ").Append(fullname.Replace("<T>", "<ulong>")).AppendLine("());");
+                }
+                else constructors.Append($"      GeneratedResolver.Register(new ").Append(fullname).AppendLine("());");
+            }
 
             context.AddSource($"{gameClass.Name}.g.cs",
 $@"
@@ -51,13 +73,14 @@ using System;
 using VYaml;
 using VYaml.Serialization;
 
-
+ 
 namespace {gameClass.ContainingNamespace};
 public partial class {gameClass.Name} 
 {{
     static {gameClass.Name}()
     {{
         Console.WriteLine(""Hello world from generated {gameClass.Name} class"");
+        {constructors}
     }}
 }}
 "
