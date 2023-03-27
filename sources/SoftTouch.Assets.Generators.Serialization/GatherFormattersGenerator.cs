@@ -37,13 +37,19 @@ namespace SoftTouch.Assets.Generators.SerializationGathering
                 .SourceModule
                 .ReferencedAssemblySymbols
                 .Append(projectAssembly)
-                .Where(x => x.Name.Contains("SoftTouch"))
                 .SelectMany(x => GetAllTypes(x.GlobalNamespace))
                 .Where(x => x.AllInterfaces.Any(i => i.Name == "IYamlFormatter"))
                 .Where(x => !x.OriginalDefinition.ToString().Contains("Generated"))
-                //.Where(x => x.BaseType != null)
-                //.Where(x => x.BaseType.Name.Contains("MemoryPackFormatter"))
-                //.Select(x => x.Name)
+                .ToList();
+            var memoryPackFormatters =
+                context
+                .Compilation
+                .SourceModule
+                .ReferencedAssemblySymbols
+                .Append(projectAssembly)
+                .SelectMany(x => GetAllTypes(x.GlobalNamespace))
+                .Where(x => x.AllInterfaces.Any(i => i.Name == "IYamlFormatter"))
+                .Where(x => !x.OriginalDefinition.ToString().Contains("Generated"))
                 .ToList();
             var constructors = new StringBuilder();
             foreach(var y in yamlFormatters)
