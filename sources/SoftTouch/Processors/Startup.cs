@@ -19,8 +19,8 @@ public class Startup : Processor
         // World.Spawn(
         //     .With(new ModelComponent((ModelAsset)model))
         //     .WithBundle(new TransformBundle(default, default));
-        World.Commands.Spawn(default(Camera));
-        World.AddProcessor<FoxMeshProcessor>();
+        //World.Commands.Spawn(default(Camera));
+        //World.AddProcessor<FoxMeshProcessor>();
     }
 
     

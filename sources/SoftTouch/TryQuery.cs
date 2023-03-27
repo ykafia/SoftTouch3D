@@ -29,8 +29,8 @@ public class TryQuery
             }
         }
 
-        w1.AddProcessor((Query<NameComponent> q) => WithoutForeach(q));
-        w1.Start();
+        //w1.AddProcessor((Query<NameComponent> q) => WithoutForeach(q));
+        //w1.Start();
     }
     public void QueryIter()
     {
