@@ -4,6 +4,10 @@ namespace SoftTouch.Rendering;
 
 public abstract class RenderProcessor : Processor
 {
+    public RenderProcessor()
+    {
+
+    }
     public virtual void Prepare(){}
     public virtual void Transform(){}
 }

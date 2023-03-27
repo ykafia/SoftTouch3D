@@ -13,7 +13,7 @@ public class GameWorld : World
 
     public override void Update(bool parallel = true)
     {
-        var timer = GetResource<WorldTimer>();
+        var timer = Resources.Get<WorldTimer>();
         timer.Start();
         base.Update(false);
         ComputeVisibility();

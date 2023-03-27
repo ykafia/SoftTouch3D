@@ -33,6 +33,10 @@
 		<ProjectReference Include="..\SoftTouch.Assets.Generators.Serialization\SoftTouch.Assets.Generators.SerializationGathering.csproj"
 						  OutputItemType="Analyzer"
 						  ReferenceOutputAssembly="false" />
+		
+		<ProjectReference Include="..\SoftTouch.ECS\sources\SoftTouch.ECS.ProcessorGenerators\SoftTouch.ECS.ProcessorGenerators.csproj"
+						  OutputItemType="Analyzer"
+						  ReferenceOutputAssembly="false" />
 	</ItemGroup>
 
 	<ItemGroup>

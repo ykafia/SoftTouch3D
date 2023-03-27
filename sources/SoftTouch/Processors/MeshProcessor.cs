@@ -23,6 +23,7 @@ public class FoxMeshProcessor : RenderProcessor<Query<Transform, GlobalTransform
     private Silk.NET.WebGPU.VertexState vertexState;
     private Silk.NET.WebGPU.FragmentState fragmentState;
 
+
     public override void Update()
     {
         //var graphics = World.GetResource<WGPUGraphics>();

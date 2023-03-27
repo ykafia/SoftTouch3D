@@ -58,6 +58,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoftTouch.Core.Serializatio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoftTouch.Core.Assets", "sources\SoftTouch.Core.Assets\SoftTouch.Core.Assets.csproj", "{DCC48BAB-07F7-4F91-97D9-0D22767712F8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoftTouch.ECS.ProcessorGenerators", "sources\SoftTouch.ECS\sources\SoftTouch.ECS.ProcessorGenerators\SoftTouch.ECS.ProcessorGenerators.csproj", "{6CCB1702-09B0-4267-83A8-76D4E0E42BF4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -128,6 +130,10 @@ Global
 		{DCC48BAB-07F7-4F91-97D9-0D22767712F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DCC48BAB-07F7-4F91-97D9-0D22767712F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DCC48BAB-07F7-4F91-97D9-0D22767712F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CCB1702-09B0-4267-83A8-76D4E0E42BF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CCB1702-09B0-4267-83A8-76D4E0E42BF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CCB1702-09B0-4267-83A8-76D4E0E42BF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CCB1702-09B0-4267-83A8-76D4E0E42BF4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -146,6 +152,7 @@ Global
 		{D21A0645-08A6-4AA4-B406-2494060A267A} = {879B3DF3-2DB6-4BC2-BB0D-2685815D6E43}
 		{74FB512D-8BB1-44E7-A1CF-B06B4DB5AD30} = {852D390F-57FC-4F3B-8B5A-63DCAB23E372}
 		{DCC48BAB-07F7-4F91-97D9-0D22767712F8} = {852D390F-57FC-4F3B-8B5A-63DCAB23E372}
+		{6CCB1702-09B0-4267-83A8-76D4E0E42BF4} = {88509F0A-48A7-4F0D-840E-96A33E94BD0A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FA9E1AA0-378D-4B3C-9736-267A3B5A757E}
