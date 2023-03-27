@@ -12,6 +12,21 @@ namespace SoftTouch.Assets.Generators.SerializationGathering
     [Generator]
     public class GatherFormattersGenerator : ISourceGenerator
     {
+        public static string[] numTypes =
+        {
+            "sbyte",
+            "byte",
+            "ushort",
+            "short",
+            "Half",
+            "uint",
+            "int",
+            "float",
+            "ulong",
+            "long",
+            "double"
+        };
+
         public void Initialize(GeneratorInitializationContext context)
         {
 //#if DEBUG
@@ -38,7 +53,8 @@ namespace SoftTouch.Assets.Generators.SerializationGathering
                 .ReferencedAssemblySymbols
                 .Append(projectAssembly)
                 .SelectMany(x => GetAllTypes(x.GlobalNamespace))
-                .Where(x => x.AllInterfaces.Any(i => i.Name == "IYamlFormatter"))
+                .Where(x => x.AllInterfaces.Any(i => i.Name == "IYamlSFTFormatter"))
+                .Where(x => x.TypeKind != TypeKind.Interface)
                 .Where(x => !x.OriginalDefinition.ToString().Contains("Generated"))
                 .ToList();
             var memoryPackFormatters =
@@ -48,28 +64,29 @@ namespace SoftTouch.Assets.Generators.SerializationGathering
                 .ReferencedAssemblySymbols
                 .Append(projectAssembly)
                 .SelectMany(x => GetAllTypes(x.GlobalNamespace))
-                .Where(x => x.AllInterfaces.Any(i => i.Name == "IYamlFormatter"))
-                .Where(x => !x.OriginalDefinition.ToString().Contains("Generated"))
+                .Where(x => x.AllInterfaces.Any(i => i.Name == "IBinaryFormatter"))
+                .Where(x => !x.IsAbstract && x.TypeKind == TypeKind.Class)
                 .ToList();
             var constructors = new StringBuilder();
             foreach(var y in yamlFormatters)
             {
                 var fullname = y.OriginalDefinition.ToString();
-                if (fullname.StartsWith("SoftTouch.Assets.Serialization.Yaml") && fullname.Contains("Vector") && fullname.Contains("<T>"))
+                if (y.AllInterfaces.Any( i => i.Name == "INumericsFormatter"))
                 {
-                    constructors.Append("       GeneratedResolver.Register(new ").Append(fullname.Replace("<T>", "<byte>")).AppendLine("());");
-                    constructors.Append("       GeneratedResolver.Register(new ").Append(fullname.Replace("<T>", "<sbyte>")).AppendLine("());");
-                    constructors.Append("       GeneratedResolver.Register(new ").Append(fullname.Replace("<T>", "<Half>")).AppendLine("());");
-                    constructors.Append("       GeneratedResolver.Register(new ").Append(fullname.Replace("<T>", "<short>")).AppendLine("());");
-                    constructors.Append("       GeneratedResolver.Register(new ").Append(fullname.Replace("<T>", "<ushort>")).AppendLine("());");
-                    constructors.Append("       GeneratedResolver.Register(new ").Append(fullname.Replace("<T>", "<float>")).AppendLine("());");
-                    constructors.Append("       GeneratedResolver.Register(new ").Append(fullname.Replace("<T>", "<int>")).AppendLine("());");
-                    constructors.Append("       GeneratedResolver.Register(new ").Append(fullname.Replace("<T>", "<uint>")).AppendLine("());");
-                    constructors.Append("       GeneratedResolver.Register(new ").Append(fullname.Replace("<T>", "<double>")).AppendLine("());");
-                    constructors.Append("       GeneratedResolver.Register(new ").Append(fullname.Replace("<T>", "<long>")).AppendLine("());");
-                    constructors.Append("       GeneratedResolver.Register(new ").Append(fullname.Replace("<T>", "<ulong>")).AppendLine("());");
+                    foreach(var nt in numTypes)
+                        constructors.Append("       GeneratedResolver.Register(new ").Append(fullname.Replace("<T>", $"<{nt}>")).AppendLine("());");
                 }
                 else constructors.Append($"      GeneratedResolver.Register(new ").Append(fullname).AppendLine("());");
+            }
+            foreach (var y in memoryPackFormatters)
+            {
+                var fullname = y.OriginalDefinition.ToString();
+                if (y.AllInterfaces.Any(i => i.Name == "INumericsFormatter"))
+                {
+                    foreach (var nt in numTypes)
+                        constructors.Append("       MemoryPackFormatterProvider.Register(new ").Append(fullname.Replace("<T>", $"<{nt}>")).AppendLine("());");
+                }
+                else constructors.Append($"      MemoryPackFormatterProvider.Register(new ").Append(fullname).AppendLine("());");
             }
 
             context.AddSource($"{gameClass.Name}.g.cs",
@@ -77,6 +94,7 @@ $@"
 using System;
 using VYaml;
 using VYaml.Serialization;
+using MemoryPack;
 
  
 namespace {gameClass.ContainingNamespace};

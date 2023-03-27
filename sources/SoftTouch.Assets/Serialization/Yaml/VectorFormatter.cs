@@ -10,23 +10,13 @@ using VYaml;
 using VYaml.Emitter;
 using VYaml.Parser;
 using VYaml.Serialization;
+using SoftTouch.Core.Serialization;
 
 namespace SoftTouch.Assets.Serialization.Yaml;
 
-public class Vector2DYFormatter<T> : IYamlFormatter<Vector2D<T>>
+public class Vector2DYFormatter<T> : IYamlNumericsFormatter<Vector2D<T>>
     where T : unmanaged, IFormattable, IEquatable<T>, IComparable<T>
 {
-    static Vector2DYFormatter()
-    {
-        GeneratedResolver.Register(new Vector2DYFormatter<byte>());
-        GeneratedResolver.Register(new Vector2DYFormatter<sbyte>());
-        GeneratedResolver.Register(new Vector2DYFormatter<ushort>());
-        GeneratedResolver.Register(new Vector2DYFormatter<short>());
-        GeneratedResolver.Register(new Vector2DYFormatter<uint>());
-        GeneratedResolver.Register(new Vector2DYFormatter<int>());
-        GeneratedResolver.Register(new Vector2DYFormatter<ulong>());
-        GeneratedResolver.Register(new Vector2DYFormatter<long>());
-    }
     public Vector2D<T> Deserialize(ref YamlParser parser, YamlDeserializationContext context)
     {
         parser.SkipAfter(ParseEventType.MappingStart);
@@ -48,20 +38,9 @@ public class Vector2DYFormatter<T> : IYamlFormatter<Vector2D<T>>
     }
 }
 
-public class Vector3DYFormatter<T> : IYamlFormatter<Vector3D<T>>
+public class Vector3DYFormatter<T> : IYamlNumericsFormatter<Vector3D<T>>
     where T : unmanaged, IFormattable, IEquatable<T>, IComparable<T>
 {
-    static Vector3DYFormatter()
-    {
-        GeneratedResolver.Register(new Vector3DYFormatter<byte>());
-        GeneratedResolver.Register(new Vector3DYFormatter<sbyte>());
-        GeneratedResolver.Register(new Vector3DYFormatter<ushort>());
-        GeneratedResolver.Register(new Vector3DYFormatter<short>());
-        GeneratedResolver.Register(new Vector3DYFormatter<uint>());
-        GeneratedResolver.Register(new Vector3DYFormatter<int>());
-        GeneratedResolver.Register(new Vector3DYFormatter<ulong>());
-        GeneratedResolver.Register(new Vector3DYFormatter<long>());
-    }
     public Vector3D<T> Deserialize(ref YamlParser parser, YamlDeserializationContext context)
     {
         parser.SkipAfter(ParseEventType.MappingStart);
@@ -87,20 +66,9 @@ public class Vector3DYFormatter<T> : IYamlFormatter<Vector3D<T>>
     }
 }
 
-public class Vector4DYFormatter<T> : IYamlFormatter<Vector4D<T>>
+public class Vector4DYFormatter<T> : IYamlNumericsFormatter<Vector4D<T>>
     where T : unmanaged, IFormattable, IEquatable<T>, IComparable<T>
 {
-    static Vector4DYFormatter()
-    {
-        GeneratedResolver.Register(new Vector4DYFormatter<byte>());
-        GeneratedResolver.Register(new Vector4DYFormatter<sbyte>());
-        GeneratedResolver.Register(new Vector4DYFormatter<ushort>());
-        GeneratedResolver.Register(new Vector4DYFormatter<short>());
-        GeneratedResolver.Register(new Vector4DYFormatter<uint>());
-        GeneratedResolver.Register(new Vector4DYFormatter<int>());
-        GeneratedResolver.Register(new Vector4DYFormatter<ulong>());
-        GeneratedResolver.Register(new Vector4DYFormatter<long>());
-    }
     public Vector4D<T> Deserialize(ref YamlParser parser, YamlDeserializationContext context)
     {
         parser.SkipAfter(ParseEventType.MappingStart);

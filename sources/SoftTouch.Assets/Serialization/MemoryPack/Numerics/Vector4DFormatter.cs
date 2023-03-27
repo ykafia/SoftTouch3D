@@ -36,23 +36,9 @@ public readonly partial struct SerializableVector4D<T>
 }
 
 
-public class Vector4DFormatter<T> : MemoryPackFormatter<Vector4D<T>?>
+public class Vector4DFormatter<T> : SFTMemoryPackFormatter<Vector4D<T>?>
     where T : unmanaged, IFormattable, IEquatable<T>, IComparable<T>
 {
-    static Vector4DFormatter()
-    {
-        MemoryPackFormatterProvider.Register(new Vector4DFormatter<byte>());
-        MemoryPackFormatterProvider.Register(new Vector4DFormatter<sbyte>());
-        MemoryPackFormatterProvider.Register(new Vector4DFormatter<ushort>());
-        MemoryPackFormatterProvider.Register(new Vector4DFormatter<short>());
-        MemoryPackFormatterProvider.Register(new Vector4DFormatter<uint>());
-        MemoryPackFormatterProvider.Register(new Vector4DFormatter<int>());
-        MemoryPackFormatterProvider.Register(new Vector4DFormatter<ulong>());
-        MemoryPackFormatterProvider.Register(new Vector4DFormatter<long>());
-        MemoryPackFormatterProvider.Register(new Vector4DFormatter<Half>());
-        MemoryPackFormatterProvider.Register(new Vector4DFormatter<float>());
-        MemoryPackFormatterProvider.Register(new Vector4DFormatter<double>());
-    }
     public override void Deserialize(ref MemoryPackReader reader, scoped ref Vector4D<T>? value)
     {
         if (reader.PeekIsNull())

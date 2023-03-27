@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using SoftTouch.Assets.FileSystems;
 using SoftTouch.Assets.Importers;
+using SoftTouch.Core.Assets;
 using SoftTouch.Graphics;
 using SoftTouch.Graphics.WGPU;
 using Zio;

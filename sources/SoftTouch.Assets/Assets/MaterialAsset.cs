@@ -8,6 +8,8 @@ using SharpGLTF.Schema2;
 using System.Collections;
 using MemoryPack;
 using VYaml.Annotations;
+using SoftTouch.Core.Serialization;
+using SoftTouch.Core.Assets;
 
 namespace SoftTouch.Assets;
 

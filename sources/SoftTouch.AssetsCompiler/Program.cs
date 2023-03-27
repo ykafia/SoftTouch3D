@@ -16,7 +16,6 @@ public class Program
 {
     public static async Task<int> Main(string[] args)
     {
-        SoftYamlResolver.Init();
         var rootCommand = new CompilationCommand();
         return await rootCommand.InvokeAsync(args);
     }

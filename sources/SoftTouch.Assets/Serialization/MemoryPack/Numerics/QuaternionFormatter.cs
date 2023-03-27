@@ -36,23 +36,10 @@ public readonly partial struct SerializableQuaternion<T>
 }
 
 
-public class QuaternionFormatter<T> : MemoryPackFormatter<Quaternion<T>?>
+public class QuaternionFormatter<T> : SFTMemoryPackFormatter<Quaternion<T>?>
     where T : unmanaged, IFormattable, IEquatable<T>, IComparable<T>
 {
-    static QuaternionFormatter()
-    {
-        MemoryPackFormatterProvider.Register(new QuaternionFormatter<byte>());
-        MemoryPackFormatterProvider.Register(new QuaternionFormatter<sbyte>());
-        MemoryPackFormatterProvider.Register(new QuaternionFormatter<ushort>());
-        MemoryPackFormatterProvider.Register(new QuaternionFormatter<short>());
-        MemoryPackFormatterProvider.Register(new QuaternionFormatter<uint>());
-        MemoryPackFormatterProvider.Register(new QuaternionFormatter<int>());
-        MemoryPackFormatterProvider.Register(new QuaternionFormatter<ulong>());
-        MemoryPackFormatterProvider.Register(new QuaternionFormatter<long>());
-        MemoryPackFormatterProvider.Register(new QuaternionFormatter<Half>());
-        MemoryPackFormatterProvider.Register(new QuaternionFormatter<float>());
-        MemoryPackFormatterProvider.Register(new QuaternionFormatter<double>());
-    }
+    
     public override void Deserialize(ref MemoryPackReader reader, scoped ref Quaternion<T>? value)
     {
         if (reader.PeekIsNull())

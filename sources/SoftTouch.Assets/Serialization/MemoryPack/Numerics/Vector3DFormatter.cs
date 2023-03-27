@@ -33,26 +33,10 @@ public readonly partial struct SerializableVector3D<T>
 }
 
 
-public class Vector3DFormatter<T> : MemoryPackFormatter<Vector3D<T>?>
+public class Vector3DFormatter<T> : SFTMemoryPackFormatter<Vector3D<T>?>
     where T : unmanaged, IFormattable, IEquatable<T>, IComparable<T>
 {
-    static Vector3DFormatter()
-    {
-        MemoryPackFormatterProvider.Register(new Vector3DFormatter<byte>());
-        MemoryPackFormatterProvider.Register(new Vector3DFormatter<sbyte>());
-        MemoryPackFormatterProvider.Register(new Vector3DFormatter<ushort>());
-        MemoryPackFormatterProvider.Register(new Vector3DFormatter<short>());
-        MemoryPackFormatterProvider.Register(new Vector3DFormatter<uint>());
-        MemoryPackFormatterProvider.Register(new Vector3DFormatter<int>());
-        MemoryPackFormatterProvider.Register(new Vector3DFormatter<ulong>());
-        MemoryPackFormatterProvider.Register(new Vector3DFormatter<long>());
-
-        MemoryPackFormatterProvider.Register(new Vector3DFormatter<Half>());
-        MemoryPackFormatterProvider.Register(new Vector3DFormatter<float>());
-        MemoryPackFormatterProvider.Register(new Vector3DFormatter<double>());
-
-    }
-
+    
     public override void Deserialize(ref MemoryPackReader reader, scoped ref Vector3D<T>? value)
     {
         if(reader.PeekIsNull())

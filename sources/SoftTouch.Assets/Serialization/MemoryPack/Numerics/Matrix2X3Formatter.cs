@@ -41,7 +41,7 @@ public readonly partial struct SerializableMatrix2X3<T>
 }
 
 
-public class Matrix2X3Formatter<T> : MemoryPackFormatter<Matrix2X3<T>?>
+public class Matrix2X3Formatter<T> : SFTMemoryPackFormatter<Matrix2X3<T>?>
     where T : unmanaged, IFormattable, IEquatable<T>, IComparable<T>
 {
     static Matrix2X3Formatter()

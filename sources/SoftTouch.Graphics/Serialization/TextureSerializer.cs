@@ -1,11 +1,12 @@
 ﻿using MemoryPack;
+using SoftTouch.Core.Serialization;
 using SoftTouch.Graphics;
 using SoftTouch.Graphics.WGPU;
 
 namespace SoftTouch.WGPU.Serialization;
 
 
-public class TextureFormatSerializers : MemoryPackFormatter<Texture>
+public class TextureFormatSerializers : BinaryFormatter<Texture>
 {
     public override void Deserialize(ref MemoryPackReader reader, scoped ref Texture value)
     {

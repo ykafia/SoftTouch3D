@@ -7,6 +7,8 @@ using Silk.NET.WebGPU;
 using Zio;
 using MemoryPack;
 using VYaml.Annotations;
+using SoftTouch.Core.Serialization;
+using SoftTouch.Core.Assets;
 
 namespace SoftTouch.Assets;
 

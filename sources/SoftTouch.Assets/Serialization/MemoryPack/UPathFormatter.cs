@@ -27,7 +27,7 @@ public readonly partial struct SerializableUPath
     }
 }
 
-public class UPathFormatter : MemoryPackFormatter<UPath?>
+public class UPathFormatter : SFTMemoryPackFormatter<UPath?>
 {
 
     static UPathFormatter()

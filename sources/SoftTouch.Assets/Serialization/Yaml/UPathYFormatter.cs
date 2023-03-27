@@ -11,10 +11,11 @@ using VYaml.Emitter;
 using VYaml.Parser;
 using VYaml.Serialization;
 using Zio;
+using SoftTouch.Core.Serialization;
 
 namespace SoftTouch.Assets.Serialization.Yaml;
 
-public class UPathYFormatter : IYamlFormatter<UPath>
+public class UPathYFormatter : IYamlSFTFormatter<UPath>
 {
     public UPath Deserialize(ref YamlParser parser, YamlDeserializationContext context)
     {

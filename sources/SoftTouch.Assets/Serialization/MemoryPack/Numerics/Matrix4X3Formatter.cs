@@ -62,23 +62,9 @@ public readonly partial struct SerializableMatrix4X3<T>
 }
 
 
-public class Matrix4X3Formatter<T> : MemoryPackFormatter<Matrix4X3<T>?>
+public class Matrix4X3Formatter<T> : SFTMemoryPackFormatter<Matrix4X3<T>?>
     where T : unmanaged, IFormattable, IEquatable<T>, IComparable<T>
 {
-    static Matrix4X3Formatter()
-    {
-        MemoryPackFormatterProvider.Register(new Matrix4X3Formatter<byte>());
-        MemoryPackFormatterProvider.Register(new Matrix4X3Formatter<sbyte>());
-        MemoryPackFormatterProvider.Register(new Matrix4X3Formatter<ushort>());
-        MemoryPackFormatterProvider.Register(new Matrix4X3Formatter<short>());
-        MemoryPackFormatterProvider.Register(new Matrix4X3Formatter<uint>());
-        MemoryPackFormatterProvider.Register(new Matrix4X3Formatter<int>());
-        MemoryPackFormatterProvider.Register(new Matrix4X3Formatter<ulong>());
-        MemoryPackFormatterProvider.Register(new Matrix4X3Formatter<long>());
-        MemoryPackFormatterProvider.Register(new Matrix4X3Formatter<Half>());
-        MemoryPackFormatterProvider.Register(new Matrix4X3Formatter<float>());
-        MemoryPackFormatterProvider.Register(new Matrix4X3Formatter<double>());
-    }
     public override void Deserialize(ref MemoryPackReader reader, scoped ref Matrix4X3<T>? value)
     {
         if (reader.PeekIsNull())

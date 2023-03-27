@@ -1,3 +1,4 @@
+using SoftTouch.Core.Assets;
 using Zio;
 
 namespace SoftTouch.Assets.Importers;

@@ -18,6 +18,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\SoftTouch.Core.Assets\SoftTouch.Core.Assets.csproj" />
+		<ProjectReference Include="..\SoftTouch.Core.Serialization\SoftTouch.Core.Serialization.csproj" />
 		<ProjectReference Include="..\SoftTouch.Graphics\SoftTouch.Graphics.csproj" />
 	</ItemGroup>
 
