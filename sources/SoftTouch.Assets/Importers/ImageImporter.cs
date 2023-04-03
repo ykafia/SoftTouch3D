@@ -17,9 +17,8 @@ public class ImageImporter : IAssetImporter<ImageAsset>
 
     public AssetManager AssetManager => AssetManager.GetOrCreate();
 
-    public void Import(string path, string name, out ImageAsset asset)
+    public void Import(string path, string outputPath, out ImageAsset asset)
     {
-        var image = Image.Load(path);
-        asset = default;
+        asset = new(path, outputPath);
     }
 }

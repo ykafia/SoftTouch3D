@@ -29,7 +29,7 @@ public partial class ImageAsset : IAssetItem
     
     public ImageAsset() { }
 
-    public ImageAsset(string assetPath, string path)
+    public ImageAsset(string path, string assetPath)
     {
         AssetPath = assetPath;
         Path = path;

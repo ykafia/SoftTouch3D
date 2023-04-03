@@ -18,7 +18,7 @@ public partial class ModelAsset : IAssetItem, IEnumerable<IAssetItem>
     [YamlIgnore]
     public string Extension { get; } = "model";
 
-    private MaterialAsset? Material { get; init; }
+    private List<MaterialAsset> Materials { get; init; }
 
     public Guid ID { get; init; }
 
@@ -34,14 +34,13 @@ public partial class ModelAsset : IAssetItem, IEnumerable<IAssetItem>
         ID = Guid.NewGuid();
         AssetPath = assetPath;
         Path = path;
-        
     }
 
     public IEnumerator<IAssetItem> GetEnumerator()
     {
         yield return this;
-        if (Material is not null)
-            yield return Material;
+        foreach (var mat in Materials)
+            yield return mat;
     }
 
     IEnumerator IEnumerable.GetEnumerator()

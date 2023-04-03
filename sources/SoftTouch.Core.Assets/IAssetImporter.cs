@@ -15,5 +15,5 @@ public interface IAssetImporter
 public interface IAssetImporter<TAsset> : IAssetImporter
     where TAsset : IAssetItem
 {
-    void Import(string path, string name, out TAsset asset);
+    void Import(string path, string outputPath, out TAsset asset);
 }
