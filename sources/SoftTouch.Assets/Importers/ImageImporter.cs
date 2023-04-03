@@ -20,5 +20,6 @@ public class ImageImporter : IAssetImporter<ImageAsset>
     public void Import(string path, string name, out ImageAsset asset)
     {
         var image = Image.Load(path);
+        asset = default;
     }
 }
