@@ -20,7 +20,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\SoftTouch.ECS\sources\SoftTouch.ECS\SoftTouch.ECS.csproj" />
 		<ProjectReference Include="..\SoftTouch.Rendering\SoftTouch.Rendering.csproj" />
 		<ProjectReference Include="..\SoftTouch.Assets\SoftTouch.Assets.csproj" />
 		<ProjectReference Include="..\SoftTouch.Graphics\SoftTouch.Graphics.csproj" />

@@ -1,6 +1,5 @@
 ﻿using SoftTouch.Assets;
 using SoftTouch.Assets.FileSystems;
-using SoftTouch.Assets.Importers.GLTF;
 using Utf8Json;
 using System;
 using System.Collections.Generic;
@@ -93,12 +92,12 @@ namespace SoftTouch.AssetsCompiler
             }
             if (imageOpt)
             {
-                Console.WriteLine("Adding image asset");
-                var asset = new GLTFImageImporter().Import(path ?? "/", file).First();
-                var serialized = YamlSerializer.SerializeToString(asset);
-                Console.WriteLine(serialized);
-                var fileName = (asset.AssetPath != UPath.Empty ? asset.AssetPath : ((UPath)file).GetNameWithoutExtension() ?? "") + ".stimage";
-                assetfs?.WriteAllText(path ?? UPath.Root / fileName, serialized);
+                //Console.WriteLine("Adding image asset");
+                //var asset = new GLTFImageImporter().Import(path ?? "/", file).First();
+                //var serialized = YamlSerializer.SerializeToString(asset);
+                //Console.WriteLine(serialized);
+                //var fileName = (asset.AssetPath != UPath.Empty ? asset.AssetPath : ((UPath)file).GetNameWithoutExtension() ?? "") + ".stimage";
+                //assetfs?.WriteAllText(path ?? UPath.Root / fileName, serialized);
             }
             if (modelOpt)
             {

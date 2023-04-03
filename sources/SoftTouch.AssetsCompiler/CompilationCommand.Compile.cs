@@ -1,6 +1,5 @@
 ﻿using SoftTouch.Assets;
 using SoftTouch.Assets.FileSystems;
-using SoftTouch.Assets.Importers.GLTF;
 using Utf8Json;
 using System;
 using System.Collections.Generic;

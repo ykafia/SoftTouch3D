@@ -7,20 +7,10 @@ using System.Threading.Tasks;
 
 namespace SoftTouch.Assets.Importers;
 
-public interface IAssetImporter
+public class GLTFImporter : IAssetImporter<MaterialAsset>, IAssetImporter<ImageAsset>
 {
-    AssetManager AssetManager { get; }
-}
+    public string[] Extensions => throw new NotImplementedException();
 
-public interface IAssetImporter<TAsset> : IAssetImporter
-    where TAsset : IAssetItem
-{
-    void Import(string path, string name, out TAsset asset);
-}
-
-
-public class GLTFImporter : IAssetImporter<ImageAsset>, IAssetImporter<MaterialAsset>
-{
     public AssetManager AssetManager => throw new NotImplementedException();
 
     public void Import(string path, string name, out ImageAsset asset)

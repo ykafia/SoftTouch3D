@@ -56,9 +56,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{852D390F-5
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoftTouch.Core.Serialization", "sources\SoftTouch.Core.Serialization\SoftTouch.Core.Serialization.csproj", "{74FB512D-8BB1-44E7-A1CF-B06B4DB5AD30}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoftTouch.Core.Assets", "sources\SoftTouch.Core.Assets\SoftTouch.Core.Assets.csproj", "{DCC48BAB-07F7-4F91-97D9-0D22767712F8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoftTouch.Core.Assets", "sources\SoftTouch.Core.Assets\SoftTouch.Core.Assets.csproj", "{DCC48BAB-07F7-4F91-97D9-0D22767712F8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoftTouch.ECS.ProcessorGenerators", "sources\SoftTouch.ECS\sources\SoftTouch.ECS.ProcessorGenerators\SoftTouch.ECS.ProcessorGenerators.csproj", "{6CCB1702-09B0-4267-83A8-76D4E0E42BF4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoftTouch.ECS.ProcessorGenerators", "sources\SoftTouch.ECS\sources\SoftTouch.ECS.ProcessorGenerators\SoftTouch.ECS.ProcessorGenerators.csproj", "{6CCB1702-09B0-4267-83A8-76D4E0E42BF4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoftTouch.ECS.Core", "sources\SoftTouch.ECS\sources\SoftTouch.ECS.Core\SoftTouch.ECS.Core.csproj", "{1F1D765D-DAC4-43F8-993C-F5AB83A27284}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -134,6 +136,10 @@ Global
 		{6CCB1702-09B0-4267-83A8-76D4E0E42BF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6CCB1702-09B0-4267-83A8-76D4E0E42BF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6CCB1702-09B0-4267-83A8-76D4E0E42BF4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F1D765D-DAC4-43F8-993C-F5AB83A27284}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F1D765D-DAC4-43F8-993C-F5AB83A27284}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F1D765D-DAC4-43F8-993C-F5AB83A27284}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F1D765D-DAC4-43F8-993C-F5AB83A27284}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -153,6 +159,7 @@ Global
 		{74FB512D-8BB1-44E7-A1CF-B06B4DB5AD30} = {852D390F-57FC-4F3B-8B5A-63DCAB23E372}
 		{DCC48BAB-07F7-4F91-97D9-0D22767712F8} = {852D390F-57FC-4F3B-8B5A-63DCAB23E372}
 		{6CCB1702-09B0-4267-83A8-76D4E0E42BF4} = {88509F0A-48A7-4F0D-840E-96A33E94BD0A}
+		{1F1D765D-DAC4-43F8-993C-F5AB83A27284} = {88509F0A-48A7-4F0D-840E-96A33E94BD0A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FA9E1AA0-378D-4B3C-9736-267A3B5A757E}

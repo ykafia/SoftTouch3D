@@ -17,5 +17,4 @@ public class IterNameProcessor : Processor<Query<NameComponent>>
             iter.Current.Set(new NameComponent("Jolyne"));
         }
     }
-
 }

@@ -27,7 +27,7 @@ public partial class ContentManager
 
 
     public AggregateFileSystem FileSystem { get; set; }
-    public Dictionary<UPath, UPath> Indirection { get; set; }
+    public Dictionary<UPath, UPath> ContentIndexMap { get; set; }
 
     readonly Dictionary<UPath, object> loadedContent = new();
 
@@ -36,7 +36,7 @@ public partial class ContentManager
     ContentManager(AggregateFileSystem fileSystem, Dictionary<UPath,UPath> indirection)
     {
         FileSystem = fileSystem;
-        Indirection = indirection;
+        ContentIndexMap = indirection;
     }
 
     public void AddLoader<T>(ContentLoader<T> loader)
