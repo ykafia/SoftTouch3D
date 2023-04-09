@@ -14,6 +14,9 @@ public class AssetManager
 
     static AssetManager manager;
 
+    static readonly PhysicalFileSystem physicalFileSystem = new();
+
+
     public static AssetManager GetOrCreate(params string[] resourcePaths)
     {
         if (manager is null && resourcePaths.Length == 0)
@@ -21,12 +24,14 @@ public class AssetManager
         return manager ??= new AssetManager(resourcePaths);
     }
 
-    static readonly PhysicalFileSystem physicalFileSystem = new();
+
+
     public ResourceFileSystem FileSystem { get; private set; } = new();
     public AssetFileSystem AssetsFileSystem { get; private set; } = new();
-    public Dictionary<string, IAssetImporter> AssetImporters { get; init; }
+    public Dictionary<string, IAssetImporter> AssetImporters { get; init; } = new();
+    public Dictionary<Type, AssetCompiler> AssetCompilers { get; init; } = new();
+    public Dictionary<Guid, IAssetItem> LoadedAssets { get; private set; } = new();
 
-    public readonly Dictionary<UPath, IAssetItem> LoadedAssets = new();
 
     public AssetManager(params string[] resourcePaths)
     {

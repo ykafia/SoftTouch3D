@@ -18,7 +18,7 @@ public partial class ModelAsset : IAssetItem, IEnumerable<IAssetItem>
     [YamlIgnore]
     public string Extension { get; } = "model";
 
-    private List<MaterialAsset> Materials { get; init; }
+    private List<AssetReference<MaterialAsset>> Materials { get; init; }
 
     public Guid ID { get; init; }
 
@@ -28,19 +28,19 @@ public partial class ModelAsset : IAssetItem, IEnumerable<IAssetItem>
     [YamlIgnore]
     public string? Name => new UPath(Path).GetNameWithoutExtension();
 
-    public ModelAsset() { }
     public ModelAsset(string assetPath, string path)
     {
         ID = Guid.NewGuid();
         AssetPath = assetPath;
         Path = path;
+        Materials = new();
     }
 
     public IEnumerator<IAssetItem> GetEnumerator()
     {
         yield return this;
         foreach (var mat in Materials)
-            yield return mat;
+            yield return mat.Asset;
     }
 
     IEnumerator IEnumerable.GetEnumerator()

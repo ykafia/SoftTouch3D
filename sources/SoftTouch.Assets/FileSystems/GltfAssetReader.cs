@@ -5,6 +5,7 @@ using SharpGLTF.Schema2;
 using Zio;
 using Zio.FileSystems;
 using System.Diagnostics.CodeAnalysis;
+using SoftTouch.Core.Assets;
 
 namespace SoftTouch.Assets.FileSystems;
 public class GltfAssetReader : CompositeAssetReader
