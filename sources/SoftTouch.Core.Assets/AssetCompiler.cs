@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MemoryPack;
 
 namespace SoftTouch.Core.Assets;
 
@@ -27,4 +28,14 @@ public abstract class AssetCompiler<TAsset> : AssetCompiler
     where TAsset : IAssetItem
 {
     public abstract byte[] Compile(TAsset asset);
+
+}
+
+public abstract class AssetCompiler<TAsset,TData> : AssetCompiler<TAsset>
+    where TAsset : IAssetItem
+{
+    public byte[] Serialize(TData data)
+    {
+        return MemoryPackSerializer.Serialize(data);
+    }
 }

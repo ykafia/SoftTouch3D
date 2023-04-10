@@ -24,7 +24,7 @@ public partial class MaterialAsset : IAssetItem, IEnumerable<IAssetItem>
     public string AssetPath { get; init; }
     public string Path {  get; init; }
 
-    public AssetReference<ImageAsset> DiffuseTexture;
+    public AssetReference DiffuseTexture;
  
 
     [YamlIgnore]
@@ -42,7 +42,7 @@ public partial class MaterialAsset : IAssetItem, IEnumerable<IAssetItem>
 
     public IEnumerator<IAssetItem> GetEnumerator()
     {
-        yield return DiffuseTexture.Asset;
+        yield return DiffuseTexture.Get<MaterialAsset>();
         yield return this;
     }
 

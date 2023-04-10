@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace SoftTouch.Assets.Assets.Compilers;
 
-public class TextureAssetCompiler : IAssetCompiler<ImageAsset>
+public class TextureAssetCompiler : AssetCompiler<TextureAsset>
 {
-    public byte[] Compile(ImageAsset asset)
+    public override byte[] Compile(TextureAsset asset)
     {
-        return Array.Empty<byte>();
+        throw new NotImplementedException();
     }
 }

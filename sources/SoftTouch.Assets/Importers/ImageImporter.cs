@@ -10,14 +10,14 @@ using Zio;
 
 namespace SoftTouch.Assets.Importers;
 
-public class ImageImporter : IAssetImporter<ImageAsset>
+public class ImageImporter : IAssetImporter<TextureAsset>
 {
     static readonly string[] extensions = { ".png" };
     public string[] Extensions => extensions;
 
     public AssetManager AssetManager => AssetManager.GetOrCreate();
 
-    public void Import(string path, string outputPath, out ImageAsset asset)
+    public void Import(string path, string outputPath, out TextureAsset asset)
     {
         asset = new(path, outputPath);
     }

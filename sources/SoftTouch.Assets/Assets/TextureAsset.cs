@@ -13,10 +13,10 @@ using SoftTouch.Core.Assets;
 namespace SoftTouch.Assets;
 
 [YamlObject]
-public partial class ImageAsset : IAssetItem
+public partial struct TextureAsset : IAssetItem
 {
     [YamlIgnore]
-    public string Extension { get; init; } = "image";
+    public string Extension { get; init; } = "tex";
 
     public TextureFormat Format { get; init; }
 
@@ -27,9 +27,9 @@ public partial class ImageAsset : IAssetItem
     [YamlIgnore]
     public string? Name => new UPath(Path).GetNameWithoutExtension();
     
-    public ImageAsset() { }
+    public TextureAsset() { }
 
-    public ImageAsset(string path, string assetPath)
+    public TextureAsset(string path, string assetPath)
     {
         AssetPath = assetPath;
         Path = path;
