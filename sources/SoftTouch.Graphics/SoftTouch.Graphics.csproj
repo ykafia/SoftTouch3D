@@ -15,6 +15,7 @@
 		<PackageReference Include="Silk.NET.WebGPU" Version="$(SilkVersion)" />
 		<PackageReference Include="Silk.NET.WebGPU.Extensions.Disposal" Version="$(SilkVersion)" />
 		<PackageReference Include="Silk.NET.WebGPU.Extensions.WGPU" Version="$(SilkVersion)" />
+		<PackageReference Include="Silk.NET.WebGPU.Native.WGPU" Version="$(SilkVersion)" />
 		<PackageReference Include="SixLabors.ImageSharp" Version="$(ImageSharpVersion)" />
 		<PackageReference Include="MemoryPack" Version="$(MemoryPackVersion)" />
 		<PackageReference Include="VYaml" Version="$(VYamlVersion)" />
