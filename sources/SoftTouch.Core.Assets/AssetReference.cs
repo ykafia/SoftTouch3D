@@ -17,12 +17,12 @@ public partial struct AssetReference
 }
 
 
-[YamlObject]
-public partial struct AssetReference<TAsset>
-    where TAsset : IAssetItem
-{
-    public Guid ID { get; set; }
+// [YamlObject]
+// public partial struct AssetReference<TAsset>
+//     where TAsset : IAssetItem
+// {
+//     public Guid ID { get; set; }
 
-    [YamlIgnore]
-    public TAsset Asset => (TAsset)AssetManager.GetOrCreate().LoadedAssets[ID];
-}
+//     [YamlIgnore]
+//     public TAsset Asset => (TAsset)AssetManager.GetOrCreate().LoadedAssets[ID];
+// }
