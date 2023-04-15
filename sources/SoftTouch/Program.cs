@@ -22,6 +22,7 @@ watch.Stop();
 
 Console.WriteLine($"spent {watch.Elapsed} on querying types");
 var game = new MyGame();
+game.Run();
 
 Console.WriteLine(YamlSerializer.SerializeToString(new Vector2D<float>(1, 56)));
 Console.WriteLine(YamlSerializer.SerializeToString(new UPath("/home/youness")));
