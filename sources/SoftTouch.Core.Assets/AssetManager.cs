@@ -26,7 +26,7 @@ public class AssetManager
 
 
 
-    public ResourceFileSystem FileSystem { get; private set; } = new();
+    public ResourceFileSystem ResourceFileSystem { get; private set; } = new();
     public AssetFileSystem AssetsFileSystem { get; private set; } = new();
     public Dictionary<string, IAssetImporter> AssetImporters { get; init; } = new();
     public Dictionary<Type, AssetCompiler> AssetCompilers { get; init; } = new();
@@ -37,7 +37,7 @@ public class AssetManager
     {
         AssetImporters = new();
         foreach (var path in resourcePaths)
-            FileSystem.AddFileSystem(
+            ResourceFileSystem.AddFileSystem(
                 new SubFileSystem(physicalFileSystem, physicalFileSystem.ConvertPathFromInternal(path))
             );
     }
