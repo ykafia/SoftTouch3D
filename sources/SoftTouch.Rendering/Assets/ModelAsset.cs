@@ -1,49 +1,48 @@
-using SoftTouch.Graphics;
+using System;
+using System.Linq;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
 using Silk.NET.WebGPU;
 using Zio;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
-using System;
-using SharpGLTF.Schema2;
-using System.Collections;
 using MemoryPack;
 using VYaml.Annotations;
 using SoftTouch.Core.Serialization;
 using SoftTouch.Core.Assets;
 
-namespace SoftTouch.Assets;
+namespace SoftTouch.Rendering.Assets;
 
 [YamlObject]
-public partial class MaterialAsset : IAssetResource, IEnumerable<IAssetItem>
+public partial class ModelAsset : IAssetResource, IEnumerable<IAssetItem>
 {
     [YamlIgnore]
-    public string Extension { get; init; } = "mat";
+    public string Extension { get; } = "model";
+
+    private List<AssetReference> Materials { get; init; }
 
     public Guid ID { get; init; }
 
     public string AssetPath { get; init; }
-    public string Path {  get; init; }
-
-    public AssetReference DiffuseTexture;
- 
+    public string Path { get; init; }
 
     [YamlIgnore]
     public string? Name => new UPath(Path).GetNameWithoutExtension();
 
-    public MaterialAsset()
-    { }
+    public ModelAsset() { }
 
-    public MaterialAsset(string assetPath, string path)
+    public ModelAsset(string assetPath, string path)
     {
         ID = Guid.NewGuid();
         AssetPath = assetPath;
         Path = path;
+        Materials = new();
     }
 
     public IEnumerator<IAssetItem> GetEnumerator()
     {
-        yield return DiffuseTexture.Get<MaterialAsset>();
         yield return this;
+        foreach (var mat in Materials)
+            yield return mat.Get<MaterialAsset>();
     }
 
     IEnumerator IEnumerable.GetEnumerator()
@@ -51,3 +50,6 @@ public partial class MaterialAsset : IAssetResource, IEnumerable<IAssetItem>
         return GetEnumerator();
     }
 }
+
+
+

@@ -8,8 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Zio;
-using TextureUsage = Silk.NET.WebGPU.TextureUsage;
-using ImageCopyTexture = Silk.NET.WebGPU.ImageCopyTexture;
+using TextureDescriptor = Silk.NET.WebGPU.TextureDescriptor;
 
 namespace SoftTouch.Assets.Serializers;
 
@@ -17,14 +16,15 @@ public class TextureSerializer : ContentSerializer<Texture>
 {
     public override Texture Load(UPath path)
     {
+        if (Texture.Textures.ContainsKey((string)path))
+            return Texture.Textures[(string)path];
         var gfx = GraphicsState.GetOrCreate();
-        Content.Deserialize<TextureData>(path, out var data);
-        data.Descriptor = data.Descriptor with { Usage = TextureUsage.CopyDst | TextureUsage.TextureBinding };
+        Content.Deserialize<(TextureDescriptor desc, byte[] data)>(path, out var data);
 
         var texture = gfx.Device.CreateTexture(
             path.GetNameWithoutExtension() ?? throw new Exception($"Path {path} has no name"),
-            data.Descriptor,
-            data.Bytes.AsSpan()
+            data.desc,
+            data.data.AsSpan()
         );
         return texture;
     }

@@ -171,11 +171,24 @@ public readonly struct Device : IGraphicsObject
             Api.DeviceCreateRenderPipelineAsync(Handle, descriptor, callback, (void*)userData);
         }
     }
-    public ShaderModule CreateShaderModule(in ShaderModuleDescriptor descriptor)
+    public ShaderModule CreateSpirvShaderModule(Span<uint> byteCode)
     {
         unsafe
         {
-            return new(Api.DeviceCreateShaderModule(Handle, descriptor));
+            fixed (uint* bytes = byteCode)
+            {
+                var spvDesc = new ShaderModuleSPIRVDescriptor()
+                {
+                    Code = bytes,
+                    CodeSize = (uint)byteCode.Length
+                };
+
+                var descriptor = new ShaderModuleDescriptor()
+                {
+                    NextInChain = (ChainedStruct*)&spvDesc
+                };
+                return new(Api.DeviceCreateShaderModule(Handle, descriptor));
+            }
         }
     }
 

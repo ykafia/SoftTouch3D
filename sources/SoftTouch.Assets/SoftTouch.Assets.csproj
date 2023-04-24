@@ -23,4 +23,9 @@
 		<ProjectReference Include="..\SoftTouch.Graphics\SoftTouch.Graphics.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Assets\Compilers\" />
+	  <Folder Include="Serializers\" />
+	</ItemGroup>
+
 </Project>

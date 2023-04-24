@@ -10,7 +10,7 @@ using SoftTouch.Rendering.Materials.Futures;
 namespace SoftTouch.Rendering.Materials;
 
 
-public partial class DiffuseTexture : IMaterialDiffuseFeature
+public class DiffuseTexture : IMaterialDiffuseFeature
 {
     public Texture Texture { get; set; }
     public Sampler Sampler { get; set; }

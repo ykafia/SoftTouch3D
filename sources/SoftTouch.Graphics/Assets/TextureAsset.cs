@@ -9,8 +9,17 @@ using VYaml.Annotations;
 using Silk.NET.WebGPU;
 using SoftTouch.Core.Serialization;
 using SoftTouch.Core.Assets;
+using System.Numerics;
+using Silk.NET.Maths;
 
-namespace SoftTouch.Assets;
+namespace SoftTouch.Graphics.Assets;
+
+public enum TextureType
+{
+    Grayscale,
+    Color
+}
+
 
 [YamlObject]
 public readonly partial struct TextureAsset : IAssetResource
@@ -18,7 +27,12 @@ public readonly partial struct TextureAsset : IAssetResource
     [YamlIgnore]
     public string Extension { get; init; } = "tex";
 
-    public TextureDescriptor Descriptor { get; init; }
+    public Vector3D<uint> Size { get; init; }
+
+    public bool IsCompressed { get; init; }
+
+    public TextureType TextureType { get; init; }
+
 
     public Guid ID { get; init; }
 
