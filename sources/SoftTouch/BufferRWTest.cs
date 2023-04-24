@@ -30,7 +30,8 @@ namespace SoftTouch
                     Usage = TextureUsage.CopySrc | TextureUsage.CopyDst,
                     Size = new(8, 8, 1),
                     SampleCount = 1,
-                }
+                },
+                image
             ) ;
             //Console.WriteLine("Width is " + tex.Width);
             var buff = state.Device.CreateBuffer("myBuff",
