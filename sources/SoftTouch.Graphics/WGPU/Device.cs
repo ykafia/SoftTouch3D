@@ -37,7 +37,7 @@ public readonly struct Device : IGraphicsObject
             ArgumentNullException.ThrowIfNull(label);
             Buffer buff = new(Api.DeviceCreateBuffer(Handle, descriptor));
             Buffer.Buffers.Add(label, buff);
-            GetQueue().WriteBuffer<T>(in buff, 0, (nuint)data.Length, data);
+            GetQueue().WriteBuffer(in buff, 0, (nuint)data.Length, data);
             return buff;
         }
     }
@@ -77,7 +77,7 @@ public readonly struct Device : IGraphicsObject
                 Origin = new(0, 0, 0),
                 Aspect = TextureAspect.All
             };
-            GetQueue().WriteTexture<T>(copy, (nuint)data.Length, data, new() { BytesPerRow = descriptor.Size.Width, Offset = 0, RowsPerImage = descriptor.Size.DepthOrArrayLayers }, descriptor.Size);
+            GetQueue().WriteTexture(copy, (nuint)data.Length, data, new() { BytesPerRow = descriptor.Size.Width, Offset = 0, RowsPerImage = descriptor.Size.DepthOrArrayLayers }, descriptor.Size);
             return Texture.Textures[label];
         }
     }
