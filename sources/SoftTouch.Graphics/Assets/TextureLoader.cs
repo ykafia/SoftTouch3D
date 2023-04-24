@@ -1,5 +1,4 @@
 ﻿using MemoryPack;
-using SoftTouch.Assets.Assets.Compilers;
 using SoftTouch.Core.Assets;
 using SoftTouch.Graphics.WGPU;
 using System;

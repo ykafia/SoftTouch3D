@@ -1,4 +1,6 @@
 ﻿using SoftTouch.Core.Assets;
+using SoftTouch.Graphics.Assets;
+using SoftTouch.Rendering.Assets;
 using System;
 using System.Collections.Generic;
 using System.Linq;

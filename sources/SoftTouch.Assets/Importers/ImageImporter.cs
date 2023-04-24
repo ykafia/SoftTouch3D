@@ -1,6 +1,7 @@
 ﻿using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using SoftTouch.Core.Assets;
+using SoftTouch.Graphics.Assets;
 using System;
 using System.Collections.Generic;
 using System.Linq;
