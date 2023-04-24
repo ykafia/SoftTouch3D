@@ -2,23 +2,17 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System.ComponentModel;
+using MemoryPack;
 using SoftTouch.Graphics;
 using SoftTouch.Graphics.WGPU;
+using SoftTouch.Rendering.Materials.Futures;
 
 namespace SoftTouch.Rendering.Materials;
 
 
-
-public class MaterialData
+public partial class DiffuseTexture : IMaterialDiffuseFeature
 {
-
-    public Texture Texture {get;set;}
-    public Sampler Sampler {get;set;}
-
-    public MaterialData(Texture texture, Sampler sampler)
-    {
-        Texture = texture;
-        Sampler = sampler;
-    }
+    public Texture Texture { get; set; }
+    public Sampler Sampler { get; set; }
 }
 

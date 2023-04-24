@@ -14,6 +14,17 @@ public readonly struct Instance : IGraphicsObject
     }
     public unsafe static implicit operator Silk.NET.WebGPU.Instance*(Instance a) => a.Handle;
 
+
+    public Adapter RequestAdapter(in RequestAdapterOptions options)
+    {
+        unsafe 
+        {
+            Silk.NET.WebGPU.Adapter* adapter = null;
+            Api.InstanceRequestAdapter(Handle, options, new((_,ad,_,_) => adapter = ad), null);
+            return new(adapter);
+        }
+    }
+
     public void Dispose()
     {
         unsafe

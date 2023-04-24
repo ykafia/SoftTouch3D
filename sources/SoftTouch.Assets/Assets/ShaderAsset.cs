@@ -8,7 +8,7 @@ using Zio;
 namespace SoftTouch.Assets;
 
 [YamlObject]
-public partial class ShaderAsset : IAssetItem
+public partial class ShaderAsset : IAssetResource
 {
     [YamlIgnore]
     public string Extension => throw new NotImplementedException();

@@ -22,7 +22,7 @@ public unsafe class GraphicsState
     {
         if (gfxState is not null)
             return gfxState;
-        gfxState = new GraphicsState(window ?? throw new Exception("window is null"));
+        gfxState = new GraphicsState(window);
         return gfxState;
     }
 
@@ -34,38 +34,59 @@ public unsafe class GraphicsState
     public Device Device { get; private set; }
 
 
-    GraphicsState(IWindow window)
+    GraphicsState(IWindow? window)
     {
         Api = Silk.NET.WebGPU.WebGPU.GetApi();
         Disposal = new(Api);
         var cs = new ChainedStruct();
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-        {
-            cs.SType = SType.SurfaceDescriptorFromWindowsHwnd;
-        }
-        else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-        {
-            cs.SType = SType.SurfaceDescriptorFromXlibWindow;
-        }
-        var desc = new InstanceDescriptor() { NextInChain = &cs };
-        Instance = new(Api.CreateInstance(desc));
 
-        Surface surface = new(window.CreateWebGPUSurface(Api, Instance));
+        if (window is not null)
         {
-            var requestAdapterOptions = new RequestAdapterOptions
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                CompatibleSurface = surface.Handle
+                cs.SType = SType.SurfaceDescriptorFromWindowsHwnd;
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                cs.SType = SType.SurfaceDescriptorFromXlibWindow;
+            }
+            var desc = new InstanceDescriptor() { NextInChain = &cs };
+            Instance = new(Api.CreateInstance(desc));
+
+            Surface surface = new(window.CreateWebGPUSurface(Api, Instance));
+            {
+                var requestAdapterOptions = new RequestAdapterOptions
+                {
+                    CompatibleSurface = surface.Handle
+                };
+
+                Api.InstanceRequestAdapter
+                (
+                    Instance,
+                    requestAdapterOptions,
+                    new PfnRequestAdapterCallback((_, adapter1, _, _) => Adapter = new(adapter1)),
+                    null
+                );
+
+                Console.WriteLine($"Got adapter {Adapter:X}");
+            }
+        }
+        else
+        {
+            cs.SType = SType.Force32;
+
+            var desc = new InstanceDescriptor()
+            {
+                NextInChain = &cs
             };
+            Instance = new(Api.CreateInstance(desc));
 
-            Api.InstanceRequestAdapter
-            (
-                Instance,
-                requestAdapterOptions,
-                new PfnRequestAdapterCallback((_, adapter1, _, _) => Adapter = new(adapter1)),
-                null
-            );
-
-            Console.WriteLine($"Got adapter {Adapter:X}");
+            var options = new RequestAdapterOptions
+            {
+                CompatibleSurface = null,
+                PowerPreference = PowerPreference.Undefined
+            };
+            Api.InstanceRequestAdapter(Instance, &options, new((_, ad, _, _) => Adapter = new(ad)), null);
         }
         {
 

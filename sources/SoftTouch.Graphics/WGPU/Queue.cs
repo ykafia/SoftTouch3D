@@ -45,7 +45,7 @@ public readonly struct Queue : IGraphicsObject
             Api.QueueSubmit(Handle, (uint)commandbuffer.Length, buffer);
         }
     }
-    public void WriteBuffer<T>(Buffer buffer, uint offset, nuint size, Span<T> data)
+    public void WriteBuffer<T>(in Buffer buffer, uint offset, nuint size, Span<T> data)
         where T : unmanaged
     {
         unsafe
@@ -54,13 +54,13 @@ public readonly struct Queue : IGraphicsObject
                 Api.QueueWriteBuffer(Handle, buffer.Handle, offset, dataPtr, size);
         }
     }
-    public void WriteTexture<T>(Silk.NET.WebGPU.ImageCopyTexture texture, nuint dataSize, Span<T> data, Silk.NET.WebGPU.TextureDataLayout dataLayout, Silk.NET.WebGPU.Extent3D size)
+    public void WriteTexture<T>(in ImageCopyTexture texture, nuint dataSize, Span<T> data, TextureDataLayout dataLayout, Silk.NET.WebGPU.Extent3D size)
         where T : unmanaged
     {
         unsafe
         {
             fixed (T* dataPtr = data)
-                Api.QueueWriteTexture(Handle, &texture, dataPtr, dataSize, &dataLayout, &size);
+                Api.QueueWriteTexture(Handle, texture, dataPtr, dataSize, &dataLayout, &size);
         }
     }
 
@@ -68,6 +68,7 @@ public readonly struct Queue : IGraphicsObject
     {
         unsafe
         {
+            
             //Graphics.Disposal.Dispose(Handle);
         }
     }

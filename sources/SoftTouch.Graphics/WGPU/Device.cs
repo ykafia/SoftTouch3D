@@ -29,12 +29,55 @@ public readonly struct Device : IGraphicsObject
             return Buffer.Buffers[label];
         }
     }
+    public Buffer CreateBuffer<T>([NotNull] string label, in BufferDescriptor descriptor, Span<T> data)
+        where T : unmanaged
+    {
+        unsafe
+        {
+            ArgumentNullException.ThrowIfNull(label);
+            Buffer buff = new(Api.DeviceCreateBuffer(Handle, descriptor));
+            Buffer.Buffers.Add(label, buff);
+            GetQueue().WriteBuffer<T>(in buff, 0, (nuint)data.Length, data);
+            return buff;
+        }
+    }
+    public Buffer CreateMappedBuffer(uint size)
+    {
+        unsafe
+        {
+            var desc = new BufferDescriptor()
+            {
+                MappedAtCreation = true,
+                Size = size,
+                Usage = BufferUsage.MapWrite | BufferUsage.CopySrc
+            };
+            return new(Api.DeviceCreateBuffer(Handle, desc));
+        }
+    }
     public Texture CreateTexture([NotNull] string label, in TextureDescriptor descriptor)
     {
         unsafe
         {
             ArgumentNullException.ThrowIfNull(label);
             Texture.Textures.Add(label, new(Api.DeviceCreateTexture(Handle, descriptor)));
+            return Texture.Textures[label];
+        }
+    }
+    public Texture CreateTexture<T>([NotNull] string label, in TextureDescriptor descriptor, Span<T> data)
+        where T : unmanaged
+    {
+        unsafe
+        {
+            ArgumentNullException.ThrowIfNull(label);
+            Texture.Textures.Add(label, new(Api.DeviceCreateTexture(Handle, descriptor)));
+            var copy = new ImageCopyTexture()
+            {
+                Texture = Texture.Textures[label],
+                MipLevel = 0,
+                Origin = new(0, 0, 0),
+                Aspect = TextureAspect.All
+            };
+            GetQueue().WriteTexture<T>(copy, (nuint)data.Length, data, new() { BytesPerRow = descriptor.Size.Width, Offset = 0, RowsPerImage = descriptor.Size.DepthOrArrayLayers }, descriptor.Size);
             return Texture.Textures[label];
         }
     }

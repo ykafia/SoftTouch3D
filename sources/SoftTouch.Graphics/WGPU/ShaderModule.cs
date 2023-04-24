@@ -13,6 +13,15 @@ public readonly struct ShaderModule : IGraphicsObject
     }
     public unsafe static implicit operator Silk.NET.WebGPU.ShaderModule*(ShaderModule a) => a.Handle;
 
+    public void GetCompilationInfo(PfnCompilationInfoCallback callback)
+    {
+        unsafe
+        {
+            Api.ShaderModuleGetCompilationInfo(this, callback, null);
+        }
+    }
+
+
     public void Dispose()
     {
         unsafe

@@ -13,7 +13,7 @@ using SoftTouch.Core.Assets;
 namespace SoftTouch.Assets;
 
 [YamlObject]
-public partial class ModelAsset : IAssetItem, IEnumerable<IAssetItem>
+public partial class ModelAsset : IAssetResource, IEnumerable<IAssetItem>
 {
     [YamlIgnore]
     public string Extension { get; } = "model";

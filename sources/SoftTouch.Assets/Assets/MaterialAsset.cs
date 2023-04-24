@@ -14,7 +14,7 @@ using SoftTouch.Core.Assets;
 namespace SoftTouch.Assets;
 
 [YamlObject]
-public partial class MaterialAsset : IAssetItem, IEnumerable<IAssetItem>
+public partial class MaterialAsset : IAssetResource, IEnumerable<IAssetItem>
 {
     [YamlIgnore]
     public string Extension { get; init; } = "mat";

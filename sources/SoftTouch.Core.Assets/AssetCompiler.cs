@@ -34,7 +34,7 @@ public abstract class AssetCompiler<TAsset> : AssetCompiler
 public abstract class AssetCompiler<TAsset,TData> : AssetCompiler<TAsset>
     where TAsset : IAssetItem
 {
-    public byte[] Serialize(TData data)
+    public byte[] Serialize(in TData data)
     {
         return MemoryPackSerializer.Serialize(data);
     }

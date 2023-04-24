@@ -13,20 +13,23 @@ using SoftTouch.Core.Assets;
 namespace SoftTouch.Assets;
 
 [YamlObject]
-public partial struct TextureAsset : IAssetItem
+public readonly partial struct TextureAsset : IAssetResource
 {
     [YamlIgnore]
     public string Extension { get; init; } = "tex";
 
-    public TextureFormat Format { get; init; }
+    public TextureDescriptor Descriptor { get; init; }
 
     public Guid ID { get; init; }
 
-    public string AssetPath { get; init; }
-    public string Path { get; init; }
     [YamlIgnore]
-    public string? Name => new UPath(Path).GetNameWithoutExtension();
-    
+    public string AssetPath { get; init; }
+
+    public string Path { get; init; }
+
+    [YamlIgnore]
+    public string? Name => new UPath(AssetPath).GetNameWithoutExtension();
+
     public TextureAsset() { }
 
     public TextureAsset(string path, string assetPath)
