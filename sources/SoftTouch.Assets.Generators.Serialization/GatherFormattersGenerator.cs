@@ -95,15 +95,17 @@ using System;
 using VYaml;
 using VYaml.Serialization;
 using MemoryPack;
+using System.Runtime.CompilerServices;
 
  
 namespace {gameClass.ContainingNamespace};
-public partial class {gameClass.Name} 
+public static class SerializerInitializer 
 {{
-    static {gameClass.Name}()
+    [ModuleInitializer]
+    public static void InitSerializer()
     {{
-        Console.WriteLine(""Hello world from generated {gameClass.Name} class"");
         {constructors}
+        Console.WriteLine(""Iintialized serializers"");
     }}
 }}
 "
