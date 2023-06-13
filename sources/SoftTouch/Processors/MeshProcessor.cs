@@ -9,6 +9,7 @@ using System.Runtime.InteropServices;
 using SoftTouch.Rendering;
 using Buffer = SoftTouch.Graphics.WGPU.Buffer;
 using SoftTouch.Graphics.WGPU;
+using SoftTouch.Rendering.Assets;
 
 namespace SoftTouch.Processors;
 

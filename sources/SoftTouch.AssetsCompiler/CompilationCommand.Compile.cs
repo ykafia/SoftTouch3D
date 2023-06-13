@@ -13,6 +13,7 @@ using Zio;
 using Zio.FileSystems;
 using SoftTouch.Assets.Serialization.Json;
 using VYaml.Serialization;
+using SoftTouch.Graphics.Assets;
 
 namespace SoftTouch.AssetsCompiler
 {
